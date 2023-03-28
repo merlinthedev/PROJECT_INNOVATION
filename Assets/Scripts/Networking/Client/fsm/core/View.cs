@@ -8,15 +8,12 @@
  * 
  * See LoginView etc for examples.
  */
-public abstract class View : MonoBehaviour
-{
-    public virtual void Show()
-    {
+public abstract class View : MonoBehaviour {
+    public virtual void Show() {
         gameObject.SetActive(true);
     }
 
-    public virtual void Hide()
-    {
+    public virtual void Hide() {
         gameObject.SetActive(false);
     }
 }
