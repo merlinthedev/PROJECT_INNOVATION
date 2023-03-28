@@ -11,36 +11,29 @@ using System;
 /// <summary>
 /// A class used by the CLIENT to broadcast a server request and wait for answers
 /// </summary>
-public class UDPPinger
-{
-    readonly int UDPPort;
-
-    readonly string pingMessage = "ACK";
-
-    readonly UdpClient _udpClient = new UdpClient();
+public class UDPPinger {
+    private readonly int UDPPort;
+    private readonly string pingMessage = "ACK";
+    private readonly UdpClient udpClient = new UdpClient();
 
     public System.Action<string> OnMessageReceived;
 
-    public UDPPinger(int port)
-    {
+    public UDPPinger(int port) {
         UDPPort = port;
-        _udpClient.EnableBroadcast = true;
+        udpClient.EnableBroadcast = true;
     }
 
-    public void Update()
-    {
-        if (_udpClient.Available > 0)
-        {
+    public void Update() {
+        if (udpClient.Available > 0) {
             var remoteEP = new IPEndPoint(IPAddress.Any, 0);
-            var data = _udpClient.Receive(ref remoteEP);
+            var data = udpClient.Receive(ref remoteEP);
             var message = Encoding.UTF8.GetString(data);
             OnMessageReceived?.Invoke(message);
         }
     }
 
-    public void Ping()
-    {
+    public void Ping() {
         var data = Encoding.UTF8.GetBytes(pingMessage);
-        _udpClient.Send(data, data.Length, "255.255.255.255", UDPPort);
+        udpClient.Send(data, data.Length, "255.255.255.255", UDPPort);
     }
 }
