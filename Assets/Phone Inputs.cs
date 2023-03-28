@@ -35,17 +35,37 @@ public partial class @PhoneInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""PhoneTap"",
+                    ""type"": ""Button"",
+                    ""id"": ""def1eafa-7438-4449-8b75-0b4564db77af"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
                     ""id"": ""f72707a4-3d69-4410-8ded-90fe959e966b"",
-                    ""path"": ""<GravitySensor>/gravity"",
+                    ""path"": ""<Sensor>/acceleration"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gyro"",
                     ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e71d4c49-dd80-4ab9-8cd1-d10eb96ca6e7"",
+                    ""path"": ""<Touchscreen>/Press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PhoneTap"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -63,6 +83,7 @@ public partial class @PhoneInputs: IInputActionCollection2, IDisposable
         // Gyro
         m_Gyro = asset.FindActionMap("Gyro", throwIfNotFound: true);
         m_Gyro_Move = m_Gyro.FindAction("Move", throwIfNotFound: true);
+        m_Gyro_PhoneTap = m_Gyro.FindAction("PhoneTap", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -125,11 +146,13 @@ public partial class @PhoneInputs: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Gyro;
     private List<IGyroActions> m_GyroActionsCallbackInterfaces = new List<IGyroActions>();
     private readonly InputAction m_Gyro_Move;
+    private readonly InputAction m_Gyro_PhoneTap;
     public struct GyroActions
     {
         private @PhoneInputs m_Wrapper;
         public GyroActions(@PhoneInputs wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Gyro_Move;
+        public InputAction @PhoneTap => m_Wrapper.m_Gyro_PhoneTap;
         public InputActionMap Get() { return m_Wrapper.m_Gyro; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -142,6 +165,9 @@ public partial class @PhoneInputs: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @PhoneTap.started += instance.OnPhoneTap;
+            @PhoneTap.performed += instance.OnPhoneTap;
+            @PhoneTap.canceled += instance.OnPhoneTap;
         }
 
         private void UnregisterCallbacks(IGyroActions instance)
@@ -149,6 +175,9 @@ public partial class @PhoneInputs: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @PhoneTap.started -= instance.OnPhoneTap;
+            @PhoneTap.performed -= instance.OnPhoneTap;
+            @PhoneTap.canceled -= instance.OnPhoneTap;
         }
 
         public void RemoveCallbacks(IGyroActions instance)
@@ -178,5 +207,6 @@ public partial class @PhoneInputs: IInputActionCollection2, IDisposable
     public interface IGyroActions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnPhoneTap(InputAction.CallbackContext context);
     }
 }
