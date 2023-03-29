@@ -4,7 +4,7 @@ using UnityEngine;
 /**
  * Wraps all elements and functionality required for the LoginView.
  */
-public class ServerPickView : View {
+public class ServerPickView : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI textConnectResults = null;
     [SerializeField] private GameObject goConnectResultsRow = null;
 
