@@ -18,9 +18,6 @@ public class ShoppingCartMovement : MonoBehaviour {
 
     [Header("Rotation")]
     [SerializeField] private float rotationSpeed = 2;
-    [SerializeField] private bool viewDesiredDirection = false;
-    [SerializeField] private AnimationCurve rotationSpeedFactorFromMagnitude;
-    [SerializeField] private AnimationCurve rotationDampingCurve;
 
     #endregion
     
@@ -76,26 +73,7 @@ public class ShoppingCartMovement : MonoBehaviour {
 
         #region rotation
         //rotate the player
-        if (viewDesiredDirection) {
-            Vector3 viewDirection = new Vector3(viewValue.x, 0, viewValue.y);
-
-            //transform the input vector into world space
-            Vector3 inputDir = Quaternion.Euler(0, pivot.eulerAngles.y, 0) * viewDirection;
-
-            if (viewDirection.magnitude > 1)
-                viewDirection.Normalize();
-            float rotationSpeedFactor = rotationSpeedFactorFromMagnitude.Evaluate(viewDirection.magnitude);
-
-            float yAngleDifference = Vector3.SignedAngle(transform.forward, inputDir, Vector3.up);
-            yAngleDifference = Mathf.Clamp(yAngleDifference, -rotationSpeed * rotationSpeedFactor, rotationSpeed * rotationSpeedFactor);
-
-            float damping = 1 - rotationDampingCurve.Evaluate(Mathf.Abs(rb.angularVelocity.y / Time.fixedDeltaTime / rotationSpeed));
-            yAngleDifference *= damping;
-
-            rb.AddRelativeTorque(Vector3.up * yAngleDifference);
-        } else {
-            rb.AddRelativeTorque(0, viewValue.x * rotationSpeed, 0);
-        }
+        transform.Rotate(0, viewValue.x * rotationSpeed, 0);
         #endregion
 
         #region misc
