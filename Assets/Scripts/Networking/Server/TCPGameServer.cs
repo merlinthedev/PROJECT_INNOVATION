@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace server {
 
-	/**
+    /**
 	 * Basic TCPGameServer that runs our game.
 	 * 
 	 * Server is made up out of different rooms that can hold different members.
@@ -21,15 +21,13 @@ namespace server {
 	 * As you can see this setup is limited/lacking:
 	 * - only 1 game can be played at a time
 	 */
-	class TCPGameServer : MonoBehaviour
-	{
-		[SerializeField] private int serverPort = 55555;	//the port we listen on
+    class TCPGameServer : MonoBehaviour {
+        [SerializeField] private int serverPort = 55555;    //the port we listen on
 
-		//we have 3 different rooms at the moment (aka simple but limited)
-		TcpListener listener;
+        private TcpListener listener;
+        private List<TcpMessageChannel> clients = new List<TcpMessageChannel>();
 
-        private void Start()
-        {
+        private void Start() {
             Log.LogInfo("Starting server on port " + serverPort, this, ConsoleColor.Gray);
 
             //start listening for incoming connections (with max 50 in the queue)
@@ -39,38 +37,33 @@ namespace server {
             listener.Start(50);
         }
 
-        private TCPGameServer()
-		{
-			
-		}
+        private TCPGameServer() {
 
-        private void Update()
-        {
+        }
+
+        private void Update() {
             //check for new members	
-            if (listener.Pending())
-            {
+            if (listener.Pending()) {
                 //get the waiting client
                 Log.LogInfo("Accepting new client...", this, ConsoleColor.White);
                 TcpClient client = listener.AcceptTcpClient();
                 //and wrap the client in an easier to use communication channel
                 TcpMessageChannel channel = new TcpMessageChannel(client);
+                clients.Add(channel);
             }
         }
 
-		/// <summary>
-		/// Method to get the IP address of the server
-		/// </summary>
-		/// <returns>The IP of the server</returns>
-		public string GetServerAddress()
-		{
-			//get the local IP address
+        /// <summary>
+        /// Method to get the IP address of the server
+        /// </summary>
+        /// <returns>The IP of the server</returns>
+        public string GetServerAddress() {
+            //get the local IP address
             IPHostEntry host;
             string localIP = "";
             host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (IPAddress ip in host.AddressList)
-			{
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
-				{
+            foreach (IPAddress ip in host.AddressList) {
+                if (ip.AddressFamily == AddressFamily.InterNetwork) {
                     localIP = ip.ToString();
                     break;
                 }
@@ -78,16 +71,15 @@ namespace server {
             return localIP;
         }
 
-		/// <summary>
-		/// Method to get the port the server is running on
-		/// </summary>
-		/// <returns>The port of the server</returns>
-		public int GetServerPort()
-		{
-			return serverPort;
-		}
+        /// <summary>
+        /// Method to get the port the server is running on
+        /// </summary>
+        /// <returns>The port of the server</returns>
+        public int GetServerPort() {
+            return serverPort;
+        }
 
-	}
+    }
 
 }
 
