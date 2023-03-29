@@ -1,0 +1,60 @@
+{
+    "name": "Phone Inputs",
+    "maps": [
+        {
+            "name": "Gyro",
+            "id": "4758b664-9d4b-4c5f-8e11-11e117c9e7a6",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "c771b205-0535-4214-a91f-6a9d6e084063",
+                    "expectedControlType": "Vector3",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "PhoneTap",
+                    "type": "Button",
+                    "id": "def1eafa-7438-4449-8b75-0b4564db77af",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f72707a4-3d69-4410-8ded-90fe959e966b",
+                    "path": "<Sensor>/acceleration",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gyro",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e71d4c49-dd80-4ab9-8cd1-d10eb96ca6e7",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PhoneTap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Gyro",
+            "bindingGroup": "Gyro",
+            "devices": []
+        }
+    ]
+}
