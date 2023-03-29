@@ -33,7 +33,6 @@ public class ShoppingCartController : MonoBehaviour {
 
         float targetRotationSpeed = inputCurve.Evaluate(Mathf.Abs(smoothAcceleration.x)) * -Mathf.Sign(smoothAcceleration.x) * rotationSpeed;
 
-        rb.angularVelocity = new Vector3(0, targetRotationSpeed, 0);
 
         Vector3 targetVelocity = Vector3.zero;
         
@@ -43,8 +42,10 @@ public class ShoppingCartController : MonoBehaviour {
 
         if (brakeButton.isPressed) {
             targetVelocity += -transform.forward * backwardSpeed;
+            targetRotationSpeed *= Mathf.Sign(Vector3.Dot(rb.velocity, transform.forward));
         }
 
+        rb.angularVelocity = new Vector3(0, targetRotationSpeed, 0);
         rb.velocity = Vector3.Lerp(rb.velocity, targetVelocity, Time.deltaTime * maxForce);
         
     }
