@@ -35,7 +35,8 @@ public class ServerPicker : MonoBehaviour {
     }
 
     private void tryConnect(string address, int port) {
-         // Connect tcpChannel
+        // Connect tcpChannel
+        GameClient.getInstance().getTcpMessageChannel().Connect(address, port);
     }
 
     public void Search() {

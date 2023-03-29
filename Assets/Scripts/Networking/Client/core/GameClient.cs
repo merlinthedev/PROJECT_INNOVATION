@@ -8,22 +8,24 @@ public class GameClient : MonoBehaviour {
     private static GameClient instance;
 
     private void Awake() {
-        if(instance != null) {
+        if (instance != null) {
             Debug.LogError("There is already an exisiting GameClient present. Aborting instantiation.");
             Destroy(this);
             return;
         }
+
+        instance = this;
 
         tcpMessageChannel = new TcpMessageChannel();
     }
 
     private void Update() {
         if (tcpMessageChannel.Connected) receiveAndProcessMessages();
-        
+
     }
 
     private void receiveAndProcessMessages() {
-        if(!tcpMessageChannel.Connected) {
+        if (!tcpMessageChannel.Connected) {
             Debug.LogWarning("Trying to receive messages but we are no longer connected...");
             return;
         }
@@ -41,5 +43,13 @@ public class GameClient : MonoBehaviour {
 
     private void OnApplicationQuit() {
         tcpMessageChannel.Close();
+    }
+
+    public static GameClient getInstance() {
+        return instance;
+    }
+
+    public TcpMessageChannel getTcpMessageChannel() {
+        return tcpMessageChannel;
     }
 }
