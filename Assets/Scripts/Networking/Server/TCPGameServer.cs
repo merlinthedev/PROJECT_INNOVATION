@@ -27,7 +27,7 @@ namespace server {
         private TcpListener listener;
         private List<TcpMessageChannel> clients = new List<TcpMessageChannel>();
 
-        private void Start() {
+        private void Awake() {
             Log.LogInfo("Starting server on port " + serverPort, this, ConsoleColor.Gray);
 
             //start listening for incoming connections (with max 50 in the queue)

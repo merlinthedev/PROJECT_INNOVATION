@@ -64,6 +64,7 @@ public class ApplicationFSM : MonoBehaviour {
 	 * Change state to which state object was specified in the Inspector.
 	 */
     private void Start() {
+        Debug.LogWarning("ApplicationFSM Start()");
         ChangeState(_startState.GetType());
     }
 
@@ -107,8 +108,15 @@ public class ApplicationFSM : MonoBehaviour {
     }
 
     public void OnApplicationQuit() {
+        //make sure we close the channel when the application quits
+        Debug.LogError("ApplicationFSM OnApplicationQuit");
         ChangeState(null);
         channel.Close();
+    }
+
+    private void OnDisable() {
+        // Get who called this method
+        Debug.LogError("Disabled ApplicationFSM");
     }
 
 

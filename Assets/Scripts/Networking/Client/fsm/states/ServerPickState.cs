@@ -18,18 +18,23 @@ public class ServerPickState : ApplicationStateWithView<ServerPickView> {
     private Dictionary<string, ServerAddress> servers = new Dictionary<string, ServerAddress>();
 
     public override void EnterState() {
+        Debug.LogError("Entering ServerPickState");
         base.EnterState();
 
         //listen to a connect click from our view
         view.OnServerConnectRequest += tryConnect;
 
+        Debug.LogWarning("Entered state " + this.name + " (linked to view:" + view?.name + ")");
     }
 
     public override void ExitState() {
+        Debug.LogError("Exiting ServerPickState");
         base.ExitState();
 
         //stop listening to connect requests
         view.OnServerConnectRequest -= tryConnect;
+
+        Debug.LogWarning("Exited state " + this.name + " (linked to view:" + view?.name + ")");
     }
 
     /**

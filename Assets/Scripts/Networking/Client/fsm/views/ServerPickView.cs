@@ -29,6 +29,7 @@ public class ServerPickView : View {
     }
 
     public void ClearServers() {
+        Debug.LogError("Clearing servers");
         foreach (Transform child in serverListRoot.transform) {
             Destroy(child.gameObject);
         }
