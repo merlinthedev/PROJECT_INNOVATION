@@ -60,3 +60,5 @@ sysinfo.txt
 crashlytics-build.properties
 
 androidbuild/
+WinBuilds/
+Builds_BurstDebugInformation_DoNotShip/
