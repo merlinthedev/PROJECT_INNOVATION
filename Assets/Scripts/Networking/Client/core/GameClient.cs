@@ -34,6 +34,8 @@ public class GameClient : MonoBehaviour {
 
     private void renderOtherClients() {
         // get all the transforms from the dictionary and render them with the prefab.
+
+        Debug.Log("Rendering other clients..." + otherPlayerTransforms.Count);
         foreach (var otherPlayerTransform in otherPlayerTransforms) {
             if (otherPlayerTransform.Value == null) {
                 Debug.LogWarning("Transform is null, skipping...");
@@ -42,15 +44,18 @@ public class GameClient : MonoBehaviour {
 
             if (otherPlayerTransform.Key == guid) {
                 // This is our own transform, we don't need to render it.
+                Debug.Log("Skipping our own transform...");
                 continue;
             }
 
             if (otherPlayerTransforms.ContainsKey(otherPlayerTransform.Key)) {
                 // We already have a game object for this client, update the transform.
+                Debug.Log("Updating transform for client with guid " + otherPlayerTransform.Key);
                 otherPlayerTransforms[otherPlayerTransform.Key].position = otherPlayerTransform.Value.position;
                 otherPlayerTransforms[otherPlayerTransform.Key].rotation = otherPlayerTransform.Value.rotation;
             } else {
                 // We don't have a game object for this client, create one.
+                Debug.Log("Creating new game object for client with guid " + otherPlayerTransform.Key);
                 GameObject otherPlayer = Instantiate(playerPrefab, otherPlayerTransform.Value.position, otherPlayerTransform.Value.rotation);
                 otherPlayerTransforms.Add(otherPlayerTransform.Key, otherPlayer.transform);
             }
