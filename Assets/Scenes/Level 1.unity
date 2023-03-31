@@ -3594,6 +3594,12 @@ PrefabInstance:
       propertyPath: m_Height
       value: 2.68
       objectReference: {fileID: 0}
+    - target: {fileID: 2795426594145639698, guid: 232babff772343f428ac540426b577e8,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 64949c08bc46d2d4188936e52db82085,
+        type: 2}
     - target: {fileID: 5073113415654187638, guid: 232babff772343f428ac540426b577e8,
         type: 3}
       propertyPath: m_RootOrder
@@ -3656,8 +3662,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5073113415654187643, guid: 232babff772343f428ac540426b577e8,
         type: 3}
+      propertyPath: MaxSpeed
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5073113415654187643, guid: 232babff772343f428ac540426b577e8,
+        type: 3}
+      propertyPath: MaxSteerSpeed
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 5073113415654187643, guid: 232babff772343f428ac540426b577e8,
+        type: 3}
       propertyPath: rotationSpeed
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5073113415654187643, guid: 232babff772343f428ac540426b577e8,
+        type: 3}
+      propertyPath: DynamicSteerSpeed
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5073113415654187643, guid: 232babff772343f428ac540426b577e8,
         type: 3}
@@ -4795,7 +4816,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1800634818}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 06e9b605ac695e049b9800b1085355df, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2

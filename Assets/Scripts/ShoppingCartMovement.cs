@@ -6,18 +6,24 @@ using UnityEngine.InputSystem;
 public class ShoppingCartMovement : MonoBehaviour {
     
     #region settings
-    [Header("Locomotion")]
-    [SerializeField] private Transform pivot;
-    [SerializeField] private float maxSpeed = 8;
-    [SerializeField] private float Acceleration = 10;
-    [SerializeField] private AnimationCurve AccelerationFactorFromDot;
-    [SerializeField] private float MaxAccelerationForce = 150;
-    [SerializeField] private AnimationCurve MaxAccelerationForceFactorFromDot;
-    [SerializeField] private Vector3 ForceScale = new Vector3(1, 0, 1);
-    [SerializeField] private float GravityScaleDrop = 10;
+    [Header("Movement")]
+    [SerializeField] private float MaxSpeed = 10f;
+    [SerializeField] private float BoostMultiplier = 2.5f;
+    [SerializeField] private float Stickyness = 0.6f;
+    [SerializeField] private bool boosting = false;
+    [SerializeField] private float Acceleration = 10f;
+    [SerializeField] private float GroundedTime = 0.1f;
 
     [Header("Rotation")]
-    [SerializeField] private float SteerSpeed = 2;
+    [SerializeField] private float ConstantSteerSpeed = 0f;
+    [SerializeField] private float DynamicSteerSpeed = 2f;
+    [SerializeField] private float MaxSteerSpeed = 2f;
+    private float SteerSpeed {
+        get {
+            float forwardSpeed = Vector3.Dot(rb.velocity, transform.forward);
+            return Mathf.Clamp(ConstantSteerSpeed + DynamicSteerSpeed * forwardSpeed, -MaxSteerSpeed, MaxSteerSpeed);
+        }
+    }
 
     #endregion
     
@@ -28,6 +34,9 @@ public class ShoppingCartMovement : MonoBehaviour {
     private Vector2 viewValue = Vector2.zero;
     private Vector2 inputVelocity = Vector2.zero;
 
+    private float lastGroundTime = 0f;
+    private bool isOnGround => Time.time - lastGroundTime < GroundedTime;
+
     private Rigidbody rb;
     
     #endregion
@@ -36,51 +45,45 @@ public class ShoppingCartMovement : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         rb = GetComponent<Rigidbody>();
-        if (pivot == null)
-            pivot = transform;
     }
 
     // Update is called once per frame
     void FixedUpdate() {
-        #region movement
-        //map input from pivot to world space on xz plane
-        Vector3 inputVel = new Vector3(inputVelocity.x, 0, inputVelocity.y);
-        if (inputVel.magnitude > 1)
-            inputVel.Normalize();
-
-        Vector3 unitGoal = Quaternion.Euler(0, pivot.eulerAngles.y, 0) * inputVel;
-
-        if (m_MovementControlDisabledTimer > 0) {
-            unitGoal = Vector3.zero;
-            m_MovementControlDisabledTimer -= Time.fixedDeltaTime;
+        #region groundCheck
+        Ray ray = new Ray();
+        RaycastHit hit;
+        if (rb != null) {
+            ray.origin = transform.position;
+            ray.direction = Vector3.down;
+            bool groundHit = Physics.Raycast(ray, out hit, 2f);
+            if (groundHit) {
+                lastGroundTime = Time.time;
+            }
         }
+        #endregion
 
-        Vector3 goalVel = unitGoal * maxSpeed;
-        Vector3 unitVel = goalVel.normalized;
+        #region movement
+        if (isOnGround) {
+            float forwardInput = Mathf.Clamp(inputVelocity.y, -1, 1);
+            float speedFactor = boosting ? MaxSpeed * BoostMultiplier : MaxSpeed;
+            speedFactor *= Stickyness;
+            forwardInput *= speedFactor;
+            Vector3 force = transform.forward * forwardInput;
+            force -= rb.velocity * Stickyness;
+            force *= Acceleration;
 
-        float velDot = Vector3.Dot(unitGoal, unitVel);
-        float accel = Acceleration * AccelerationFactorFromDot.Evaluate(velDot);
-        float maxAccelForceFactor = MaxAccelerationForceFactorFromDot.Evaluate(velDot);
-
-        Vector3 neededAccel = (goalVel - rb.velocity) / Time.fixedDeltaTime;
-
-        float maxAccel = MaxAccelerationForce * MaxAccelerationForceFactorFromDot.Evaluate(velDot) * maxAccelForceFactor;
-
-        neededAccel = Vector3.ClampMagnitude(neededAccel, maxAccel);
-
-        rb.AddForce(Vector3.Scale(neededAccel * rb.mass, ForceScale));
+            rb.AddForce(force, ForceMode.Force);
+        }
         #endregion
 
         #region rotation
         //rotate the player
         float steerAmount = Mathf.Clamp(viewValue.x, -1, 1) * SteerSpeed;
-
-        transform.Rotate(0, viewValue.x * SteerSpeed, 0);
+        Quaternion rotationDelta = Quaternion.Euler(0, steerAmount * Time.fixedDeltaTime, 0);
+        transform.rotation *= rotationDelta;
         #endregion
 
         #region misc
-        //add extra gravity to the player
-        rb.AddForce(Vector3.down * GravityScaleDrop * rb.mass);
         #endregion
     }
 
