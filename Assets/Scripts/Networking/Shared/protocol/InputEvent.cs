@@ -1,5 +1,6 @@
-public class ConnectEvent : shared.ASerializable {
+public class InputPacket : shared.ASerializable {
     public System.Guid guid { get; set; }
+
 
     public override void Serialize(shared.Packet packet) {
         packet.Write(guid);
@@ -8,5 +9,4 @@ public class ConnectEvent : shared.ASerializable {
     public override void Deserialize(shared.Packet packet) {
         guid = packet.ReadGuid();
     }
-
 }

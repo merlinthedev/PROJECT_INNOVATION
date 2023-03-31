@@ -53,8 +53,24 @@ public class GameClient : MonoBehaviour {
             case ConnectEvent connectEvent:
                 handleConnectEvent(connectEvent);
                 break;
-                // Transform packets
+            // Transform packets
+            case TransformPacket transformPacket:
+                // handle transform packet
+                handleTransformPacket(transformPacket);
+                break;
         }
+    }
+
+    private void handleTransformPacket(TransformPacket transformPacket) {
+        // handle transform packet
+
+        /*
+            We will receive transform packets for every client connected to the server. The guid passed through the packet
+            will be used to identify the client that sent the packet. We can then use this guid to identify the client in
+            our game world and update the transform of the client's game object.
+        */
+
+        Debug.Log("Received a transform packet with guid: " + transformPacket.guid + " however, we have no way of handling it yet...");
     }
 
     private void handleConnectEvent(ConnectEvent connectEvent) {
