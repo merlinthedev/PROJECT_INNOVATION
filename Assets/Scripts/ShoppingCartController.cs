@@ -28,16 +28,23 @@ public class ShoppingCartController : MonoBehaviour {
 
         float rotationInput = inputCurve.Evaluate(Mathf.Abs(smoothAcceleration.x)) * -Mathf.Sign(smoothAcceleration.x);
 
+        if (Input.GetKey(KeyCode.A)) {
+            rotationInput = -0.5f;
+        }
+        if (Input.GetKey(KeyCode.D)) {
+            rotationInput = 0.5f;
+        }
+
         movement.DoView(new Vector2(rotationInput, 0));
 
         Vector3 targetVelocity = Vector3.zero;
         float movementInput = 0;
         
-        if (gasButton.isPressed) {
+        if (gasButton.isPressed || Input.GetKey(KeyCode.W)) {
             movementInput += gasSpeed;
         }
 
-        if (brakeButton.isPressed) {
+        if (brakeButton.isPressed || Input.GetKey(KeyCode.S)) {
             movementInput -= brakeSpeed;
         }
 
