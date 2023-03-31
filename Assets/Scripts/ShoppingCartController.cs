@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ShoppingCartController : MonoBehaviour {
-    
+
     private Vector3 smoothAcceleration = Vector3.zero;
     [SerializeField] private float smootSpeed = 5f;
     // Start is called before the first frame update
@@ -28,11 +25,13 @@ public class ShoppingCartController : MonoBehaviour {
 
         float rotationInput = inputCurve.Evaluate(Mathf.Abs(smoothAcceleration.x)) * -Mathf.Sign(smoothAcceleration.x);
 
+
+        // needs to be passed to the server
         movement.DoView(new Vector2(rotationInput, 0));
 
         Vector3 targetVelocity = Vector3.zero;
         float movementInput = 0;
-        
+
         if (gasButton.isPressed) {
             movementInput += gasSpeed;
         }
@@ -41,7 +40,9 @@ public class ShoppingCartController : MonoBehaviour {
             movementInput -= brakeSpeed;
         }
 
+
+        // needs to be passed to the server
         movement.DoMove(new Vector2(0, movementInput));
-        
+
     }
 }

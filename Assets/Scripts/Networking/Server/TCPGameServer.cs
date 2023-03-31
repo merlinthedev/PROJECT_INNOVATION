@@ -67,9 +67,13 @@ namespace server {
 
                 ConnectEvent connectEvent = new ConnectEvent();
                 connectEvent.guid = newClientGuid;
-
-
                 channel.SendMessage(connectEvent);
+
+                TransformPacket transformPacket = new TransformPacket();
+                transformPacket.guid = newClientGuid;
+                //                                            x, y, z, rx,ry,rz  
+                transformPacket.transformData = new float[] { 0, 2, 0, 0, 0, 0 };
+                channel.SendMessage(transformPacket);
 
                 EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));
             }
@@ -87,10 +91,17 @@ namespace server {
                         case DisconnectEvent disconnectEvent:
                             handleDisconnectEvent(disconnectEvent);
                             break;
+                        case InputPacket inputPacket:
+                            handleInputPacket(inputPacket);
+                            break;
 
                     }
                 }
             }
+        }
+
+        private void handleInputPacket(InputPacket inputPacket) {
+
         }
 
         private void handleDisconnectEvent(DisconnectEvent disconnectEvent) {

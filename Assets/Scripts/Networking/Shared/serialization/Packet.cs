@@ -31,6 +31,9 @@ namespace shared {
         public void Write(int pInt) {
             writer.Write(pInt);
         }
+        public void Write(float pFloat) {
+            writer.Write(pFloat);
+        }
         public void Write(string pString) {
             writer.Write(pString);
         }
@@ -68,6 +71,10 @@ namespace shared {
 
         public byte[] ReadBytes() {
             return reader.ReadBytes(ReadInt());
+        }
+
+        public float ReadFloat() {
+            return reader.ReadSingle();
         }
 
         public System.Guid ReadGuid() {
