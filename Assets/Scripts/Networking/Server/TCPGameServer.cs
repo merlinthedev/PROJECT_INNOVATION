@@ -40,6 +40,7 @@ namespace server {
         private TCPGameServer() { }
 
         private void Update() {
+            brokenClients.Clear();
             //check for new members	
             processNewClients();
             processExistingClients();
@@ -141,7 +142,7 @@ namespace server {
             if (clients.Count < 1 || brokenClients.Count < 1) return;
 
             for (int i = brokenClients.Count; i > 0; i--) {
-                Debug.Log("removed client with guid " + clients.FirstOrDefault(x => x.Value == brokenClients[i - 1]).Key + " from list HEHE dont look linq method in debug loG XDXDXDXXDXD");
+                Debug.Log("removed client with guid " + clients.FirstOrDefault(x => x.Value == brokenClients[i - 1]).Key.guid + " from list HEHE dont look linq method in debug loG XDXDXDXXDXD");
                 clients.Remove(clients.FirstOrDefault(x => x.Value == brokenClients[i - 1]).Key);
             }
 
