@@ -64,6 +64,11 @@ public class GameClient : MonoBehaviour {
     }
 
     private void safeSendInputData() {
+        if (playerTransform == null) {
+            Debug.LogWarning("Trying to send input data but we don't have a player transform yet...");
+            return;
+        }
+
         try {
             // send input data from accelorometer & ui
             InputPacket inputPacket = new InputPacket {

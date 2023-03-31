@@ -74,8 +74,8 @@ namespace server {
                 TransformPacket transformPacket = new TransformPacket();
                 transformPacket.guid = newClientGuid;
                 //                                            x, y, z, rx,ry,rz  
-                transformPacket.transformData = new float[] { 0, 2, 0, 0, 180, 0 };
-                clientGameInformation.position = new float[] { 0, 2, 0 };
+                transformPacket.transformData = new float[] { 0, 1, 0, 0, 180, 0 };
+                clientGameInformation.position = new float[] { 0, 1, 0 };
                 clientGameInformation.rotation = new float[] { 0, 180, 0 };
                 channel.SendMessage(transformPacket);
 
@@ -102,6 +102,7 @@ namespace server {
                     }
                 }
             }
+
         }
 
 
@@ -118,13 +119,12 @@ namespace server {
             client.rotation[1] = inputPacket.transformData[4];
             client.rotation[2] = inputPacket.transformData[5];
 
-            TransformPacket transformPacket = new TransformPacket();
-            transformPacket.guid = inputPacket.guid;
-            transformPacket.transformData = inputPacket.transformData;
-
-            foreach (var clientChannel in clients) {
-                clientChannel.Value.SendMessage(transformPacket);
+            foreach (var clientPair in clients) {
+                if (clientPair.Key.guid != inputPacket.guid) {
+                    clientPair.Value.SendMessage(inputPacket);
+                }
             }
+
 
         }
 
