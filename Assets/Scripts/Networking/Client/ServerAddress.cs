@@ -14,7 +14,6 @@ public class ServerAddress : MonoBehaviour {
 
     private void Start() {
         if (connectButton != null) connectButton.onClick.AddListener(onButtonClicked);
-
     }
 
     public void SetServer(string address, int port) {

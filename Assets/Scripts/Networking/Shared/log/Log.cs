@@ -4,8 +4,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-namespace shared
-{
+namespace shared {
     /**
      * Simple log class which wraps Console.WriteLine and adds some utility color for output coloring and 'clumping' the output.
      * Debug info is automatically removed if you build this library in Release mode (or remove the compiler flag DEBUG).
@@ -14,10 +13,9 @@ namespace shared
      * - Console info needs to be redirected to the Debug.Log (using UnitySystemConsoleRedirector.Redirect());
      * - You have to be running in either the editor, or have 'Scripting Define Symbols' include 'DEBUG' (without quotes)
      */
-    public static class Log
-    {
+    public static class Log {
         //we keep track of the current color pushed on a stack, so we can have nested blocks of color
-        private static Stack<ConsoleColor> _colors = new Stack<ConsoleColor>(new ConsoleColor[]{ConsoleColor.White});
+        private static Stack<ConsoleColor> _colors = new Stack<ConsoleColor>(new ConsoleColor[] { ConsoleColor.White });
         //we keep track of the last color pushed as a cheesy way to detect whether to add newlines to the output
         private static ConsoleColor _lastColor = ConsoleColor.Gray;
         //allows to temporarily disable output from code
@@ -28,8 +26,7 @@ namespace shared
          * [CallerMemberName] is automatically filled in by the compiler.
          */
         [Conditional("DEBUG")]
-        public static void LogInfo(object pInfo, object pCaller, ConsoleColor? pColor = null, [CallerMemberName]string pMemberName = "")
-        {
+        public static void LogInfo(object pInfo, object pCaller, ConsoleColor? pColor = null, [CallerMemberName] string pMemberName = "") {
             LogInfo(pInfo, pCaller.GetType(), pColor, pMemberName);
         }
 
@@ -38,8 +35,7 @@ namespace shared
          * [CallerMemberName] is automatically filled in by the compiler.
          */
         [Conditional("DEBUG")]
-        public static void LogInfo(object pInfo, Type pType, ConsoleColor? pColor = null, [CallerMemberName]string pMemberName = "")
-        {
+        public static void LogInfo(object pInfo, Type pType, ConsoleColor? pColor = null, [CallerMemberName] string pMemberName = "") {
             if (!enabled) return;
 
             if (pColor != null) _colors.Push((ConsoleColor)pColor);
@@ -53,8 +49,7 @@ namespace shared
         /**
          * Ensures all the next line are using the given color, until that color is popped again.
          */
-        public static void PushForegroundColor (ConsoleColor pForegroundColor)
-        {
+        public static void PushForegroundColor(ConsoleColor pForegroundColor) {
             if (enabled) Console.WriteLine("");
             _colors.Push(pForegroundColor);
         }
@@ -63,16 +58,13 @@ namespace shared
         /**
          * Pop a color from the color stack so we revert to the previous color on the stack
          */
-        public static void PopForegroundColor()
-        {
+        public static void PopForegroundColor() {
             _colors.Pop();
         }
 
         [Conditional("DEBUG")]
-        private static void setConsoleColor(ConsoleColor pConsoleColor)
-        {
-            if (pConsoleColor != _lastColor)
-            {
+        private static void setConsoleColor(ConsoleColor pConsoleColor) {
+            if (pConsoleColor != _lastColor) {
                 Console.WriteLine();
                 _lastColor = pConsoleColor;
             }

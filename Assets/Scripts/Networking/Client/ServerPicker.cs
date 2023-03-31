@@ -36,7 +36,12 @@ public class ServerPicker : MonoBehaviour {
 
     private void tryConnect(string address, int port) {
         // Connect tcpChannel
-        GameClient.getInstance().getTcpMessageChannel().Connect(address, port);
+        if (GameClient.getInstance().getTcpMessageChannel().Connect(address, port)) {
+            // load scene level 1
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Level 1", UnityEngine.SceneManagement.LoadSceneMode.Single);
+        } else {
+            Debug.LogError("Couldn't connect to server LOOOOOOOOOOOL LLLLL SKILL ISSUEEEEEEEEE");
+        }
     }
 
     public void Search() {

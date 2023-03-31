@@ -2,11 +2,9 @@
 using System.Net.Sockets;
 using System.Net;
 using shared;
-using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Unity.VisualScripting;
 
 namespace server {
 
@@ -26,7 +24,7 @@ namespace server {
         [SerializeField] private int serverPort = 55555;    //the port we listen on
 
         private TcpListener listener;
-        private List<TcpMessageChannel> clients = new List<TcpMessageChannel>();
+        private Dictionary<Guid, TcpMessageChannel> clients = new Dictionary<Guid, TcpMessageChannel>();
         private List<TcpMessageChannel> brokenClients = new List<TcpMessageChannel>();
 
         private void Awake() {
@@ -46,6 +44,8 @@ namespace server {
             processNewClients();
             processExistingClients();
             cleanupFaultyClients();
+
+            //Debug.Log("Amount of clients on the server; " + clients.Count);
         }
 
 
@@ -59,7 +59,19 @@ namespace server {
                 TcpClient client = listener.AcceptTcpClient();
                 //and wrap the client in an easier to use communication channel
                 TcpMessageChannel channel = new TcpMessageChannel(client);
-                clients.Add(channel);
+
+                Guid newClientGuid = Guid.NewGuid();
+
+                clients.Add(newClientGuid, channel);
+
+
+                ConnectEvent connectEvent = new ConnectEvent();
+                connectEvent.guid = newClientGuid;
+
+
+                channel.SendMessage(connectEvent);
+
+                EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));
             }
         }
 
@@ -67,12 +79,26 @@ namespace server {
         /// Method to process existing clients
         /// </summary>
         private void processExistingClients() {
-            for (int i = 0; i < clients.Count; i++) {
-                if (clients[i].GetTcpClient().Available == 0) continue;
+            foreach (TcpMessageChannel client in clients.Values) {
+                if (client.HasMessage()) {
+                    var messageObject = client.ReceiveMessage();
 
-                // Do message stuff
+                    switch (messageObject) {
+                        case DisconnectEvent disconnectEvent:
+                            handleDisconnectEvent(disconnectEvent);
+                            break;
+
+                    }
+                }
             }
         }
+
+        private void handleDisconnectEvent(DisconnectEvent disconnectEvent) {
+            Debug.Log("Added client with guid " + disconnectEvent.guid + " to broken clients list");
+            brokenClients.Add(clients.FirstOrDefault(x => x.Key == disconnectEvent.guid).Value);
+        }
+
+
 
         /// <summary>
         /// Method to get rid of faulty clients
@@ -81,7 +107,8 @@ namespace server {
             if (clients.Count < 1 || brokenClients.Count < 1) return;
 
             for (int i = brokenClients.Count; i > 0; i--) {
-                clients.Remove(brokenClients[i - 1]);
+                Debug.Log("removed client with guid " + clients.FirstOrDefault(x => x.Value == brokenClients[i - 1]).Key + " from list HEHE dont look linq method in debug loG XDXDXDXXDXD");
+                clients.Remove(clients.FirstOrDefault(x => x.Value == brokenClients[i - 1]).Key);
             }
 
             EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));

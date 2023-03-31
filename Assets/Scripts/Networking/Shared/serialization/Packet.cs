@@ -1,96 +1,116 @@
 ﻿using System;
 using System.IO;
 
-namespace shared
-{
-	/**
+namespace shared {
+    /**
 	 * The Packet class provides a simple wrapper around an array of bytes (in the form of a MemoryStream), 
 	 * that allows us to write/read values to/from the Packet easily. 
 	 */
-	public class Packet
-	{
-		private BinaryWriter writer;	//only used in write mode, to write bytes into a byte array
-		private BinaryReader reader;	//only used in read mode, to read bytes from a byte array
+    public class Packet {
+        private BinaryWriter writer;    //only used in write mode, to write bytes into a byte array
+        private BinaryReader reader;    //only used in read mode, to read bytes from a byte array
 
-		/**
+        /**
 		 * Create a Packet for writing.
 		 */
-		public Packet()
-		{
-			//BinaryWriter wraps a Stream, in this case a MemoryStream, which in turn wraps an array of bytes
-			writer = new BinaryWriter(new MemoryStream());
-		}
+        public Packet() {
+            //BinaryWriter wraps a Stream, in this case a MemoryStream, which in turn wraps an array of bytes
+            writer = new BinaryWriter(new MemoryStream());
+        }
 
-		/**
+        /**
 		 * Create a Packet from an existing byte array so we can read from it
 		 */
-		public Packet (byte[] pSource)
-		{
-			//BinaryReader wraps a Stream, in this case a MemoryStream, which in turn wraps an array of bytes
-			reader = new BinaryReader(new MemoryStream(pSource));
-		}
+        public Packet(byte[] pSource) {
+            //BinaryReader wraps a Stream, in this case a MemoryStream, which in turn wraps an array of bytes
+            reader = new BinaryReader(new MemoryStream(pSource));
+        }
 
-		/// WRITE METHODS
+        /// WRITE METHODS
 
-		public void Write (int pInt) => writer.Write(pInt);
-		public void Write (string pString) => writer.Write(pString);
-		public void Write(bool pBool) => writer.Write(pBool);
-		public void Write(byte[] pBytes) { writer.Write(pBytes.Length); writer.Write(pBytes); }
-		
-		public void Write (ASerializable pSerializable)			{
-			//write the full classname into the stream first
-			Write(pSerializable.GetType().FullName);
-			//then ask the serializable object to serialize itself
-			pSerializable.Serialize(this); 
-		}
+        public void Write(int pInt) {
+            writer.Write(pInt);
+        }
+        public void Write(string pString) {
+            writer.Write(pString);
+        }
+        public void Write(bool pBool) {
+            writer.Write(pBool);
+        }
+        public void Write(byte[] pBytes) {
+            writer.Write(pBytes.Length);
+            writer.Write(pBytes);
+        }
+        public void Write(System.Guid guid) {
+            writer.Write(guid.ToByteArray());
+        }
 
-		/// READ METHODS
+        public void Write(ASerializable serializable) {
+            //write the full classname into the stream first
+            Write(serializable.GetType().FullName);
+            //then ask the serializable object to serialize itself
+            serializable.Serialize(this);
+        }
 
-		public int ReadInt() => reader.ReadInt32();
-		public string ReadString() => reader.ReadString();
-		public bool ReadBool() => reader.ReadBoolean();
-		public byte[] ReadBytes() => reader.ReadBytes(ReadInt());
+        /// READ METHODS
 
-		public ASerializable ReadObject() 
-		{
-			//get the classname from the stream first
-			Type type = Type.GetType(ReadString());
-			//create an instance of it through reflection (requires default constructor)
-			ASerializable obj = (ASerializable)Activator.CreateInstance(type);
-			obj.Deserialize(this);
-			return obj;
-		}
+        public int ReadInt() {
+            return reader.ReadInt32();
+        }
 
-		/**
+        public string ReadString() {
+            return reader.ReadString();
+        }
+
+        public bool ReadBool() {
+            return reader.ReadBoolean();
+        }
+
+        public byte[] ReadBytes() {
+            return reader.ReadBytes(ReadInt());
+        }
+
+        public System.Guid ReadGuid() {
+            return new System.Guid(reader.ReadBytes(16));
+        }
+
+
+        public ASerializable ReadObject() {
+            //get the classname from the stream first
+            Type type = Type.GetType(ReadString());
+            //create an instance of it through reflection (requires default constructor)
+            ASerializable obj = (ASerializable)Activator.CreateInstance(type);
+            obj.Deserialize(this);
+            return obj;
+        }
+
+        /**
 		 * Convenience method to read AND cast an object in one go.
 		 */
-		public T Read<T>() where T:ASerializable
-		{
-			return (T)ReadObject();
-		}
+        public T Read<T>() where T : ASerializable {
+            return (T)ReadObject();
+        }
 
-		/**
+        /**
 		 * Return the bytes that have been written into this Packet.
 		 * Only works in Write mode.
 		 */
-		public byte[] GetBytes()
-		{
-			//If we opened the Packet in writing mode, we'll probably need to send it at some point.
-			//MemoryStream can either return the whole buffer or simply the part of the buffer that has been filled,
-			//which is what we do here using ToArray()
-			return ((MemoryStream)writer.BaseStream).ToArray();
-		}
+        public byte[] GetBytes() {
+            //If we opened the Packet in writing mode, we'll probably need to send it at some point.
+            //MemoryStream can either return the whole buffer or simply the part of the buffer that has been filled,
+            //which is what we do here using ToArray()
+            return ((MemoryStream)writer.BaseStream).ToArray();
+        }
 
-		/**
+        /**
 		 * Helper method to find out if the Packet has more data to read.
 		 */
-		public bool HasMoreData()
-		{
-			if (reader == null) return false;
+        public bool HasMoreData() {
+            if (reader == null) return false;
 
-			MemoryStream memoryStream = (MemoryStream)reader.BaseStream;
-			return memoryStream.Position < memoryStream.Length;
-		}
+            MemoryStream memoryStream = (MemoryStream)reader.BaseStream;
+            return memoryStream.Position < memoryStream.Length;
+        }
 
-	}
+    }
 }

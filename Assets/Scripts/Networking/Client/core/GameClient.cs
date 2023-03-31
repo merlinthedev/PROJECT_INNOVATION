@@ -6,6 +6,7 @@ public class GameClient : MonoBehaviour {
     private TcpMessageChannel tcpMessageChannel;
 
     private static GameClient instance;
+    private System.Guid guid;
 
     private void Awake() {
         if (instance != null) {
@@ -13,9 +14,8 @@ public class GameClient : MonoBehaviour {
             Destroy(this);
             return;
         }
-
+        DontDestroyOnLoad(this);
         instance = this;
-
         tcpMessageChannel = new TcpMessageChannel();
     }
 
@@ -38,10 +38,28 @@ public class GameClient : MonoBehaviour {
 
     private void handleNetworkMessage(ASerializable message) {
         // handle messages
-        Debug.Log("Received a message of type " + message.GetType() + ", but we have no way of handling it yet...");
+        // Debug.Log("Received a message of type " + message.GetType() + ", but we have no way of handling it yet...");
+
+        switch (message) {
+            case ConnectEvent connectEvent:
+                handleConnectEvent(connectEvent);
+                break;
+        }
+    }
+
+    private void handleConnectEvent(ConnectEvent connectEvent) {
+        guid = connectEvent.guid;
+        Debug.Log("Received a connect event with guid: " + guid);
     }
 
     private void OnApplicationQuit() {
+
+        DisconnectEvent disconnectEvent = new DisconnectEvent {
+            guid = this.guid
+        };
+
+        tcpMessageChannel.SendMessage(disconnectEvent);
+
         tcpMessageChannel.Close();
     }
 
@@ -51,5 +69,9 @@ public class GameClient : MonoBehaviour {
 
     public TcpMessageChannel getTcpMessageChannel() {
         return tcpMessageChannel;
+    }
+
+    public System.Guid GetGuid() {
+        return guid;
     }
 }

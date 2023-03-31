@@ -158,8 +158,13 @@ namespace shared {
             Close();
         }
 
-        public IPEndPoint GetRemoteEndPoint() { return remoteEndPoint; }
-        public TcpClient GetTcpClient() { return client; }
+        public IPEndPoint GetRemoteEndPoint() {
+            return remoteEndPoint;
+        }
+
+        public TcpClient GetTcpClient() {
+            return client;
+        }
 
         public void Close() {
             try {
