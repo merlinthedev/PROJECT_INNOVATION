@@ -1,9 +1,33 @@
 using shared;
+using UnityEngine;
 
 public class TransformPacket : ASerializable {
     // TODO: More transform data 
     public System.Guid guid { get; set; }
     public float[] transformData { get; set; } = new float[6];
+
+    public void SetTransform(Transform transform) {
+        transformData[0] = transform.position[0];
+        transformData[1] = transform.position[1];
+        transformData[2] = transform.position[2];
+        transformData[3] = transform.rotation.eulerAngles[0];
+        transformData[4] = transform.rotation.eulerAngles[1];
+        transformData[5] = transform.rotation.eulerAngles[2];
+    }
+
+    public Vector3 Position() {
+        return new Vector3(
+            transformData[0],
+            transformData[1],
+            transformData[2]);
+    }
+
+    public Quaternion Rotation() {
+        return Quaternion.Euler(
+            transformData[3],
+            transformData[4],
+            transformData[5]);
+    }
 
     public override void Serialize(Packet packet) {
         packet.Write(guid);

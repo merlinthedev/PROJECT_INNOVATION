@@ -3478,6 +3478,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5073113415654187643, guid: 2d299ca8f2e0d9c40aa7fa3f629115b9,
+        type: 3}
+      propertyPath: MaxSteerSpeed
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 5073113415654187643, guid: 2d299ca8f2e0d9c40aa7fa3f629115b9,
+        type: 3}
+      propertyPath: DynamicSteerSpeed
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5073113415654187644, guid: 2d299ca8f2e0d9c40aa7fa3f629115b9,
         type: 3}
       propertyPath: m_Name

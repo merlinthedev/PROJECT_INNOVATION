@@ -1,17 +1,17 @@
 using UnityEngine;
+using System.Collections.Generic;
+using System;
 using shared;
 
 public class GameClient : MonoBehaviour {
 
-    [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private NetworkTransform playerPrefab;
 
     private TcpMessageChannel tcpMessageChannel;
 
     private static GameClient instance;
-    private System.Guid guid;
-    private Transform playerTransform;
-
-    private System.Collections.Generic.Dictionary<System.Guid, Transform> otherPlayerTransforms = new System.Collections.Generic.Dictionary<System.Guid, Transform>();
+    private Guid guid;
+    private NetworkTransform playerTransform;
 
     private void Awake() {
         if (instance != null) {
@@ -29,33 +29,28 @@ public class GameClient : MonoBehaviour {
 
         if (tcpMessageChannel.Connected) receiveAndProcessMessages();
 
-        renderOtherClients();
+        //renderOtherClients();
     }
 
     private void renderOtherClients() {
         // get all the transforms from the dictionary and render them with the prefab.
 
-        Debug.Log("Rendering other clients..." + otherPlayerTransforms.Count);
         foreach (var otherPlayerTransform in otherPlayerTransforms) {
             if (otherPlayerTransform.Value == null) {
-                Debug.LogWarning("Transform is null, skipping...");
                 continue;
             }
 
             if (otherPlayerTransform.Key == guid) {
                 // This is our own transform, we don't need to render it.
-                Debug.Log("Skipping our own transform...");
                 continue;
             }
 
             if (otherPlayerTransforms.ContainsKey(otherPlayerTransform.Key)) {
                 // We already have a game object for this client, update the transform.
-                Debug.Log("Updating transform for client with guid " + otherPlayerTransform.Key);
                 otherPlayerTransforms[otherPlayerTransform.Key].position = otherPlayerTransform.Value.position;
                 otherPlayerTransforms[otherPlayerTransform.Key].rotation = otherPlayerTransform.Value.rotation;
             } else {
                 // We don't have a game object for this client, create one.
-                Debug.Log("Creating new game object for client with guid " + otherPlayerTransform.Key);
                 GameObject otherPlayer = Instantiate(playerPrefab, otherPlayerTransform.Value.position, otherPlayerTransform.Value.rotation);
                 otherPlayerTransforms.Add(otherPlayerTransform.Key, otherPlayer.transform);
             }
@@ -65,28 +60,16 @@ public class GameClient : MonoBehaviour {
 
     private void safeSendInputData() {
         if (playerTransform == null) {
-            Debug.LogWarning("Trying to send input data but we don't have a player transform yet...");
             return;
         }
 
         try {
-            // send input data from accelorometer & ui
-            InputPacket inputPacket = new InputPacket {
-                // More input data
-                guid = this.guid,
-                vectors = new float[] { 0, 0, 0, 0 },
-                transformData = new float[] {
-                    playerTransform.position.x,
-                    playerTransform.position.y,
-                    playerTransform.position.z,
-                    playerTransform.rotation.x,
-                    playerTransform.rotation.y,
-                    playerTransform.rotation.z
-                }
-            };
+            if(playerTransform.hasPacket) {
+                tcpMessageChannel.SendMessage(playerTransform.GetPacket());
+            }
 
-            tcpMessageChannel.SendMessage(inputPacket);
-        } catch (System.Exception e) {
+            // TODO: send input data from accelorometer & ui instead of our updated transform
+        } catch (Exception e) {
             Debug.LogError("Error while sending input data: " + e.Message);
         }
     }
@@ -125,57 +108,32 @@ public class GameClient : MonoBehaviour {
     private void handleDisconnectEvent(DisconnectEvent disconnectEvent) {
         Debug.Log("Received a disconnect event with guid: " + disconnectEvent.guid + " however, we have no way of handling it yet...");
 
-        if (otherPlayerTransforms.ContainsKey(disconnectEvent.guid)) {
-            Destroy(otherPlayerTransforms[disconnectEvent.guid].gameObject);
-            otherPlayerTransforms.Remove(disconnectEvent.guid);
-        } else {
-            Debug.LogWarning("Received a disconnect event for a client that is not in our dictionary. How did this happen? :O");
-        }
     }
 
     private void handleTransformPacket(TransformPacket transformPacket) {
         // handle transform packet
+        var transform = NetworkTransform.Transforms[transformPacket.guid];
+        if(transform != null) {
+            transform.UpdateTransform(transformPacket);
+        }
+        else {
+            Debug.LogWarning("Received a transform packet for a client that is not in our dictionary. How did this happen? :O");
 
-        /*
-            We will receive transform packets for every client connected to the server. The guid passed through the packet
-            will be used to identify the client that sent the packet. We can then use this guid to identify the client in
-            our game world and update the transform of the client's game object.
-        */
-
-        Debug.Log("Received a transform packet with guid: " + transformPacket.guid + " however, we have no way of handling it yet...");
-
-        if (this.guid == transformPacket.guid) {
-            // update our local position with the information we received from the server.
-            // this is to make sure that we are in sync with the server.
-            playerTransform.position = new Vector3(transformPacket.transformData[0], transformPacket.transformData[1], transformPacket.transformData[2]);
-            playerTransform.rotation = Quaternion.Euler(transformPacket.transformData[3], transformPacket.transformData[4], transformPacket.transformData[5]);
-
-            Debug.Log("Updated our local position with the information we received from the server.");
-        } else {
-            // with the guid we can identify the client in our game world and update the transform of the client's game object.
-            if (otherPlayerTransforms.ContainsKey(transformPacket.guid)) {
-                Transform otherPlayerTransform = otherPlayerTransforms[transformPacket.guid];
-                otherPlayerTransform.position = new Vector3(transformPacket.transformData[0], transformPacket.transformData[1], transformPacket.transformData[2]);
-                otherPlayerTransform.rotation = Quaternion.Euler(transformPacket.transformData[3], transformPacket.transformData[4], transformPacket.transformData[5]);
-            } else {
-                Debug.LogWarning("Received a transform packet for a client that we don't know about yet.");
-                // instanciate the player
-                var newPlayerTransform = Instantiate(playerPrefab,
-                    new Vector3(transformPacket.transformData[0], transformPacket.transformData[1], transformPacket.transformData[2]),
-                    Quaternion.Euler(transformPacket.transformData[3], transformPacket.transformData[4], transformPacket.transformData[5]));
-
-                otherPlayerTransforms.Add(transformPacket.guid, newPlayerTransform.transform);
-            }
+            //for now, we instantiate a new transform at that position
+            var newClient = Instantiate(playerPrefab, transformPacket.Position(), transformPacket.Rotation());
+            newClient.key = transformPacket.guid;
+            newClient.kinematic = true;
+            newClient.Initialize();
         }
     }
 
-
-
     private void handleConnectEvent(ConnectEvent connectEvent) {
         guid = connectEvent.guid;
+        playerTransform = Instantiate(playerPrefab);
+        playerTransform.key = guid;
+        playerTransform.Initialize();
+        playerTransform.kinematic = false;
         Debug.Log("Received a connect event with guid: " + guid);
-
-        otherPlayerTransforms.Add(guid, playerTransform);
     }
 
     private void OnApplicationQuit() {
@@ -188,10 +146,10 @@ public class GameClient : MonoBehaviour {
         tcpMessageChannel.Close();
     }
 
-    public void ReceivePlayerTransform(Transform playerTransform) {
+    public void ReceivePlayerTransform(NetworkTransform playerTransform) {
         this.playerTransform = playerTransform;
 
-        Debug.Log("Received player transform: " + playerTransform.position);
+        Debug.Log("Received player transform: " + playerTransform);
     }
 
     public static GameClient getInstance() {
@@ -202,7 +160,7 @@ public class GameClient : MonoBehaviour {
         return tcpMessageChannel;
     }
 
-    public System.Guid GetGuid() {
+    public Guid GetGuid() {
         return guid;
     }
 }

@@ -97,6 +97,9 @@ namespace server {
                         case DisconnectEvent disconnectEvent:
                             handleDisconnectEvent(disconnectEvent);
                             break;
+                        case TransformPacket transformPacket:
+                            handleTransformPacket(transformPacket);
+                            break;
                         case InputPacket inputPacket:
                             handleInputPacket(inputPacket);
                             break;
@@ -107,7 +110,11 @@ namespace server {
 
         }
 
-
+        private void handleTransformPacket(TransformPacket transformPacket) {
+            foreach (var clientPair in clients) {
+                clientPair.Value.SendMessage(transformPacket);
+            }
+        }
 
         private void handleInputPacket(InputPacket inputPacket) {
             // find whihc key in the dicrtionary matches the Guid of the packet
