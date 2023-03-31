@@ -20,8 +20,17 @@ public class GameClient : MonoBehaviour {
     }
 
     private void Update() {
-        if (tcpMessageChannel.Connected) receiveAndProcessMessages();
+        safeSendInputData();
 
+        if (tcpMessageChannel.Connected) receiveAndProcessMessages();
+    }
+
+    private void safeSendInputData() {
+        try {
+            // send input data from accelorometer & ui
+        } catch (System.Exception e) {
+            Debug.LogError("Error while sending input data: " + e.Message);
+        }
     }
 
     private void receiveAndProcessMessages() {
@@ -44,6 +53,7 @@ public class GameClient : MonoBehaviour {
             case ConnectEvent connectEvent:
                 handleConnectEvent(connectEvent);
                 break;
+                // Transform packets
         }
     }
 
@@ -53,7 +63,6 @@ public class GameClient : MonoBehaviour {
     }
 
     private void OnApplicationQuit() {
-
         DisconnectEvent disconnectEvent = new DisconnectEvent {
             guid = this.guid
         };
