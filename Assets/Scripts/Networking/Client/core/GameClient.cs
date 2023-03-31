@@ -70,9 +70,17 @@ public class GameClient : MonoBehaviour {
                 // More input data
                 guid = this.guid,
                 vectors = new float[] { 0, 0, 0, 0 },
-                transformData = new float[] { 0, 0, 0, 0, 0, 0, }
-
+                transformData = new float[] {
+                    playerTransform.position.x,
+                    playerTransform.position.y,
+                    playerTransform.position.z,
+                    playerTransform.rotation.x,
+                    playerTransform.rotation.y,
+                    playerTransform.rotation.z
+                }
             };
+
+            tcpMessageChannel.SendMessage(inputPacket);
         } catch (System.Exception e) {
             Debug.LogError("Error while sending input data: " + e.Message);
         }
