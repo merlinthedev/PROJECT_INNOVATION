@@ -14,3 +14,12 @@ public class EventBus<T> where T : Event {
         onEventRaised?.Invoke(e);
     }
 }
+
+public class JoinQuitEvent : Event {
+    public int amountOfClients { get; private set; }
+
+    public JoinQuitEvent(int amountOfClients) {
+        this.amountOfClients = amountOfClients;
+    }
+
+}

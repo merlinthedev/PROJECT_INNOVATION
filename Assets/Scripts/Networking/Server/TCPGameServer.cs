@@ -6,6 +6,7 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Unity.VisualScripting;
 
 namespace server {
 
@@ -26,6 +27,7 @@ namespace server {
 
         private TcpListener listener;
         private List<TcpMessageChannel> clients = new List<TcpMessageChannel>();
+        private List<TcpMessageChannel> brokenClients = new List<TcpMessageChannel>();
 
         private void Awake() {
             Log.LogInfo("Starting server on port " + serverPort, this, ConsoleColor.Gray);
@@ -37,12 +39,20 @@ namespace server {
             listener.Start(50);
         }
 
-        private TCPGameServer() {
-
-        }
+        private TCPGameServer() { }
 
         private void Update() {
             //check for new members	
+            processNewClients();
+            processExistingClients();
+            cleanupFaultyClients();
+        }
+
+
+        /// <summary>
+        /// Method to process new clients connecting to the server
+        /// </summary>
+        private void processNewClients() {
             if (listener.Pending()) {
                 //get the waiting client
                 Log.LogInfo("Accepting new client...", this, ConsoleColor.White);
@@ -51,6 +61,30 @@ namespace server {
                 TcpMessageChannel channel = new TcpMessageChannel(client);
                 clients.Add(channel);
             }
+        }
+
+        /// <summary>
+        /// Method to process existing clients
+        /// </summary>
+        private void processExistingClients() {
+            for (int i = 0; i < clients.Count; i++) {
+                if (clients[i].GetTcpClient().Available == 0) continue;
+
+                // Do message stuff
+            }
+        }
+
+        /// <summary>
+        /// Method to get rid of faulty clients
+        /// </summary>
+        private void cleanupFaultyClients() {
+            if (clients.Count < 1 || brokenClients.Count < 1) return;
+
+            for (int i = brokenClients.Count; i > 0; i--) {
+                clients.Remove(brokenClients[i - 1]);
+            }
+
+            EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));
         }
 
         /// <summary>
@@ -77,6 +111,10 @@ namespace server {
         /// <returns>The port of the server</returns>
         public int GetServerPort() {
             return serverPort;
+        }
+
+        public int GetAmountOfClients() {
+            return this.clients.Count;
         }
 
     }
