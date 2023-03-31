@@ -121,7 +121,11 @@ namespace server {
 
             foreach (var clientPair in clients) {
                 if (clientPair.Key.guid != inputPacket.guid) {
-                    clientPair.Value.SendMessage(inputPacket);
+                    // clientPair.Value.SendMessage(inputPacket);
+                    TransformPacket transformPacket = new TransformPacket();
+                    transformPacket.guid = clientPair.Key.guid;
+                    transformPacket.transformData = new float[] { clientPair.Key.position[0], clientPair.Key.position[1], clientPair.Key.position[2], clientPair.Key.rotation[0], clientPair.Key.rotation[1], clientPair.Key.rotation[2] };
+                    clientPair.Value.SendMessage(transformPacket);
                 }
             }
 
