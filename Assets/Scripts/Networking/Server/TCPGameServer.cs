@@ -24,7 +24,7 @@ namespace server {
         [SerializeField] private int serverPort = 55555;    //the port we listen on
 
         private TcpListener listener;
-        private Dictionary<Guid, TcpMessageChannel> clients = new Dictionary<Guid, TcpMessageChannel>();
+        private Dictionary<ClientGameInformation, TcpMessageChannel> clients = new Dictionary<ClientGameInformation, TcpMessageChannel>();
         private List<TcpMessageChannel> brokenClients = new List<TcpMessageChannel>();
 
         private void Awake() {
@@ -61,8 +61,9 @@ namespace server {
                 TcpMessageChannel channel = new TcpMessageChannel(client);
 
                 Guid newClientGuid = Guid.NewGuid();
+                ClientGameInformation clientGameInformation = new ClientGameInformation(newClientGuid);
 
-                clients.Add(newClientGuid, channel);
+                clients.Add(clientGameInformation, channel);
 
 
                 ConnectEvent connectEvent = new ConnectEvent();
@@ -72,7 +73,9 @@ namespace server {
                 TransformPacket transformPacket = new TransformPacket();
                 transformPacket.guid = newClientGuid;
                 //                                            x, y, z, rx,ry,rz  
-                transformPacket.transformData = new float[] { 0, 2, 0, 0, 0, 0 };
+                transformPacket.transformData = new float[] { 0, 2, 0, 0, 180, 0 };
+                clientGameInformation.position = new float[] { 0, 2, 0 };
+                clientGameInformation.rotation = new float[] { 0, 180, 0 };
                 channel.SendMessage(transformPacket);
 
                 EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));
@@ -100,13 +103,33 @@ namespace server {
             }
         }
 
+
+
         private void handleInputPacket(InputPacket inputPacket) {
+            // find whihc key in the dicrtionary matches the Guid of the packet
+            var client = clients.FirstOrDefault(x => x.Key.guid == inputPacket.guid).Key;
+
+            client.position[0] = inputPacket.transformData[0];
+            client.position[1] = inputPacket.transformData[1];
+            client.position[2] = inputPacket.transformData[2];
+
+            client.rotation[0] = inputPacket.transformData[3];
+            client.rotation[1] = inputPacket.transformData[4];
+            client.rotation[2] = inputPacket.transformData[5];
+
+            TransformPacket transformPacket = new TransformPacket();
+            transformPacket.guid = inputPacket.guid;
+            transformPacket.transformData = inputPacket.transformData;
+
+            foreach (var clientChannel in clients) {
+                clientChannel.Value.SendMessage(transformPacket);
+            }
 
         }
 
         private void handleDisconnectEvent(DisconnectEvent disconnectEvent) {
             Debug.Log("Added client with guid " + disconnectEvent.guid + " to broken clients list");
-            brokenClients.Add(clients.FirstOrDefault(x => x.Key == disconnectEvent.guid).Value);
+            brokenClients.Add(clients.FirstOrDefault(x => x.Key.guid == disconnectEvent.guid).Value);
         }
 
 

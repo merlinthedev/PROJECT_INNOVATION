@@ -15,7 +15,8 @@ public class ShoppingCartController : MonoBehaviour {
 
     [SerializeField] private ShoppingCartMovement movement;
 
-    void Start() {
+    private void Awake() {
+        GameClient.getInstance().ReceivePlayerTransform(transform);
     }
 
     // Update is called once per frame
@@ -27,11 +28,11 @@ public class ShoppingCartController : MonoBehaviour {
 
 
         if (Input.GetKey(KeyCode.A)) {
-            rotationInput = -1;
+            rotationInput = -0.5f;
         }
 
         if (Input.GetKey(KeyCode.D)) {
-            rotationInput = 1;
+            rotationInput = 0.5f;
         }
 
         // needs to be passed to the server

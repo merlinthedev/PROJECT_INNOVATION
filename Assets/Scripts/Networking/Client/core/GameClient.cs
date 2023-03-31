@@ -11,7 +11,7 @@ public class GameClient : MonoBehaviour {
     private System.Guid guid;
     private Transform playerTransform;
 
-    public static System.Collections.Generic.Dictionary<System.Guid, Transform> otherPlayerTransforms = new System.Collections.Generic.Dictionary<System.Guid, Transform>();
+    private System.Collections.Generic.Dictionary<System.Guid, Transform> otherPlayerTransforms = new System.Collections.Generic.Dictionary<System.Guid, Transform>();
 
     private void Awake() {
         if (instance != null) {
@@ -62,8 +62,11 @@ public class GameClient : MonoBehaviour {
         try {
             // send input data from accelorometer & ui
             InputPacket inputPacket = new InputPacket {
-                guid = this.guid,
                 // More input data
+                guid = this.guid,
+                vectors = new float[] { 0, 0, 0, 0 },
+                transformData = new float[] { 0, 0, 0, 0, 0, 0, }
+
             };
         } catch (System.Exception e) {
             Debug.LogError("Error while sending input data: " + e.Message);
@@ -126,8 +129,8 @@ public class GameClient : MonoBehaviour {
         if (this.guid == transformPacket.guid) {
             // update our local position with the information we received from the server.
             // this is to make sure that we are in sync with the server.
-            transform.position = new Vector3(transformPacket.transformData[0], transformPacket.transformData[1], transformPacket.transformData[2]);
-            transform.rotation = Quaternion.Euler(transformPacket.transformData[3], transformPacket.transformData[4], transformPacket.transformData[5]);
+            playerTransform.position = new Vector3(transformPacket.transformData[0], transformPacket.transformData[1], transformPacket.transformData[2]);
+            playerTransform.rotation = Quaternion.Euler(transformPacket.transformData[3], transformPacket.transformData[4], transformPacket.transformData[5]);
 
             Debug.Log("Updated our local position with the information we received from the server.");
         } else {
@@ -138,6 +141,12 @@ public class GameClient : MonoBehaviour {
                 otherPlayerTransform.rotation = Quaternion.Euler(transformPacket.transformData[3], transformPacket.transformData[4], transformPacket.transformData[5]);
             } else {
                 Debug.LogWarning("Received a transform packet for a client that we don't know about yet.");
+                // instanciate the player
+                var newPlayerTransform = Instantiate(playerPrefab,
+                    new Vector3(transformPacket.transformData[0], transformPacket.transformData[1], transformPacket.transformData[2]),
+                    Quaternion.Euler(transformPacket.transformData[3], transformPacket.transformData[4], transformPacket.transformData[5]));
+
+                otherPlayerTransforms.Add(transformPacket.guid, newPlayerTransform.transform);
             }
         }
     }
@@ -147,6 +156,8 @@ public class GameClient : MonoBehaviour {
     private void handleConnectEvent(ConnectEvent connectEvent) {
         guid = connectEvent.guid;
         Debug.Log("Received a connect event with guid: " + guid);
+
+        otherPlayerTransforms.Add(guid, playerTransform);
     }
 
     private void OnApplicationQuit() {
@@ -161,6 +172,8 @@ public class GameClient : MonoBehaviour {
 
     public void ReceivePlayerTransform(Transform playerTransform) {
         this.playerTransform = playerTransform;
+
+        Debug.Log("Received player transform: " + playerTransform.position);
     }
 
     public static GameClient getInstance() {
