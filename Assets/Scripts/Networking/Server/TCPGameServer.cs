@@ -24,6 +24,8 @@ namespace server {
         [SerializeField] private int serverPort = 55555;    //the port we listen on
 
         private TcpListener listener;
+
+        // refactor to Guid, ClientGameInformation
         private Dictionary<ClientGameInformation, TcpMessageChannel> clients = new Dictionary<ClientGameInformation, TcpMessageChannel>();
         private List<TcpMessageChannel> brokenClients = new List<TcpMessageChannel>();
 
@@ -109,7 +111,8 @@ namespace server {
 
         private void handleInputPacket(InputPacket inputPacket) {
             // find whihc key in the dicrtionary matches the Guid of the packet
-            var client = clients.FirstOrDefault(x => x.Key.guid == inputPacket.guid).Key;
+            ClientGameInformation client = clients.FirstOrDefault(x => x.Key.guid == inputPacket.guid).Key;
+
 
             client.position[0] = inputPacket.transformData[0];
             client.position[1] = inputPacket.transformData[1];
@@ -123,8 +126,13 @@ namespace server {
                 if (clientPair.Key.guid != inputPacket.guid) {
                     // clientPair.Value.SendMessage(inputPacket);
                     TransformPacket transformPacket = new TransformPacket();
-                    transformPacket.guid = clientPair.Key.guid;
-                    transformPacket.transformData = new float[] { clientPair.Key.position[0], clientPair.Key.position[1], clientPair.Key.position[2], clientPair.Key.rotation[0], clientPair.Key.rotation[1], clientPair.Key.rotation[2] };
+                    // fix 1
+                    transformPacket.guid = inputPacket.guid;
+                    transformPacket.transformData = new float[] {
+                        clientPair.Key.position[0], clientPair.Key.position[1], clientPair.Key.position[2],
+                        clientPair.Key.rotation[0], clientPair.Key.rotation[1], clientPair.Key.rotation[2]
+                    };
+
                     clientPair.Value.SendMessage(transformPacket);
                 }
             }
