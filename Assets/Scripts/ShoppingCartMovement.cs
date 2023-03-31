@@ -17,7 +17,7 @@ public class ShoppingCartMovement : MonoBehaviour {
     [SerializeField] private float GravityScaleDrop = 10;
 
     [Header("Rotation")]
-    [SerializeField] private float rotationSpeed = 2;
+    [SerializeField] private float SteerSpeed = 2;
 
     #endregion
     
@@ -73,7 +73,9 @@ public class ShoppingCartMovement : MonoBehaviour {
 
         #region rotation
         //rotate the player
-        transform.Rotate(0, viewValue.x * rotationSpeed, 0);
+        float steerAmount = Mathf.Clamp(viewValue.x, -1, 1) * SteerSpeed;
+
+        transform.Rotate(0, viewValue.x * SteerSpeed, 0);
         #endregion
 
         #region misc
