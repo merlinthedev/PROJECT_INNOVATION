@@ -32,32 +32,6 @@ public class GameClient : MonoBehaviour {
         //renderOtherClients();
     }
 
-    private void renderOtherClients() {
-        // get all the transforms from the dictionary and render them with the prefab.
-
-        foreach (var otherPlayerTransform in otherPlayerTransforms) {
-            if (otherPlayerTransform.Value == null) {
-                continue;
-            }
-
-            if (otherPlayerTransform.Key == guid) {
-                // This is our own transform, we don't need to render it.
-                continue;
-            }
-
-            if (otherPlayerTransforms.ContainsKey(otherPlayerTransform.Key)) {
-                // We already have a game object for this client, update the transform.
-                otherPlayerTransforms[otherPlayerTransform.Key].position = otherPlayerTransform.Value.position;
-                otherPlayerTransforms[otherPlayerTransform.Key].rotation = otherPlayerTransform.Value.rotation;
-            } else {
-                // We don't have a game object for this client, create one.
-                GameObject otherPlayer = Instantiate(playerPrefab, otherPlayerTransform.Value.position, otherPlayerTransform.Value.rotation);
-                otherPlayerTransforms.Add(otherPlayerTransform.Key, otherPlayer.transform);
-            }
-
-        }
-    }
-
     private void safeSendInputData() {
         if (playerTransform == null) {
             return;
@@ -148,6 +122,12 @@ public class GameClient : MonoBehaviour {
 
     public void ReceivePlayerTransform(NetworkTransform playerTransform) {
         this.playerTransform = playerTransform;
+
+        Debug.Log("Received player transform: " + playerTransform);
+    }
+
+    public void ReceivePlayerTransform(Transform transform) {
+        this.playerTransform = transform.GetComponent<NetworkTransform>();
 
         Debug.Log("Received player transform: " + playerTransform);
     }
