@@ -11132,6 +11132,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shopping Cart
       objectReference: {fileID: 0}
+    - target: {fileID: 7804990278965927863, guid: 65034468fb9b0774e86f52fc0b9f4f9c,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5ab866e02d439bd4aa5e149893ac0ef9, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65034468fb9b0774e86f52fc0b9f4f9c, type: 3}
 --- !u!4 &1297688132 stripped
