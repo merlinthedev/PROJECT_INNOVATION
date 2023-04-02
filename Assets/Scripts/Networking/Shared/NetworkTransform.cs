@@ -31,7 +31,7 @@ public class NetworkTransform : MonoBehaviour {
 
         if (kinematic) {
             var rb = GetComponent<Rigidbody>();
-            if(rb != null) {
+            if (rb != null) {
                 rb.isKinematic = true;
             }
         }
@@ -41,8 +41,8 @@ public class NetworkTransform : MonoBehaviour {
     void Update() {
         if (!initialized)
             Initialize();
-        if(!kinematic && transform.hasChanged) {
-            if(transformPacket == null) {
+        if (!kinematic && transform.hasChanged) {
+            if (transformPacket == null) {
                 UpdatedTransforms.Add(this);
             }
             transformPacket = new TransformPacket();

@@ -26,7 +26,7 @@ namespace server {
         private TcpListener listener;
 
         // refactor to Guid, ClientGameInformation
-        private Dictionary<ClientGameInformation, TcpMessageChannel> clients = new Dictionary<ClientGameInformation, TcpMessageChannel>();
+        private Dictionary<Guid, ClientGameInformation> clients = new Dictionary<Guid, ClientGameInformation>();
         private List<TcpMessageChannel> brokenClients = new List<TcpMessageChannel>();
 
         private void Awake() {
@@ -46,6 +46,7 @@ namespace server {
             //check for new members	
             processNewClients();
             processExistingClients();
+            sendTransformUpdates();
             cleanupFaultyClients();
 
             //Debug.Log("Amount of clients on the server; " + clients.Count);
@@ -64,23 +65,22 @@ namespace server {
                 TcpMessageChannel channel = new TcpMessageChannel(client);
 
                 Guid newClientGuid = Guid.NewGuid();
-                ClientGameInformation clientGameInformation = new ClientGameInformation(newClientGuid);
+                ClientGameInformation clientGameInformation = new ClientGameInformation(channel);
 
-                clients.Add(clientGameInformation, channel);
+                clients.Add(newClientGuid, clientGameInformation);
 
 
                 ConnectEvent connectEvent = new ConnectEvent();
                 connectEvent.guid = newClientGuid;
+
+                foreach (var networkTransform in NetworkTransform.Transforms.Values.ToList()) {
+                    var transformPacket = new TransformPacket();
+                    transformPacket.guid = networkTransform.key;
+                    transformPacket.SetTransform(networkTransform.transform);
+                    connectEvent.objectTransforms.Add(transformPacket);
+                }
+
                 channel.SendMessage(connectEvent);
-
-                TransformPacket transformPacket = new TransformPacket();
-                transformPacket.guid = newClientGuid;
-                //                                            x, y, z, rx,ry,rz  
-                transformPacket.transformData = new float[] { 0, 1, 0, 0, 180, 0 };
-                clientGameInformation.position = new float[] { 0, 1, 0 };
-                clientGameInformation.rotation = new float[] { 0, 180, 0 };
-                channel.SendMessage(transformPacket);
-
                 EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));
             }
         }
@@ -89,9 +89,9 @@ namespace server {
         /// Method to process existing clients
         /// </summary>
         private void processExistingClients() {
-            foreach (TcpMessageChannel client in clients.Values) {
-                if (client.HasMessage()) {
-                    var messageObject = client.ReceiveMessage();
+            foreach (var client in clients.Values) {
+                if (client.tcpMessageChannel.HasMessage()) {
+                    var messageObject = client.tcpMessageChannel.ReceiveMessage();
 
                     switch (messageObject) {
                         case DisconnectEvent disconnectEvent:
@@ -101,7 +101,7 @@ namespace server {
                             handleTransformPacket(transformPacket);
                             break;
                         case InputPacket inputPacket:
-                            handleInputPacket(inputPacket);
+                            handleInputPacket(inputPacket, client);
                             break;
 
                     }
@@ -110,46 +110,31 @@ namespace server {
 
         }
 
-        private void handleTransformPacket(TransformPacket transformPacket) {
-            foreach (var clientPair in clients) {
-                clientPair.Value.SendMessage(transformPacket);
+        private void sendTransformUpdates() {
+            TransformListPacket transformList = new TransformListPacket();
+            foreach (var transformUpdate in NetworkTransform.UpdatedTransforms) {
+                var transformPacket = transformUpdate.GetPacket();
             }
+
+            foreach (var client in clients.Values) {
+                client.tcpMessageChannel.SendMessage(transformList);
+            }
+
+            NetworkTransform.UpdatedTransforms.Clear();
+
         }
 
-        private void handleInputPacket(InputPacket inputPacket) {
-            // find whihc key in the dicrtionary matches the Guid of the packet
-            ClientGameInformation client = clients.FirstOrDefault(x => x.Key.guid == inputPacket.guid).Key;
+        private void handleTransformPacket(TransformPacket transformPacket) {
+            Debug.LogError("Got a transform packet from a client? This should not happen!");
+        }
 
-
-            client.position[0] = inputPacket.transformData[0];
-            client.position[1] = inputPacket.transformData[1];
-            client.position[2] = inputPacket.transformData[2];
-
-            client.rotation[0] = inputPacket.transformData[3];
-            client.rotation[1] = inputPacket.transformData[4];
-            client.rotation[2] = inputPacket.transformData[5];
-
-            foreach (var clientPair in clients) {
-                if (clientPair.Key.guid != inputPacket.guid) {
-                    // clientPair.Value.SendMessage(inputPacket);
-                    TransformPacket transformPacket = new TransformPacket();
-                    // fix 1
-                    transformPacket.guid = inputPacket.guid;
-                    transformPacket.transformData = new float[] {
-                        clientPair.Key.position[0], clientPair.Key.position[1], clientPair.Key.position[2],
-                        clientPair.Key.rotation[0], clientPair.Key.rotation[1], clientPair.Key.rotation[2]
-                    };
-
-                    clientPair.Value.SendMessage(transformPacket);
-                }
-            }
-
-
+        private void handleInputPacket(InputPacket inputPacket, ClientGameInformation source) {
+            source.movementInputReceiver.DoMove(inputPacket.move);
+            source.movementInputReceiver.DoView(inputPacket.view);
         }
 
         private void handleDisconnectEvent(DisconnectEvent disconnectEvent) {
-            Debug.Log("Added client with guid " + disconnectEvent.guid + " to broken clients list");
-            brokenClients.Add(clients.FirstOrDefault(x => x.Key.guid == disconnectEvent.guid).Value);
+            Debug.Log("OH NO A CLIENT DISCONNECTED WHAT DO WE DO?!");
         }
 
 
@@ -158,14 +143,15 @@ namespace server {
         /// Method to get rid of faulty clients
         /// </summary>
         private void cleanupFaultyClients() {
-            if (clients.Count < 1 || brokenClients.Count < 1) return;
+            // if (clients.Count < 1 || brokenClients.Count < 1) return;
 
-            for (int i = brokenClients.Count; i > 0; i--) {
-                Debug.Log("removed client with guid " + clients.FirstOrDefault(x => x.Value == brokenClients[i - 1]).Key.guid + " from list HEHE dont look linq method in debug loG XDXDXDXXDXD");
-                clients.Remove(clients.FirstOrDefault(x => x.Value == brokenClients[i - 1]).Key);
-            }
+            // for (int i = brokenClients.Count; i > 0; i--) {
+            //     Debug.Log("removed client with guid " + clients.FirstOrDefault(x => x.Value == brokenClients[i - 1]).Key.guid + " from list HEHE dont look linq method in debug loG XDXDXDXXDXD");
+            //     clients.Remove(clients.FirstOrDefault(x => x.Value == brokenClients[i - 1]).Key);
+            // }
 
-            EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));
+
+            // EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));
         }
 
         /// <summary>

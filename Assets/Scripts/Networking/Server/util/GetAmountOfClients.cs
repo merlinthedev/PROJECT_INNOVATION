@@ -1,6 +1,4 @@
 using server;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -24,8 +22,4 @@ public class GetAmountOfClients : MonoBehaviour {
         Debug.Log("JoinQuitEvent received, do stuff mayber?XD");
         textMeshProUGUI.text = "Amount of clients: " + tcpGameServer.GetAmountOfClients().ToString();
     }
-
-
-
-
 }

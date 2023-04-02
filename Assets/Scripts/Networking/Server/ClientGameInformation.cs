@@ -1,15 +1,12 @@
+using UnityEngine;
+using shared;
+
 public class ClientGameInformation {
-    public System.Guid guid { get; private set; }
+    public readonly TcpMessageChannel tcpMessageChannel;
+    public IMovementInputReceiver movementInputReceiver;
 
-    public float[] position { get; set; } = new float[3];
-    public float[] rotation { get; set; } = new float[3];
+    public ClientGameInformation(TcpMessageChannel tcpMessageChannel) {
+        this.tcpMessageChannel = tcpMessageChannel;
 
-    public ClientGameInformation(System.Guid guid) {
-        this.guid = guid;
     }
-
-    public ClientGameInformation() {
-        this.guid = System.Guid.NewGuid();
-    }
-
 }
