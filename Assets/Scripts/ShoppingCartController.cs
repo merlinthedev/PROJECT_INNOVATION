@@ -13,7 +13,7 @@ public class ShoppingCartController : MonoBehaviour {
     [SerializeField] private ButtonPressed brakeButton;
     [SerializeField][Range(0, 1)] private float brakeSpeed = 0.5f;
 
-    [SerializeField] private ShoppingCartMovement movement;
+    [SerializeField] private IMovementInputReceiver movement;
 
     private void Awake() {
         GameClient.getInstance().ReceivePlayerTransform(transform);

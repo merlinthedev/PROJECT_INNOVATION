@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-public class ShoppingCartMovement : MonoBehaviour {
-    
+public class ShoppingCartMovement : MonoBehaviour, IMovementInputReceiver {
+
     #region settings
     [Header("Movement")]
     [SerializeField] private float MaxSpeed = 10f;
@@ -26,7 +23,7 @@ public class ShoppingCartMovement : MonoBehaviour {
     }
 
     #endregion
-    
+
     #region private variables
 
     private float m_MovementControlDisabledTimer = 0;
@@ -38,7 +35,7 @@ public class ShoppingCartMovement : MonoBehaviour {
     private bool isOnGround => Time.time - lastGroundTime < GroundedTime;
 
     private Rigidbody rb;
-    
+
     #endregion
 
 
