@@ -28,6 +28,13 @@ public class NetworkTransform : MonoBehaviour {
     public void Initialize() {
         Transforms.Add(key, this);
         initialized = true;
+
+        if (kinematic) {
+            var rb = GetComponent<Rigidbody>();
+            if(rb != null) {
+                rb.isKinematic = true;
+            }
+        }
     }
 
     // Update is called once per frame

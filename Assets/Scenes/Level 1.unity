@@ -3517,16 +3517,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5073113415654187643, guid: 2d299ca8f2e0d9c40aa7fa3f629115b9,
-        type: 3}
-      propertyPath: MaxSteerSpeed
-      value: 120
-      objectReference: {fileID: 0}
-    - target: {fileID: 5073113415654187643, guid: 2d299ca8f2e0d9c40aa7fa3f629115b9,
-        type: 3}
-      propertyPath: DynamicSteerSpeed
-      value: 8
-      objectReference: {fileID: 0}
     - target: {fileID: 5073113415654187644, guid: 2d299ca8f2e0d9c40aa7fa3f629115b9,
         type: 3}
       propertyPath: m_Name
@@ -3544,12 +3534,6 @@ PrefabInstance:
       objectReference: {fileID: 2069714951}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d299ca8f2e0d9c40aa7fa3f629115b9, type: 3}
---- !u!1 &1244598465 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5073113415654187644, guid: 2d299ca8f2e0d9c40aa7fa3f629115b9,
-    type: 3}
-  m_PrefabInstance: {fileID: 1244598464}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1334455165
 GameObject:
   m_ObjectHideFlags: 0
@@ -4132,25 +4116,6 @@ Transform:
   m_Father: {fileID: 1060544000}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 89.732, z: 0}
---- !u!4 &1612820886 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5073113415654187638, guid: 2d299ca8f2e0d9c40aa7fa3f629115b9,
-    type: 3}
-  m_PrefabInstance: {fileID: 1244598464}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1612820887
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1244598465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d46e453df7fb57242a660ac585a5b8cf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  kinematic: 0
 --- !u!1 &1651817407
 GameObject:
   m_ObjectHideFlags: 0
@@ -4442,37 +4407,12 @@ Transform:
   m_Father: {fileID: 1060544000}
   m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1721088990
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1721088991}
-  m_Layer: 0
-  m_Name: CameraPivot
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1721088991
+--- !u!4 &1721088991 stripped
 Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 1721088991, guid: 2d299ca8f2e0d9c40aa7fa3f629115b9,
+    type: 3}
+  m_PrefabInstance: {fileID: 1244598464}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1721088990}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1612820886}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1728430163
 GameObject:
   m_ObjectHideFlags: 0

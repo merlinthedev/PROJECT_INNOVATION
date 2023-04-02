@@ -80,10 +80,6 @@ namespace shared {
                 return;
             }
 
-            //everything we log from now to the end of this method should be cyan
-            Log.PushForegroundColor(ConsoleColor.Cyan);
-            Log.LogInfo(message, this);
-
             try {
                 //grab the required bytes from either the packet or the cache
                 if (lastSerializedMessage != message) {
@@ -96,8 +92,6 @@ namespace shared {
             } catch (Exception e) {
                 addError(e);
             }
-
-            Log.PopForegroundColor();
         }
 
         /**
