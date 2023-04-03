@@ -96,7 +96,7 @@ namespace server {
         /// </summary>
         private void processExistingClients() {
             foreach (var client in clients.Values) {
-                if (client.tcpMessageChannel.HasMessage()) {
+                while (client.tcpMessageChannel.HasMessage()) {
                     var messageObject = client.tcpMessageChannel.ReceiveMessage();
 
                     switch (messageObject) {

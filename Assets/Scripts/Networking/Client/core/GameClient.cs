@@ -23,6 +23,8 @@ public class GameClient : MonoBehaviour {
         DontDestroyOnLoad(this);
         instance = this;
         tcpMessageChannel = new TcpMessageChannel();
+
+        // Application.targetFrameRate = 60;
     }
 
     private void Update() {
@@ -34,7 +36,7 @@ public class GameClient : MonoBehaviour {
     }
 
     private void safeSendInputData() {
-        if (clientCartController == null) {
+        if (clientCartController == null || !tcpMessageChannel.Connected) {
             return;
         }
         try {
