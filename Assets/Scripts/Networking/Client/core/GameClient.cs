@@ -38,11 +38,9 @@ public class GameClient : MonoBehaviour {
             return;
         }
         try {
-            
             InputPacket inputPacket = clientCartController.GetInputPacket();
 
             tcpMessageChannel.SendMessage(inputPacket);
-            Debug.Log("Sent input data: " + inputPacket);
         } catch (Exception e) {
             Debug.LogError("Error while sending input data: " + e.Message);
         }
