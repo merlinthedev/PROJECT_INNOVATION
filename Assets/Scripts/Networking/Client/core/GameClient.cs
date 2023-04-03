@@ -113,10 +113,9 @@ public class GameClient : MonoBehaviour {
 
     private void handleConnectEvent(ConnectEvent connectEvent) {
         guid = connectEvent.guid;
-        playerTransform = Instantiate(playerPrefab);
-        playerTransform.key = guid;
-        playerTransform.Initialize();
-        playerTransform.kinematic = false;
+        foreach (var pack in connectEvent.objectTransforms) {
+            handleTransformPacket(pack);
+        }
         Debug.Log("Received a connect event with guid: " + guid);
     }
 
