@@ -5,6 +5,7 @@ public class NetworkManager : MonoBehaviour {
     [SerializeField] private bool isServer = true;
     [SerializeField] private string serverSceneName;
     [SerializeField] private string clientSceneName;
+    [SerializeField] private string levelName;
 
     private void Start() {
         IsServer = isServer;
@@ -13,6 +14,8 @@ public class NetworkManager : MonoBehaviour {
         } else {
             startClient();
         }
+        UnityEngine.SceneManagement.SceneManager.LoadScene(levelName, UnityEngine.SceneManagement.LoadSceneMode.Additive);
+
     }
 
     private void startServer() {
