@@ -36,10 +36,9 @@ public class GameClient : MonoBehaviour {
         if (playerTransform == null) {
             return;
         }
-
         try {
             if (playerTransform.hasPacket) {
-                tcpMessageChannel.SendMessage(playerTransform.GetPacket());
+                //tcpMessageChannel.SendMessage(playerTransform.GetPacket());
             }
 
             // TODO: send input data from accelorometer & ui instead of our updated transform

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12735014, g: 0.13418937, b: 0.121155, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -750,13 +750,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1316050686}
   m_TextComponent: {fileID: 1628588886}
   m_Placeholder: {fileID: 2066978637}
-  m_ContentType: 2
+  m_ContentType: 0
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 4
+  m_KeyboardType: 0
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 1
+  m_CharacterValidation: 0
   m_CharacterLimit: 0
   m_OnSubmit:
     m_PersistentCalls:
@@ -984,7 +984,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serverPickView: {fileID: 4328607653609533711}
-  udpPort: 43219
+  udpPort: 60011
   broadcastInterval: 0.5
   broadcastTime: 5
 --- !u!1 &2066978635
