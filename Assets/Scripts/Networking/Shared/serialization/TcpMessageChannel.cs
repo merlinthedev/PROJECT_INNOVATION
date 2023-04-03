@@ -113,14 +113,9 @@ namespace shared {
             }
 
             try {
-                Log.PushForegroundColor(ConsoleColor.Yellow);
-                Log.LogInfo("Receiving message...", this);
-
                 byte[] inBytes = StreamUtil.Read(stream);
                 Packet inPacket = new Packet(inBytes);
                 ASerializable inObject = inPacket.ReadObject();
-                Log.LogInfo("Received " + inObject, this);
-                Log.PopForegroundColor();
 
                 return inObject;
             } catch (Exception e) {
