@@ -22,11 +22,12 @@ public class NetworkTransform : MonoBehaviour {
     }
 
     // Start is called before the first frame update
-    void Start() {
+    void Awake() {
         UpdateTransformPacket();
     }
 
     public void Initialize() {
+        UpdateTransformPacket();
         kinematic = !NetworkManager.IsServer;
         initialized = true;
         Transforms.Add(key, this);
