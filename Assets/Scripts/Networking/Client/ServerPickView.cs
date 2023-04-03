@@ -1,6 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 
 /**
@@ -39,7 +40,12 @@ public class ServerPickView : MonoBehaviour {
         });
 
         connectButton.onClick.AddListener(() => {
-            OnServerConnectRequest?.Invoke(inputIp, inputPort);
+            try {
+                OnServerConnectRequest?.Invoke(inputIp, inputPort);
+                GameManager.Instance.SetState("Game");
+            } catch (Exception e) {
+                Debug.LogError(e);
+            }
         });
     }
     public string TextConnectResults {

@@ -26,5 +26,7 @@ public class ServerAddress : MonoBehaviour {
     private void onButtonClicked() {
         Debug.LogWarning("BUTTON CLICKED XD");
         OnServerSelected?.Invoke(Address, Port);
+
+        GameManager.Instance.SetState("Game");
     }
 }

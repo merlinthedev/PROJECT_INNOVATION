@@ -23,3 +23,20 @@ public class JoinQuitEvent : Event {
     }
 
 }
+
+public class OnStateQuit : Event {
+    public string stateToQuit { get; private set; }
+
+    public OnStateQuit(string stateToQuit) {
+        this.stateToQuit = stateToQuit;
+    }
+}
+
+public class OnStateEnter : Event {
+    public string stateToEnter { get; private set; }
+
+    public OnStateEnter(string stateToEnter) {
+        this.stateToEnter = stateToEnter;
+    }
+
+}

@@ -12,8 +12,8 @@ EditorBuildSettings:
     path: Assets/Scenes/ServerScene.unity
     guid: 8e6b5d260daa64b489750e24ff838710
   - enabled: 1
-    path: Assets/Scenes/ServerListScene.unity
-    guid: da8f3c2cd44383a4c9252f2befc2fbe9
+    path: Assets/Scenes/ClientScene.unity
+    guid: 21e6daba598335242b305aec1741351f
   - enabled: 1
     path: Assets/Scenes/Level 1.unity
     guid: 30d1b915eefc0f04ebe658159cd241c4
