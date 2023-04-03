@@ -147,10 +147,10 @@ namespace server {
         private void cleanupFaultyClients() {
             if (clients.Count < 1 || brokenClients.Count < 1) return;
 
-            for (int i = brokenClients.Count; i > 0; i--) {
-                Debug.Log("removed client with guid " + clients.FirstOrDefault(x => x.Value == brokenClients[i - 1]).Key.guid + " from list HEHE dont look linq method in debug loG XDXDXDXXDXD");
-                clients.Remove(clients.FirstOrDefault(x => x.Value == brokenClients[i - 1]).Key);
-            }
+            // for (int i = brokenClients.Count; i > 0; i--) {
+            //     Debug.Log("removed client with guid " + clients.FirstOrDefault(x => x.Value == brokenClients[i - 1]).Key.guid + " from list HEHE dont look linq method in debug loG XDXDXDXXDXD");
+            //     clients.Remove(clients.FirstOrDefault(x => x.Value == brokenClients[i - 1]).Key);
+            // }
 
 
             EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));
