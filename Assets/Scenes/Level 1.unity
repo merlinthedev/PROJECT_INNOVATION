@@ -640,7 +640,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d46e453df7fb57242a660ac585a5b8cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  kinematic: 1
+  keyString: 6954d7ae-216c-494d-a8b1-f7ad0b6e8e82
+  kinematic: 0
 --- !u!65 &186320111
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3515,7 +3516,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1228442468
 GameObject:
