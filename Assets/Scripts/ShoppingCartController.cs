@@ -18,7 +18,6 @@ public class ShoppingCartController : MonoBehaviour {
     private IMovementInputReceiver movementInputReceiver;
 
     private void Awake() {
-        GameClient.getInstance().ReceivePlayerTransform(transform);
         movementInputReceiver = GetComponent<IMovementInputReceiver>();
     }
 

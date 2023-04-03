@@ -6,7 +6,6 @@ public class ClientCartController : MonoBehaviour, IMovementInputReceiver {
     private Vector2 view;
 
     public void Start() {
-        GameClient.getInstance().ReceiveClientController(this);
     }
 
     public void DoMove(Vector2 inputVel) {

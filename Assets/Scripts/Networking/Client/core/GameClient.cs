@@ -11,7 +11,7 @@ public class GameClient : MonoBehaviour {
 
     private static GameClient instance;
     private Guid guid;
-    private NetworkTransform playerTransform;
+    [SerializeField]
     private ClientCartController clientCartController;
 
     private void Awake() {
@@ -34,7 +34,7 @@ public class GameClient : MonoBehaviour {
     }
 
     private void safeSendInputData() {
-        if (playerTransform == null || clientCartController == null) {
+        if (clientCartController == null) {
             return;
         }
         try {
@@ -127,22 +127,6 @@ public class GameClient : MonoBehaviour {
         tcpMessageChannel.SendMessage(disconnectEvent);
 
         tcpMessageChannel.Close();
-    }
-
-    public void ReceivePlayerTransform(NetworkTransform playerTransform) {
-        this.playerTransform = playerTransform;
-
-        Debug.Log("Received player transform: " + playerTransform);
-    }
-
-    public void ReceiveClientController(ClientCartController clientController) {
-        this.clientCartController = clientController;
-    }
-
-    public void ReceivePlayerTransform(Transform transform) {
-        this.playerTransform = transform.GetComponent<NetworkTransform>();
-
-        Debug.Log("Received player transform: " + playerTransform);
     }
 
     public static GameClient getInstance() {
