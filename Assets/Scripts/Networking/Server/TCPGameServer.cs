@@ -47,7 +47,7 @@ namespace server {
             processNewClients();
             processExistingClients();
             sendTransformUpdates();
-            cleanupFaultyClients();
+            //cleanupFaultyClients();
 
             //Debug.Log("Amount of clients on the server; " + clients.Count);
         }
@@ -114,6 +114,8 @@ namespace server {
             TransformListPacket transformList = new TransformListPacket();
             foreach (var transformUpdate in NetworkTransform.UpdatedTransforms) {
                 var transformPacket = transformUpdate.GetPacket();
+                // add packet to listpacket
+                transformList.updatedTransforms.Add(transformPacket);
             }
 
             foreach (var client in clients.Values) {
@@ -125,7 +127,7 @@ namespace server {
         }
 
         private void handleTransformPacket(TransformPacket transformPacket) {
-            Debug.LogError("Got a transform packet from a client? This should not happen!");
+            Debug.LogError("Got a transform packet from a client? How lmfao?");
         }
 
         private void handleInputPacket(InputPacket inputPacket, ClientGameInformation source) {
@@ -143,15 +145,15 @@ namespace server {
         /// Method to get rid of faulty clients
         /// </summary>
         private void cleanupFaultyClients() {
-            // if (clients.Count < 1 || brokenClients.Count < 1) return;
+            if (clients.Count < 1 || brokenClients.Count < 1) return;
 
-            // for (int i = brokenClients.Count; i > 0; i--) {
-            //     Debug.Log("removed client with guid " + clients.FirstOrDefault(x => x.Value == brokenClients[i - 1]).Key.guid + " from list HEHE dont look linq method in debug loG XDXDXDXXDXD");
-            //     clients.Remove(clients.FirstOrDefault(x => x.Value == brokenClients[i - 1]).Key);
-            // }
+            for (int i = brokenClients.Count; i > 0; i--) {
+                Debug.Log("removed client with guid " + clients.FirstOrDefault(x => x.Value == brokenClients[i - 1]).Key.guid + " from list HEHE dont look linq method in debug loG XDXDXDXXDXD");
+                clients.Remove(clients.FirstOrDefault(x => x.Value == brokenClients[i - 1]).Key);
+            }
 
 
-            // EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));
+            EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));
         }
 
         /// <summary>

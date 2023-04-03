@@ -38,7 +38,7 @@ public class GameClient : MonoBehaviour {
         }
 
         try {
-            if(playerTransform.hasPacket) {
+            if (playerTransform.hasPacket) {
                 tcpMessageChannel.SendMessage(playerTransform.GetPacket());
             }
 
@@ -76,6 +76,9 @@ public class GameClient : MonoBehaviour {
             case DisconnectEvent disconnectEvent:
                 handleDisconnectEvent(disconnectEvent);
                 break;
+            case TransformListPacket transformListPacket:
+                handleTransformListPacket(transformListPacket);
+                break;
         }
     }
 
@@ -84,13 +87,21 @@ public class GameClient : MonoBehaviour {
 
     }
 
+    private void handleTransformListPacket(TransformListPacket transformListPacket) {
+        transformListPacket.updatedTransforms.ForEach(transformPacket => {
+            // update the transform with the corresponding guid
+
+            // not sure? should be added to NetworkTransform static Transforms dictionary?
+            playerTransform.UpdateTransform(transformPacket);
+        });
+    }
+
     private void handleTransformPacket(TransformPacket transformPacket) {
         // handle transform packet
         var transform = NetworkTransform.Transforms[transformPacket.guid];
-        if(transform != null) {
+        if (transform != null) {
             transform.UpdateTransform(transformPacket);
-        }
-        else {
+        } else {
             Debug.LogWarning("Received a transform packet for a client that is not in our dictionary. How did this happen? :O");
 
             //for now, we instantiate a new transform at that position
