@@ -3,7 +3,6 @@ using UnityEngine;
 public class InputPacket : shared.ASerializable {
 
     public Vector2 view;
-
     public Vector2 move;
 
     public override void Serialize(shared.Packet packet) {

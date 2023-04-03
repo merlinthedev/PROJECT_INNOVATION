@@ -12,6 +12,7 @@ public class GameClient : MonoBehaviour {
     private static GameClient instance;
     private Guid guid;
     private NetworkTransform playerTransform;
+    private ClientCartController clientCartController;
 
     private void Awake() {
         if (instance != null) {
@@ -33,14 +34,14 @@ public class GameClient : MonoBehaviour {
     }
 
     private void safeSendInputData() {
-        if (playerTransform == null) {
+        if (playerTransform == null || clientCartController == null) {
             return;
         }
         try {
-            if (playerTransform.hasPacket) {
-                //tcpMessageChannel.SendMessage(playerTransform.GetPacket());
-            }
+            
+            InputPacket inputPacket = clientCartController.GetInputPacket();
 
+            tcpMessageChannel.SendMessage(inputPacket);
             // TODO: send input data from accelorometer & ui instead of our updated transform
         } catch (Exception e) {
             Debug.LogError("Error while sending input data: " + e.Message);
@@ -133,6 +134,10 @@ public class GameClient : MonoBehaviour {
         this.playerTransform = playerTransform;
 
         Debug.Log("Received player transform: " + playerTransform);
+    }
+
+    public void ReceiveClientController(ClientCartController clientController) {
+        this.clientCartController = clientController;
     }
 
     public void ReceivePlayerTransform(Transform transform) {

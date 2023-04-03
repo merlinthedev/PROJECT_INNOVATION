@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 2795426594145639698}
   - component: {fileID: 5073113415654187643}
   - component: {fileID: 1612820887}
+  - component: {fileID: 585606283868593902}
   m_Layer: 0
   m_Name: Shopping Cart Thing
   m_TagString: Untagged
@@ -177,7 +178,6 @@ MonoBehaviour:
   gasSpeed: 1
   brakeButton: {fileID: 0}
   brakeSpeed: 0.8
-  movement: {fileID: 5073113415654187643}
 --- !u!136 &2795426594145639698
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5073113415654187644}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc00c6083d266ba41a4e027e8f95fb96, type: 3}
   m_Name: 
@@ -225,4 +225,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d46e453df7fb57242a660ac585a5b8cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  keyString: dbc7776f-7d32-4494-9858-e3496b7fba3f
   kinematic: 0
+--- !u!114 &585606283868593902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5073113415654187644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dd8375c1e0d14179aced71a8d8f2d76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
