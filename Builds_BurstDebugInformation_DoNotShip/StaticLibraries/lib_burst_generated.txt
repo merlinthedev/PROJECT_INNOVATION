@@ -97,11 +97,8 @@ Library: /Users/merlijnvannieuwenhoven/Documents/School/term3/project/PROJECT_IN
 --compilation-defines=UNITY_HAS_GOOGLEVR
 --compilation-defines=ENABLE_SPATIALTRACKING
 --compilation-defines=ENABLE_IL2CPP
---compilation-defines=NET_STANDARD_2_0
---compilation-defines=NET_STANDARD
---compilation-defines=NET_STANDARD_2_1
---compilation-defines=NETSTANDARD
---compilation-defines=NETSTANDARD2_1
+--compilation-defines=NET_4_6
+--compilation-defines=NET_UNITY_4_8
 --compilation-defines=DEVELOPMENT_BUILD
 --compilation-defines=ENABLE_PROFILER
 --compilation-defines=DEBUG

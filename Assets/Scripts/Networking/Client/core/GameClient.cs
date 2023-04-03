@@ -90,7 +90,6 @@ public class GameClient : MonoBehaviour {
     private void handleTransformListPacket(TransformListPacket transformListPacket) {
         transformListPacket.updatedTransforms.ForEach(transformPacket => {
             // update the transform with the corresponding guid
-
             handleTransformPacket(transformPacket);
         });
     }
