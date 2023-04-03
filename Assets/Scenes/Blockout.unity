@@ -2126,7 +2126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isServer: 1
-  serverSceneName: Level1
+  serverSceneName: Level 1
   clientSceneName: ServerListScene
 --- !u!1 &1643463753
 GameObject:
