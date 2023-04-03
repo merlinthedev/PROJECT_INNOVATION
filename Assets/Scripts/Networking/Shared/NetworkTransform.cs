@@ -6,23 +6,23 @@ using UnityEngine;
 
 public class NetworkTransform : MonoBehaviour {
     public static readonly Dictionary<Guid, NetworkTransform> Transforms = new Dictionary<Guid, NetworkTransform>();
-    public static readonly List<NetworkTransform> UpdatedTransforms = new List<NetworkTransform>();
+    public static readonly HashSet<NetworkTransform> UpdatedTransforms = new HashSet<NetworkTransform>();
 
     public Guid key = Guid.NewGuid();
     bool initialized = false;
 
     [Tooltip("Whether the transform is being updated from incoming packets")]
     public bool kinematic = false;
+    public bool HasChange { get; set; }
     public bool hasPacket => transformPacket != null;
     private TransformPacket transformPacket;
     public TransformPacket GetPacket() {
-        var packet = transformPacket;
-        transformPacket = null;
-        return packet;
+        return transformPacket;
     }
 
     // Start is called before the first frame update
     void Start() {
+        UpdateTransformPacket();
     }
 
     public void Initialize() {
@@ -42,13 +42,16 @@ public class NetworkTransform : MonoBehaviour {
         if (!initialized)
             Initialize();
         if (!kinematic && transform.hasChanged) {
-            if (transformPacket == null) {
-                UpdatedTransforms.Add(this);
-            }
-            transformPacket = new TransformPacket();
-            transformPacket.SetTransform(transform);
-            transformPacket.guid = key;
+            UpdateTransformPacket();
+            UpdatedTransforms.Add(this);
         }
+    }
+
+    void UpdateTransformPacket() {
+        if (transformPacket == null)
+            transformPacket = new TransformPacket();
+        transformPacket.SetTransform(transform);
+        transformPacket.guid = key;
     }
 
     public void UpdateTransform(TransformPacket newTransform) {

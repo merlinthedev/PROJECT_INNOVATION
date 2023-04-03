@@ -74,10 +74,7 @@ namespace server {
                 connectEvent.guid = newClientGuid;
 
                 foreach (var networkTransform in NetworkTransform.Transforms.Values.ToList()) {
-                    var transformPacket = new TransformPacket();
-                    transformPacket.guid = networkTransform.key;
-                    transformPacket.SetTransform(networkTransform.transform);
-                    connectEvent.objectTransforms.Add(transformPacket);
+                    connectEvent.objectTransforms.Add(networkTransform.GetPacket());
                 }
 
                 channel.SendMessage(connectEvent);

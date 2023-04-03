@@ -91,8 +91,7 @@ public class GameClient : MonoBehaviour {
         transformListPacket.updatedTransforms.ForEach(transformPacket => {
             // update the transform with the corresponding guid
 
-            // not sure? should be added to NetworkTransform static Transforms dictionary?
-            playerTransform.UpdateTransform(transformPacket);
+            handleTransformPacket(transformPacket);
         });
     }
 
