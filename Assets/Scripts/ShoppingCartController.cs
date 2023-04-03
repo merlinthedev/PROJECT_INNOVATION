@@ -1,5 +1,7 @@
 using UnityEngine;
 
+
+
 public class ShoppingCartController : MonoBehaviour {
 
     private Vector3 smoothAcceleration = Vector3.zero;
@@ -13,10 +15,11 @@ public class ShoppingCartController : MonoBehaviour {
     [SerializeField] private ButtonPressed brakeButton;
     [SerializeField][Range(0, 1)] private float brakeSpeed = 0.5f;
 
-    [SerializeField] private IMovementInputReceiver movement;
+    private IMovementInputReceiver movementInputReceiver;
 
     private void Awake() {
         GameClient.getInstance().ReceivePlayerTransform(transform);
+        movementInputReceiver = GetComponent<IMovementInputReceiver>();
     }
 
     // Update is called once per frame
@@ -36,7 +39,7 @@ public class ShoppingCartController : MonoBehaviour {
         }
 
         // needs to be passed to the server
-        movement.DoView(new Vector2(rotationInput, 0));
+        movementInputReceiver.DoView(new Vector2(rotationInput, 0));
 
         Vector3 targetVelocity = Vector3.zero;
         float movementInput = 0;
@@ -54,7 +57,7 @@ public class ShoppingCartController : MonoBehaviour {
 
 
         // needs to be passed to the server
-        movement.DoMove(new Vector2(0, movementInput));
+        movementInputReceiver.DoMove(new Vector2(0, movementInput));
 
     }
 }
