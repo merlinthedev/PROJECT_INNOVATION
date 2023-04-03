@@ -283,7 +283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37403ca4c59a95841ba9a3149c22f3a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isServer: 0
+  isServer: 1
   serverSceneName: ServerScene
   clientSceneName: ServerListScene
   levelName: Level 1
