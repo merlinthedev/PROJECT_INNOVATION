@@ -21,6 +21,14 @@ public class NetworkTransform : MonoBehaviour {
         return transformPacket;
     }
 
+    private Vector3 targetPosition;
+    private Quaternion targetRotation;
+
+    [SerializeField] private SmoothingType smoothingType = SmoothingType.Lerp;
+    [SerializeField] private float smoothSpeed = 10f;
+
+
+
     // Start is called before the first frame update
     void Awake() {
         UpdateTransformPacket();
@@ -48,6 +56,23 @@ public class NetworkTransform : MonoBehaviour {
             UpdateTransformPacket();
             UpdatedTransforms.Add(this);
         }
+
+        if (kinematic) {
+            switch (smoothingType) {
+                case SmoothingType.Lerp:
+                    transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * smoothSpeed);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * smoothSpeed);
+                    break;
+                case SmoothingType.SmoothDamp:
+                    transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref targetPosition, Time.deltaTime * smoothSpeed);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * smoothSpeed);
+                    break;
+                case SmoothingType.None:
+                    transform.position = targetPosition;
+                    transform.rotation = targetRotation;
+                    break;
+            }
+        }
     }
 
     void UpdateTransformPacket() {
@@ -59,12 +84,18 @@ public class NetworkTransform : MonoBehaviour {
 
     public void UpdateTransform(TransformPacket newTransform) {
         if (kinematic) {
-            transform.position = new Vector3(newTransform.transformData[0], newTransform.transformData[1], newTransform.transformData[2]);
-            transform.rotation = Quaternion.Euler(newTransform.transformData[3], newTransform.transformData[4], newTransform.transformData[5]);
+            targetPosition = new Vector3(newTransform.transformData[0], newTransform.transformData[1], newTransform.transformData[2]);
+            targetRotation = Quaternion.Euler(newTransform.transformData[3], newTransform.transformData[4], newTransform.transformData[5]);
         }
     }
 
     private void OnDestroy() {
         Transforms.Remove(key);
+    }
+
+    public enum SmoothingType {
+        None,
+        Lerp,
+        SmoothDamp
     }
 }
