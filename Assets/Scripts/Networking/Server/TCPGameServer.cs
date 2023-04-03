@@ -27,7 +27,7 @@ namespace server {
 
         // refactor to Guid, ClientGameInformation
         private Dictionary<Guid, ClientGameInformation> clients = new Dictionary<Guid, ClientGameInformation>();
-        private List<TcpMessageChannel> brokenClients = new List<TcpMessageChannel>();
+        private List<Guid> brokenClients = new List<Guid>();
 
         [SerializeField] private GameObject playerServerPrefab;
 
@@ -49,7 +49,7 @@ namespace server {
             processNewClients();
             processExistingClients();
             sendTransformUpdates();
-            //cleanupFaultyClients();
+            cleanupFaultyClients();
 
             //Debug.Log("Amount of clients on the server; " + clients.Count);
         }
@@ -75,7 +75,7 @@ namespace server {
                 ConnectEvent connectEvent = new ConnectEvent();
                 connectEvent.guid = newClientGuid;
 
-                
+
 
                 var instantiated = Instantiate(playerServerPrefab, new Vector3(0, 10, 0), Quaternion.identity);
                 var nt = instantiated.GetComponent<NetworkTransform>();
@@ -111,7 +111,6 @@ namespace server {
                         case InputPacket inputPacket:
                             handleInputPacket(inputPacket, client);
                             break;
-
                     }
                 }
             }
@@ -153,13 +152,24 @@ namespace server {
         /// Method to get rid of faulty clients
         /// </summary>
         private void cleanupFaultyClients() {
-            if (clients.Count < 1 || brokenClients.Count < 1) return;
 
-            // for (int i = brokenClients.Count; i > 0; i--) {
-            //     Debug.Log("removed client with guid " + clients.FirstOrDefault(x => x.Value == brokenClients[i - 1]).Key.guid + " from list HEHE dont look linq method in debug loG XDXDXDXXDXD");
-            //     clients.Remove(clients.FirstOrDefault(x => x.Value == brokenClients[i - 1]).Key);
-            // }
+            foreach (var client in clients) {
+                if (client.Value.tcpMessageChannel.HasErrors()) {
+                    brokenClients.Add(client.Key);
+                }
+            }
 
+            foreach (var brokenClient in brokenClients) {
+                clients[brokenClient].tcpMessageChannel.Close();
+                clients.Remove(brokenClient);
+                foreach (var client in clients) {
+                    client.Value.tcpMessageChannel.SendMessage(new PlayerDisconnectEvent() { guid = brokenClient });
+
+                }
+
+                Destroy(NetworkTransform.Transforms[brokenClient].gameObject);
+                NetworkTransform.Transforms.Remove(brokenClient);
+            }
 
             EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));
         }

@@ -162,3 +162,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyString: dbc7776f-7d32-4494-9858-e3496b7fba3f
   kinematic: 0
+  smoothingType: 1
+  smoothSpeed: 25

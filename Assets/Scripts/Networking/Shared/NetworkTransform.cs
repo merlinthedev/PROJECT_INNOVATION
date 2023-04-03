@@ -25,7 +25,7 @@ public class NetworkTransform : MonoBehaviour {
     private Quaternion targetRotation;
 
     [SerializeField] private SmoothingType smoothingType = SmoothingType.Lerp;
-    [SerializeField] private float smoothSpeed = 10f;
+    [SerializeField] private float smoothSpeed = 25f;
 
 
 

@@ -674,6 +674,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyString: b50f9fe3-0c8b-4b46-8de8-dc6823b05a3c
   kinematic: 0
+  smoothingType: 1
+  smoothSpeed: 25
 --- !u!65 &178990364
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -772,6 +774,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyString: 954550ca-d948-4d35-bcf6-f98d4ae09f4a
   kinematic: 0
+  smoothingType: 1
+  smoothSpeed: 25
 --- !u!65 &186320111
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1126,6 +1130,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyString: e9fee680-9360-4eaa-83e7-93d4f2b045aa
   kinematic: 0
+  smoothingType: 1
+  smoothSpeed: 25
 --- !u!65 &220490701
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1449,6 +1455,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyString: 9d3d7cc2-e631-4513-a829-f84da0b0ef08
   kinematic: 0
+  smoothingType: 1
+  smoothSpeed: 25
 --- !u!65 &235434935
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1675,6 +1683,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyString: 76d284d1-21f0-45c3-8774-1038408f1db4
   kinematic: 0
+  smoothingType: 1
+  smoothSpeed: 25
 --- !u!65 &304939989
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2697,6 +2707,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyString: 9defbfeb-121a-43d5-960d-392b1d40629f
   kinematic: 0
+  smoothingType: 1
+  smoothSpeed: 25
 --- !u!65 &799792114
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3455,6 +3467,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyString: 1c1c277b-30a3-4ce8-a6f3-0a1109081fd5
   kinematic: 0
+  smoothingType: 1
+  smoothSpeed: 25
 --- !u!65 &986529780
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3897,6 +3911,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyString: 0ae6f0ae-8ec8-423b-b6c9-2852f8fd4939
   kinematic: 0
+  smoothingType: 1
+  smoothSpeed: 25
 --- !u!65 &1102918935
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4335,6 +4351,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyString: b2b414d7-90db-4c46-bbb0-3c88f5daa5b8
   kinematic: 0
+  smoothingType: 1
+  smoothSpeed: 25
 --- !u!65 &1263073760
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4561,6 +4579,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyString: 72f88a31-e4b9-43d7-9817-cc5f607c27f6
   kinematic: 0
+  smoothingType: 1
+  smoothSpeed: 25
 --- !u!65 &1432512796
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5078,6 +5098,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyString: 00e27a77-fd89-4aec-a9d9-d476e4460694
   kinematic: 0
+  smoothingType: 1
+  smoothSpeed: 25
 --- !u!65 &1554508389
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5304,6 +5326,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyString: 6e5ca1b2-2389-4b6a-bb82-4969b9110021
   kinematic: 0
+  smoothingType: 1
+  smoothSpeed: 25
 --- !u!65 &1606414328
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5433,6 +5457,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyString: ae7def80-aa48-4c25-8059-62b8e0e4ff7f
   kinematic: 0
+  smoothingType: 1
+  smoothSpeed: 25
 --- !u!65 &1633527431
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6626,6 +6652,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyString: 9e6bf644-de42-403d-9b06-53920c880121
   kinematic: 0
+  smoothingType: 1
+  smoothSpeed: 25
 --- !u!65 &1899628315
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7823,6 +7851,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyString: 327d9fdb-96b8-482b-af9d-a2a9a8014853
   kinematic: 0
+  smoothingType: 1
+  smoothSpeed: 25
 --- !u!65 &2103434769
 BoxCollider:
   m_ObjectHideFlags: 0

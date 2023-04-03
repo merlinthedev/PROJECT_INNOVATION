@@ -12,8 +12,7 @@ public class GameClient : MonoBehaviour {
 
     private static GameClient instance;
     private Guid guid;
-    [SerializeField]
-    private ClientCartController clientCartController;
+    [SerializeField] private ClientCartController clientCartController;
 
     private void Awake() {
         if (instance != null) {
@@ -80,6 +79,19 @@ public class GameClient : MonoBehaviour {
             case TransformListPacket transformListPacket:
                 handleTransformListPacket(transformListPacket);
                 break;
+            case PlayerDisconnectEvent playerDisconnectEvent:
+                handlePlayerDisconnectEvent(playerDisconnectEvent);
+                break;
+        }
+    }
+
+    private void handlePlayerDisconnectEvent(PlayerDisconnectEvent playerDisconnectEvent) {
+        NetworkTransform transform;
+        NetworkTransform.Transforms.TryGetValue(playerDisconnectEvent.guid, out transform);
+        if (transform != null) {
+            Destroy(transform.gameObject);
+        } else {
+            Debug.LogWarning("Received a disconnect event for a client that is not in our dictionary. How did this happen? :O");
         }
     }
 
@@ -125,6 +137,7 @@ public class GameClient : MonoBehaviour {
         Debug.Log("Received a connect event with guid: " + guid);
     }
 
+
     private void OnApplicationQuit() {
         DisconnectEvent disconnectEvent = new DisconnectEvent {
             guid = this.guid
@@ -133,6 +146,8 @@ public class GameClient : MonoBehaviour {
         tcpMessageChannel.SendMessage(disconnectEvent);
 
         tcpMessageChannel.Close();
+
+        Debug.Log("Sent disconnectEvent packet");
     }
 
     public static GameClient getInstance() {
