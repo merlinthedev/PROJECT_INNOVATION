@@ -18,7 +18,14 @@ public class ShoppingCartController : MonoBehaviour {
 
     [SerializeField] private ShoppingCartMovement movement;
 
+    //jumping with effects :tm:
+    [SerializeField] private float jumpForce = 5f;
+    private ParticleSystem jumpParticles;
+    private bool isGrounded = true;
+    private bool isJumping = false;
+
     void Start() {
+        jumpParticles = transform.Find("jumpParticles").GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
@@ -49,6 +56,30 @@ public class ShoppingCartController : MonoBehaviour {
         }
 
         movement.DoMove(new Vector2(0, movementInput));
+
+        // added Jumping test thing
+        if (isGrounded && Input.GetKeyDown(KeyCode.Space)) {
+            GetComponent<Rigidbody>().AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            isGrounded = false;
+
+            //with particles *gasp*
+            if (jumpParticles != null) {
+                isJumping = true;
+                //jumpParticles.transform.position = transform.position + Vector3.down * 0.5f; // Spawn particles at player position
+                jumpParticles.Play();
+            }
+        }
+
+
         
+    }
+
+    private void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject.CompareTag("Ground")) {
+            isGrounded = true;
+        }
+    }
+    private void OnParticleSystemStopped() {
+        isJumping = false;
     }
 }
