@@ -42,7 +42,7 @@ public class GameClient : MonoBehaviour {
             InputPacket inputPacket = clientCartController.GetInputPacket();
 
             tcpMessageChannel.SendMessage(inputPacket);
-            // TODO: send input data from accelorometer & ui instead of our updated transform
+            Debug.Log("Sent input data: " + inputPacket);
         } catch (Exception e) {
             Debug.LogError("Error while sending input data: " + e.Message);
         }
@@ -96,7 +96,8 @@ public class GameClient : MonoBehaviour {
 
     private void handleTransformPacket(TransformPacket transformPacket) {
         // handle transform packet
-        var transform = NetworkTransform.Transforms[transformPacket.guid];
+        NetworkTransform transform;
+        NetworkTransform.Transforms.TryGetValue(transformPacket.guid, out transform);
         if (transform != null) {
             transform.UpdateTransform(transformPacket);
         } else {
