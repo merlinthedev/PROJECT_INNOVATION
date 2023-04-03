@@ -159,6 +159,8 @@ namespace server {
                 }
             }
 
+            if(brokenClients.Count == 0) return;
+
             foreach (var brokenClient in brokenClients) {
                 clients[brokenClient].tcpMessageChannel.Close();
                 clients.Remove(brokenClient);
