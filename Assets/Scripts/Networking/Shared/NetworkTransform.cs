@@ -8,7 +8,8 @@ public class NetworkTransform : MonoBehaviour {
     public static readonly Dictionary<Guid, NetworkTransform> Transforms = new Dictionary<Guid, NetworkTransform>();
     public static readonly HashSet<NetworkTransform> UpdatedTransforms = new HashSet<NetworkTransform>();
 
-    public Guid key = Guid.NewGuid();
+    [SerializeField] private string keyString = Guid.NewGuid().ToString();
+    public Guid key { get => Guid.Parse(keyString); set => keyString = value.ToString(); }
     bool initialized = false;
 
     [Tooltip("Whether the transform is being updated from incoming packets")]
