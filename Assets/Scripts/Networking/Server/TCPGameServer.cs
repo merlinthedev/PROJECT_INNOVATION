@@ -29,6 +29,8 @@ namespace server {
         private Dictionary<Guid, ClientGameInformation> clients = new Dictionary<Guid, ClientGameInformation>();
         private List<TcpMessageChannel> brokenClients = new List<TcpMessageChannel>();
 
+        [SerializeField] private GameObject playerServerPrefab;
+
         private void Awake() {
             Log.LogInfo("Starting server on port " + serverPort, this, ConsoleColor.Gray);
 
@@ -76,6 +78,10 @@ namespace server {
                 foreach (var networkTransform in NetworkTransform.Transforms.Values.ToList()) {
                     connectEvent.objectTransforms.Add(networkTransform.GetPacket());
                 }
+
+                var instantiated = Instantiate(playerServerPrefab, new Vector3(0, 10, 0), Quaternion.identity);
+
+                clientGameInformation.movementInputReceiver = instantiated.GetComponent<IMovementInputReceiver>();
 
                 channel.SendMessage(connectEvent);
                 EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));

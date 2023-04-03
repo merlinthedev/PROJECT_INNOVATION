@@ -288,6 +288,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serverPort: 54321
+  playerServerPrefab: {fileID: 2671685037222174034, guid: a150c565435a5084ca190011edd12d75,
+    type: 3}
 --- !u!114 &327558958
 MonoBehaviour:
   m_ObjectHideFlags: 0
