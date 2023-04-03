@@ -98,7 +98,6 @@ public class GameClient : MonoBehaviour {
         // handle transform packet
         var transform = NetworkTransform.Transforms[transformPacket.guid];
         if (transform != null) {
-            Debug.Log("Update transform of: " + transformPacket.guid + " to: " + transformPacket.Position() + ", " + transformPacket.Rotation());
             transform.UpdateTransform(transformPacket);
         } else {
             Debug.LogWarning("Received a transform packet for a client that is not in our dictionary. How did this happen? :O");

@@ -61,6 +61,5 @@ public class ServerPicker : MonoBehaviour {
                 if (!servers.ContainsKey(address)) servers.Add(address, serverPickView.AddServer(address, port));
             }
         }
-        Debug.Log("wow, we received something back: " + message);
     }
 }
