@@ -27,6 +27,8 @@ public class NetworkTransform : MonoBehaviour {
     }
 
     public void Initialize() {
+        kinematic = !NetworkManager.IsServer;
+        
         Transforms.Add(key, this);
         initialized = true;
 
