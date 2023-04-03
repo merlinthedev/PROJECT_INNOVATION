@@ -75,14 +75,16 @@ namespace server {
                 ConnectEvent connectEvent = new ConnectEvent();
                 connectEvent.guid = newClientGuid;
 
-                foreach (var networkTransform in NetworkTransform.Transforms.Values.ToList()) {
-                    connectEvent.objectTransforms.Add(networkTransform.GetPacket());
-                }
+                
 
                 var instantiated = Instantiate(playerServerPrefab, new Vector3(0, 10, 0), Quaternion.identity);
                 var nt = instantiated.GetComponent<NetworkTransform>();
                 nt.key = newClientGuid;
                 nt.Initialize();
+
+                foreach (var networkTransform in NetworkTransform.Transforms.Values.ToList()) {
+                    connectEvent.objectTransforms.Add(networkTransform.GetPacket());
+                }
 
                 clientGameInformation.movementInputReceiver = instantiated.GetComponent<IMovementInputReceiver>();
 

@@ -1,11 +1,12 @@
 using UnityEngine;
-using System.Collections.Generic;
+using Cinemachine;
 using System;
 using shared;
 
 public class GameClient : MonoBehaviour {
 
     [SerializeField] private NetworkTransform playerPrefab;
+    [SerializeField] private CinemachineVirtualCamera virtualCamera;
 
     private TcpMessageChannel tcpMessageChannel;
 
@@ -116,6 +117,11 @@ public class GameClient : MonoBehaviour {
         foreach (var pack in connectEvent.objectTransforms) {
             handleTransformPacket(pack);
         }
+
+        var player = NetworkTransform.Transforms[guid];
+        virtualCamera.Follow = player.transform;
+        virtualCamera.LookAt = player.transform;
+
         Debug.Log("Received a connect event with guid: " + guid);
     }
 
