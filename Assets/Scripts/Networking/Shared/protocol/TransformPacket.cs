@@ -1,7 +1,7 @@
 using shared;
 using UnityEngine;
 
-public class TransformPacket : ASerializable {
+public class TransformPacket : ISerializable {
     // TODO: More transform data 
     public System.Guid guid { get; set; }
     public float[] transformData { get; set; } = new float[6];
@@ -29,7 +29,7 @@ public class TransformPacket : ASerializable {
             transformData[5]);
     }
 
-    public override void Serialize(Packet packet) {
+    public void Serialize(Packet packet) {
         packet.Write(guid);
         packet.Write(transformData[0]);
         packet.Write(transformData[1]);
@@ -39,7 +39,7 @@ public class TransformPacket : ASerializable {
         packet.Write(transformData[5]);
     }
 
-    public override void Deserialize(Packet packet) {
+    public void Deserialize(Packet packet) {
         guid = packet.ReadGuid();
         transformData[0] = packet.ReadFloat();
         transformData[1] = packet.ReadFloat();
