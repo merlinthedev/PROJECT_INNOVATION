@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+
+
 
 public class ShoppingCartController : MonoBehaviour {
-    
+
     private Vector3 smoothAcceleration = Vector3.zero;
     [SerializeField] private float smootSpeed = 5f;
     // Start is called before the first frame update
@@ -16,7 +15,7 @@ public class ShoppingCartController : MonoBehaviour {
     [SerializeField] private ButtonPressed brakeButton;
     [SerializeField][Range(0, 1)] private float brakeSpeed = 0.5f;
 
-    [SerializeField] private ShoppingCartMovement movement;
+    private IMovementInputReceiver movementInputReceiver;
 
     //jumping with effects :tm:
     [SerializeField] private float jumpForce = 5f;
@@ -27,6 +26,9 @@ public class ShoppingCartController : MonoBehaviour {
     void Start() {
         jumpParticles = transform.Find("jumpParticles").GetComponent<ParticleSystem>();
     }
+    private void Awake() {
+        movementInputReceiver = GetComponent<IMovementInputReceiver>();
+    }
 
     // Update is called once per frame
     void FixedUpdate() {
@@ -35,24 +37,29 @@ public class ShoppingCartController : MonoBehaviour {
 
         float rotationInput = inputCurve.Evaluate(Mathf.Abs(smoothAcceleration.x)) * -Mathf.Sign(smoothAcceleration.x);
 
+        movement.DoView(new Vector2(rotationInput, 0));
+
         if (Input.GetKey(KeyCode.A)) {
             rotationInput = -0.5f;
         }
+
         if (Input.GetKey(KeyCode.D)) {
             rotationInput = 0.5f;
         }
 
-        movement.DoView(new Vector2(rotationInput, 0));
+        // needs to be passed to the server
+        movementInputReceiver.DoView(new Vector2(rotationInput, 0));
 
         Vector3 targetVelocity = Vector3.zero;
         float movementInput = 0;
-        
+
         if (gasButton.isPressed || Input.GetKey(KeyCode.W)) {
             movementInput += gasSpeed;
         }
 
         if (brakeButton.isPressed || Input.GetKey(KeyCode.S)) {
-            movementInput -= brakeSpeed;
+            // movementInput -= brakeSpeed;
+            movementInput -= gasSpeed;
         }
 
         movement.DoMove(new Vector2(0, movementInput));

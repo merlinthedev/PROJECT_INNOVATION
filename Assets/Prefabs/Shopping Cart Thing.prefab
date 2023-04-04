@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1721088990
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1721088991}
+  m_Layer: 0
+  m_Name: CameraPivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1721088991
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1721088990}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5073113415654187638}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5073113415654187644
 GameObject:
   m_ObjectHideFlags: 0
@@ -12,9 +43,8 @@ GameObject:
   - component: {fileID: 5073113415654187641}
   - component: {fileID: 5073113415654187640}
   - component: {fileID: 5073113415654187642}
-  - component: {fileID: 5073113415654187645}
   - component: {fileID: 2795426594145639698}
-  - component: {fileID: 5073113415654187643}
+  - component: {fileID: 1612820887}
   m_Layer: 0
   m_Name: Shopping Cart Thing
   m_TagString: Untagged
@@ -33,7 +63,8 @@ Transform:
   m_LocalPosition: {x: 1.18, y: 1.263, z: 2.13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1721088991}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -103,48 +134,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!114 &5073113415654187645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5073113415654187644}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7970099e0e4b6d4b9094132c6c49105, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  smootSpeed: 5
-  inputCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0.21990748
-      outSlope: 0.21990748
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.10188676
-    - serializedVersion: 3
-      time: 1
-      value: 0.5
-      inSlope: 0.5
-      outSlope: 0.5
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  gasButton: {fileID: 0}
-  gasSpeed: 1
-  brakeButton: {fileID: 0}
-  brakeSpeed: 0.5
-  movement: {fileID: 5073113415654187643}
 --- !u!136 &2795426594145639698
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -152,14 +141,14 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5073113415654187644}
-  m_Material: {fileID: 13400000, guid: 06e9b605ac695e049b9800b1085355df, type: 2}
+  m_Material: {fileID: 13400000, guid: 64949c08bc46d2d4188936e52db82085, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5073113415654187643
+--- !u!114 &1612820887
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -168,110 +157,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5073113415654187644}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc00c6083d266ba41a4e027e8f95fb96, type: 3}
+  m_Script: {fileID: 11500000, guid: d46e453df7fb57242a660ac585a5b8cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pivot: {fileID: 5073113415654187638}
-  maxSpeed: 20
-  Acceleration: 10
-  AccelerationFactorFromDot:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0.0047187805
-      value: 0.9929199
-      inSlope: 0.007113646
-      outSlope: 0.007113646
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0.007113646
-      outSlope: 0.007113646
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  MaxAccelerationForce: 30
-  MaxAccelerationForceFactorFromDot:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  ForceScale: {x: 1, y: 0, z: 1}
-  GravityScaleDrop: 10
-  rotationSpeed: 4
-  viewDesiredDirection: 0
-  rotationSpeedFactorFromMagnitude:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0.005466461
-      value: 1.0052872
-      inSlope: 0.582088
-      outSlope: 0.582088
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.5632324
-      value: 1.329956
-      inSlope: 0.582088
-      outSlope: 0.582088
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  rotationDampingCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0.0632161
-      value: 1.2698991
-      inSlope: -0.28811246
-      outSlope: -0.28811246
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: -0.28811246
-      outSlope: -0.28811246
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  keyString: dbc7776f-7d32-4494-9858-e3496b7fba3f
+  kinematic: 0
+  smoothingType: 1
+  smoothSpeed: 25
