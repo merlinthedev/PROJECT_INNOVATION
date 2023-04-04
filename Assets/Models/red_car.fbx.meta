@@ -3,7 +3,57 @@ guid: e4f3ecf6e0e96a94cbfa3ebe17f9e338
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.002
+    second: {fileID: 2100000, guid: 8dda367cf98c914459e05def6391a10d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.003
+    second: {fileID: 2100000, guid: 9f774f6b56d303f49b343ba19d84f420, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: car
+    second: {fileID: 2100000, guid: 16b83161d4b54f041b6db612b24594bd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: dark pink
+    second: {fileID: 2100000, guid: 9bf9f720eabc5fd41924cc14979c59c8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: glass
+    second: {fileID: 2100000, guid: 6c7c301658731e84ba3fdb6cce5f3e82, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: metal
+    second: {fileID: 2100000, guid: 3a34898ccb5eed84da1447d286ef928f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: plate.001
+    second: {fileID: 2100000, guid: b54996e090d6c2c48925260a80ed242d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: vent
+    second: {fileID: 2100000, guid: a1d2d562353627e49a6d558e1b289257, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wheel
+    second: {fileID: 2100000, guid: d3fb685ad7829c44eb5b25b6d0df2cab, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: windows
+    second: {fileID: 2100000, guid: 35f675d782a832b429af1b8f6f6ba241, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
