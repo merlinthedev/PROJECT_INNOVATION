@@ -1,10 +1,10 @@
 using shared;
 using System;
 using System.Collections.Generic;
-using Unity.Burst;
 
 public abstract class Event { }
-public abstract class NetworkEvent : Event, ISerializable {
+
+public abstract class NetworkEvent : ISerializable {
     public abstract void Deserialize(Packet packet);
     public abstract void Serialize(Packet packet);
 }
@@ -59,6 +59,12 @@ public class EventBus<T> where T : Event {
     }
 }
 
+/*
+    ==================================
+    ============ EVENTS ==============
+    ==================================
+*/
+
 public class JoinQuitEvent : Event {
     public int amountOfClients { get; private set; }
 
@@ -84,3 +90,10 @@ public class OnStateEnter : Event {
     }
 
 }
+
+/*
+    ==================================
+    ======== NETWORK EVENTS ==========
+    ==================================
+*/
+
