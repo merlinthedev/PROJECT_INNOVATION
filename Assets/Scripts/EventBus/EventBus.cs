@@ -19,6 +19,13 @@ public class NetworkEventBus {
         }
         onEventRaised[typeof(T)] += (System.Action<NetworkEvent>)handler;
     }
+
+    public static void SubscribeToType(Type eventType, Action<NetworkEvent> handler) {
+        if (!onEventRaised.ContainsKey(eventType)) {
+            onEventRaised.Add(eventType, null);
+        }
+        onEventRaised[eventType] += handler;
+    }
     
     public static void SubscribeAll(System.Action<NetworkEvent> handler) {
         onAnyRaised += handler;

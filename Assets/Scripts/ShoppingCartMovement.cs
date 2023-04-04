@@ -100,6 +100,10 @@ public class ShoppingCartMovement : MonoBehaviour, IMovementInputReceiver {
     }
 
     public void DoJump() {
-        
+        if (isOnGround && Time.time - lastJumpTime > JumpCooldown) {
+            rb.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
+            lastJumpTime = Time.time;
+            JumpEvent.Invoke();
+        }
     }
 }
