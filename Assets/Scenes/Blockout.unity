@@ -286,4 +286,4 @@ MonoBehaviour:
   isServer: 0
   serverSceneName: ServerScene
   clientSceneName: ClientScene
-  levelName: Level 1
+  levelName: Test Level
