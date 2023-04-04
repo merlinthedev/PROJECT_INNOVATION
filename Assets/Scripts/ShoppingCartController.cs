@@ -77,8 +77,6 @@ public class ShoppingCartController : MonoBehaviour {
             }
         }
 
-
-        
     }
 
     private void OnCollisionEnter(Collision collision) {

@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour {
             stateObject.SetActive(false);
         }
     }
-
+    
     public void SetState(string stateName) {
         EventBus<OnStateQuit>.Raise(new OnStateQuit(currentState.stateName));
 
