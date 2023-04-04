@@ -37,7 +37,7 @@ public class ShoppingCartController : MonoBehaviour {
 
         float rotationInput = inputCurve.Evaluate(Mathf.Abs(smoothAcceleration.x)) * -Mathf.Sign(smoothAcceleration.x);
 
-        movement.DoView(new Vector2(rotationInput, 0));
+        movementInputReceiver.DoView(new Vector2(rotationInput, 0));
 
         if (Input.GetKey(KeyCode.A)) {
             rotationInput = -0.5f;
@@ -62,7 +62,7 @@ public class ShoppingCartController : MonoBehaviour {
             movementInput -= gasSpeed;
         }
 
-        movement.DoMove(new Vector2(0, movementInput));
+        movementInputReceiver.DoMove(new Vector2(0, movementInput));
 
         // added Jumping test thing
         if (isGrounded && Input.GetKeyDown(KeyCode.Space)) {
