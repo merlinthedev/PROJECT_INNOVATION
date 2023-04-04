@@ -77,7 +77,7 @@ namespace server {
 
 
 
-                var instantiated = Instantiate(playerServerPrefab, new Vector3(0, 10, 0), Quaternion.identity);
+                var instantiated = Instantiate(playerServerPrefab, new Vector3(86, 3, 10), Quaternion.identity);
                 var nt = instantiated.GetComponent<NetworkTransform>();
                 nt.key = newClientGuid;
                 nt.Initialize();
