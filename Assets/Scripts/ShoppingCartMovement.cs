@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ShoppingCartMovement : MonoBehaviour, IMovementInputReceiver {
 
@@ -21,6 +22,12 @@ public class ShoppingCartMovement : MonoBehaviour, IMovementInputReceiver {
             return Mathf.Clamp(ConstantSteerSpeed + DynamicSteerSpeed * forwardSpeed, -MaxSteerSpeed, MaxSteerSpeed);
         }
     }
+
+    [Header("Jumping")]
+    [SerializeField] private float JumpForce = 5f;
+    [SerializeField] private float JumpCooldown = 0.5f;
+    [SerializeField] private UnityEvent JumpEvent;
+    private float lastJumpTime = 0f;
 
     #endregion
 
@@ -52,7 +59,7 @@ public class ShoppingCartMovement : MonoBehaviour, IMovementInputReceiver {
         if (rb != null) {
             ray.origin = transform.position;
             ray.direction = Vector3.down;
-            bool groundHit = Physics.Raycast(ray, out hit, 2f);
+            bool groundHit = Physics.Raycast(ray, out hit, 1.2f);
             if (groundHit) {
                 lastGroundTime = Time.time;
             }
@@ -90,5 +97,9 @@ public class ShoppingCartMovement : MonoBehaviour, IMovementInputReceiver {
 
     public void DoView(Vector2 newViewValue) {
         viewValue = newViewValue;
+    }
+
+    public void DoJump() {
+        
     }
 }
