@@ -48,7 +48,7 @@ namespace shared {
             writer.Write(guid.ToByteArray());
         }
 
-        public void Write(ASerializable serializable) {
+        public void Write(ISerializable serializable) {
             //write the full classname into the stream first
             Write(serializable.GetType().FullName);
             //then ask the serializable object to serialize itself
@@ -82,11 +82,11 @@ namespace shared {
         }
 
 
-        public ASerializable ReadObject() {
+        public ISerializable ReadObject() {
             //get the classname from the stream first
             Type type = Type.GetType(ReadString());
             //create an instance of it through reflection (requires default constructor)
-            ASerializable obj = (ASerializable)Activator.CreateInstance(type);
+            ISerializable obj = (ISerializable)Activator.CreateInstance(type);
             obj.Deserialize(this);
             return obj;
         }
@@ -94,7 +94,7 @@ namespace shared {
         /**
 		 * Convenience method to read AND cast an object in one go.
 		 */
-        public T Read<T>() where T : ASerializable {
+        public T Read<T>() where T : ISerializable {
             return (T)ReadObject();
         }
 

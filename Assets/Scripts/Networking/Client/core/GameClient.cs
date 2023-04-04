@@ -55,12 +55,12 @@ public class GameClient : MonoBehaviour {
         }
 
         while (tcpMessageChannel.HasMessage() && gameObject.activeSelf) {
-            ASerializable message = tcpMessageChannel.ReceiveMessage();
+            ISerializable message = tcpMessageChannel.ReceiveMessage();
             handleNetworkMessage(message);
         }
     }
 
-    private void handleNetworkMessage(ASerializable message) {
+    private void handleNetworkMessage(ISerializable message) {
         // handle messages
         // Debug.Log("Received a message of type " + message.GetType() + ", but we have no way of handling it yet...");
 
@@ -82,9 +82,16 @@ public class GameClient : MonoBehaviour {
             case PlayerDisconnectEvent playerDisconnectEvent:
                 handlePlayerDisconnectEvent(playerDisconnectEvent);
                 break;
+            case NetworkEvent networkEvent:
+                handleNetworkEvent(networkEvent);
+                break;
         }
     }
 
+    private void handleNetworkEvent(NetworkEvent networkEvent) {
+        NetworkEventBus.Raise(networkEvent);
+    }
+    
     private void handlePlayerDisconnectEvent(PlayerDisconnectEvent playerDisconnectEvent) {
         NetworkTransform transform;
         NetworkTransform.Transforms.TryGetValue(playerDisconnectEvent.guid, out transform);
