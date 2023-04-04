@@ -1,13 +1,13 @@
 using shared;
 
-public class PlayerDisconnectEvent : ASerializable {
+public class PlayerDisconnectEvent : ISerializable {
     public System.Guid guid { get; set; }
 
-    public override void Serialize(Packet packet) {
+    public void Serialize(Packet packet) {
         packet.Write(guid);
     }
 
-    public override void Deserialize(Packet packet) {
+    public void Deserialize(Packet packet) {
         guid = packet.ReadGuid();
     }
 }
