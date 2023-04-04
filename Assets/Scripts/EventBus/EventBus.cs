@@ -19,7 +19,7 @@ public class NetworkEventBus {
         }
         onEventRaised[typeof(T)] += (System.Action<NetworkEvent>)handler;
     }
-
+    
     public static void SubscribeAll(System.Action<NetworkEvent> handler) {
         onAnyRaised += handler;
     }
