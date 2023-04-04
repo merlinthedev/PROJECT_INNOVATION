@@ -26,7 +26,7 @@ public class ShoppingCartMovement : MonoBehaviour, IMovementInputReceiver {
 
     #region private variables
 
-    private float m_MovementControlDisabledTimer = 0;
+    private float movementControlDisabledTimer = 0;
 
     private Vector2 viewValue = Vector2.zero;
     private Vector2 inputVelocity = Vector2.zero;
