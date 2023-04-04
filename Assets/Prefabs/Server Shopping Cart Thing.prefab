@@ -87,11 +87,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc00c6083d266ba41a4e027e8f95fb96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxSpeed: 10
+  MaxSpeed: 25
   BoostMultiplier: 2.5
   Stickyness: 0.6
   boosting: 0
-  Acceleration: 10
+  Acceleration: 2
   GroundedTime: 0.1
   ConstantSteerSpeed: 20
   DynamicSteerSpeed: 8

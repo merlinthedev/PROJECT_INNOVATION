@@ -130,9 +130,9 @@ public class GameClient : MonoBehaviour {
             handleTransformPacket(pack);
         }
 
-        var player = NetworkTransform.Transforms[guid];
-        virtualCamera.Follow = player.transform;
-        virtualCamera.LookAt = player.transform;
+        var playerCameraPivot = NetworkTransform.Transforms[guid].transform.GetChild(0);
+        virtualCamera.Follow = playerCameraPivot;
+        virtualCamera.LookAt = playerCameraPivot;
 
         Debug.Log("Received a connect event with guid: " + guid);
     }
