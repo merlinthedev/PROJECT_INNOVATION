@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "New Spawner Configuration", menuName = "Spawner Configuration")]
 public class SpawnerConfiguration : ScriptableObject {
 
     public AInteractable[] prefabs;

@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Item", menuName = "Item")]
 public class ItemStats : ScriptableObject {
 
-    public ItemSpawner.Tier Tier; 
+    public Spawner.Tier Tier; 
     public string ItemName;
     public Sprite ItemSprite;
     public GameObject GameObject;
