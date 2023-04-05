@@ -15,7 +15,6 @@ public class NetworkEventTester : MonoBehaviour {
 
     private void Start() {
         if (isServer) StartCoroutine(sendNetworkEvent());
-
     }
 
     private void onNetworkEvent(TestNetworkEvent testNetworkEvent) {
@@ -24,7 +23,9 @@ public class NetworkEventTester : MonoBehaviour {
 
     private IEnumerator sendNetworkEvent() {
         while (true) {
-            NetworkEventBus.Raise(new TestNetworkEvent());
+            NetworkEventBus.Raise(new TestNetworkEvent {
+                source = System.Guid.NewGuid()
+            });
             yield return new WaitForSeconds(1);
         }
     }
