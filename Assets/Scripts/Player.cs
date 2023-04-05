@@ -7,12 +7,12 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
-    [SerializeField]int capacity = 2;
-    [SerializeField]List<Item> items = new List<Item>();
+    [SerializeField] private int capacity = 2;
+    [SerializeField] private List<Item> items = new List<Item>();
     //current capacity we have
     public int leftoverCapacity { get { return capacity - items.Sum(x => x.Weight); } }
 
-    public List<Item> getInventory { get { return new List<Item>(items); } }
+    public List<Item> GetInventory { get { return new List<Item>(items); } }
 
     public void AddItem(Item item) {
         items.Add(item);
