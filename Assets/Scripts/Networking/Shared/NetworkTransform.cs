@@ -4,12 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NetworkTransform : MonoBehaviour {
+public class NetworkTransform : AGuidSource {
     public static readonly Dictionary<Guid, NetworkTransform> Transforms = new Dictionary<Guid, NetworkTransform>();
     public static readonly HashSet<NetworkTransform> UpdatedTransforms = new HashSet<NetworkTransform>();
-
-    [SerializeField] private string keyString = Guid.NewGuid().ToString();
-    public Guid key { get => Guid.Parse(keyString); set => keyString = value.ToString(); }
+    
     bool initialized = false;
 
     [Tooltip("Whether the transform is being updated from incoming packets")]
@@ -81,7 +79,7 @@ public class NetworkTransform : MonoBehaviour {
         transformPacket.SetTransform(transform);
         transformPacket.guid = key;
     }
-
+    
     public void UpdateTransform(TransformPacket newTransform) {
         if (kinematic) {
             targetPosition = new Vector3(newTransform.transformData[0], newTransform.transformData[1], newTransform.transformData[2]);

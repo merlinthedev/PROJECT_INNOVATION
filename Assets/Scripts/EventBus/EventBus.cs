@@ -14,6 +14,12 @@ public abstract class NetworkEvent : ISerializable {
 public class NetworkEventBus {
     private static Dictionary<Type, System.Action<NetworkEvent>> onEventRaised = new Dictionary<Type, System.Action<NetworkEvent>>();
     private static System.Action<NetworkEvent> onAnyRaised;
+    
+    public static readonly Type[] EventTypes = {
+        typeof(NetworkEvent),
+        typeof(TestNetworkEvent),
+        typeof(JumpEvent)
+    };
 
     public static void Subscribe<T>(System.Action<T> handler) where T : NetworkEvent {
         if (!onEventRaised.ContainsKey(typeof(T))) {
@@ -110,6 +116,16 @@ public class OnStateEnter : Event {
 
 public class TestNetworkEvent : NetworkEvent {
 
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+    }
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
+    }
+}
+
+public class JumpEvent : NetworkEvent {
     public override void Serialize(Packet packet) {
         packet.Write(source);
     }

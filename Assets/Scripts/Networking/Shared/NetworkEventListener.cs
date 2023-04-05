@@ -9,9 +9,9 @@ using System;
 /// </summary>
 public class NetworkEventListener : AGuidListener
 {
-    public Type networkEventType;
+    public Type networkEventType = typeof(NetworkEvent);
     public UnityEvent onNetworkEvent;
-    
+    [SerializeField] private bool checkGuid = false;
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +20,7 @@ public class NetworkEventListener : AGuidListener
     }
     
     private void onEvent (NetworkEvent netEvent) {
-        if (netEvent.source == Key)
+        if (!checkGuid || guidSource == null || netEvent.source == Key)
             onNetworkEvent.Invoke();
     }
 }
