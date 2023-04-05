@@ -84,7 +84,7 @@ namespace server {
 
 
 
-                var instantiated = Instantiate(playerServerPrefab, new Vector3(0, 10, 0), Quaternion.identity);
+                var instantiated = Instantiate(playerServerPrefab, new Vector3(80, 2, 13), Quaternion.identity);
                 var nt = instantiated.GetComponent<NetworkTransform>();
                 nt.key = newClientGuid;
                 nt.Initialize();
@@ -175,7 +175,7 @@ namespace server {
                 }
             }
 
-            if(brokenClients.Count == 0) return;
+            if (brokenClients.Count == 0) return;
 
             foreach (var brokenClient in brokenClients) {
                 clients[brokenClient].tcpMessageChannel.Close();

@@ -7,6 +7,8 @@ public abstract class Event { }
 public abstract class NetworkEvent : ISerializable {
     public abstract void Deserialize(Packet packet);
     public abstract void Serialize(Packet packet);
+
+    public Guid source;
 }
 
 public class NetworkEventBus {
@@ -18,6 +20,13 @@ public class NetworkEventBus {
             onEventRaised.Add(typeof(T), null);
         }
         onEventRaised[typeof(T)] += (System.Action<NetworkEvent>)handler;
+    }
+
+    public static void SubscribeToType(Type eventType, Action<NetworkEvent> handler) {
+        if (!onEventRaised.ContainsKey(eventType)) {
+            onEventRaised.Add(eventType, null);
+        }
+        onEventRaised[eventType] += handler;
     }
     
     public static void SubscribeAll(System.Action<NetworkEvent> handler) {
