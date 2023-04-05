@@ -29,9 +29,8 @@ public class Player : MonoBehaviour {
 
     #region PowerUps
     //we can only hold one powerup at a time
-    [SerializeField] Transform powerUpHolder;
-    [
-    [SerializeField] PowerUp powerUp;
+    [SerializeField] private Transform powerUpHolder;
+    [SerializeField] private PowerUp powerUp;
     public PowerUp getPowerUp { get { return powerUp; } }
 
     public void AddPowerUp(PowerUp powerUp) {
