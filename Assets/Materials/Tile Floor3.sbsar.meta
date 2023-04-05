@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 54302cb362f41524bb54f5356316c352
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: dda12f74ff9116a42b23482252b2c482, type: 3}
+  _instancesCopy:
+  - {fileID: 11400000, guid: 14ee0020c653d354a8b5a9c11d0c087a, type: 2}
+  _fileAsset: {instanceID: 0}
+  _assetPath: Assets/Materials/Tile Floor3.sbsar

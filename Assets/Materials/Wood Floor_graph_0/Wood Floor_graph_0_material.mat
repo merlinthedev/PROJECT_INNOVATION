@@ -12,10 +12,15 @@ Material:
   m_ValidKeywords:
   - _METALLICSPECGLOSSMAP
   - _NORMALMAP
+<<<<<<< Updated upstream
   - _OCCLUSIONMAP
   - _PARALLAXMAP
   m_InvalidKeywords:
   - _METALLICGLOSSMAP
+=======
+  - _PARALLAXMAP
+  m_InvalidKeywords: []
+>>>>>>> Stashed changes
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -27,11 +32,19 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
+<<<<<<< Updated upstream
         m_Texture: {fileID: 2800000, guid: 2e2e8efc4732c394982650bcf5eb5fa9, type: 3}
         m_Scale: {x: 10, y: 0}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 2800000, guid: d69b22a370fd81d48ac0ffbcb5a393d1, type: 3}
+=======
+        m_Texture: {fileID: 2800000, guid: a42b4c49977d8ca449766ef382351c49, type: 3}
+        m_Scale: {x: 50, y: 0}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 2800000, guid: 9f4e2fa59bc4b3e48a07cbf1143f483f, type: 3}
+>>>>>>> Stashed changes
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -51,6 +64,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
+<<<<<<< Updated upstream
         m_Texture: {fileID: 2800000, guid: 2e2e8efc4732c394982650bcf5eb5fa9, type: 3}
         m_Scale: {x: 10, y: 0}
         m_Offset: {x: 0, y: 0}
@@ -64,6 +78,21 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
         m_Texture: {fileID: 2800000, guid: 23897d5a5944c554d94b1e0b1f749ae4, type: 3}
+=======
+        m_Texture: {fileID: 2800000, guid: a42b4c49977d8ca449766ef382351c49, type: 3}
+        m_Scale: {x: 50, y: 0}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 2800000, guid: a5abe5bfdb3b4b946b32e287608cf0e0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 2800000, guid: 91d925b789c002a41bca4abafd5c3a5e, type: 3}
+>>>>>>> Stashed changes
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
@@ -95,6 +124,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
+<<<<<<< Updated upstream
     - _GlossMapScale: 1
     - _Glossiness: 1
     - _GlossyReflections: 1
@@ -105,11 +135,25 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0
+=======
+    - _GlossMapScale: 0
+    - _Glossiness: 1
+    - _GlossyReflections: 0
+    - _Metallic: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.005
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _Smoothness: 1
+>>>>>>> Stashed changes
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
+<<<<<<< Updated upstream
     - _UVSec: 0
+=======
+>>>>>>> Stashed changes
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
@@ -118,7 +162,11 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
+<<<<<<< Updated upstream
 --- !u!114 &2592695024315672395
+=======
+--- !u!114 &6784161254604763790
+>>>>>>> Stashed changes
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
