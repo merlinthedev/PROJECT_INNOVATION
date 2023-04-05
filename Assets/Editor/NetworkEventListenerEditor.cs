@@ -17,7 +17,13 @@ public class NetworkEventListenerEditor : Editor
             eventTypes.Add(eventType.ToString());
         }
 
+        var previousIndex = listener.networkEventIndex;
         var index = EditorGUILayout.Popup("Event Type", eventTypes.IndexOf(listener.networkEventType.ToString()), eventTypes.ToArray());
-        listener.networkEventType = NetworkEventBus.EventTypes[index];
+        listener.networkEventIndex = index;
+
+        if (index != previousIndex) {
+            //mark change dirty
+            EditorUtility.SetDirty(listener);
+        }
     }
 }

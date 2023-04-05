@@ -9,13 +9,18 @@ using System;
 /// </summary>
 public class NetworkEventListener : AGuidListener
 {
-    public Type networkEventType = typeof(NetworkEvent);
+    [HideInInspector] public int networkEventIndex = 0;
+    public Type networkEventType { get => NetworkEventBus.EventTypes[networkEventIndex]; }
     public UnityEvent onNetworkEvent;
     [SerializeField] private bool checkGuid = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        if (networkEventIndex >= NetworkEventBus.EventTypes.Length) {
+            Debug.LogError("Network Event Index is out of range");
+            return;
+        }
         NetworkEventBus.SubscribeToType(networkEventType, onEvent);
     }
     
