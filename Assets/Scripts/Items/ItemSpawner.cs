@@ -12,20 +12,27 @@ public class ItemSpawner : MonoBehaviour {
     [SerializeField] private Tier tier;
     [SerializeField] private float[] spawnRates = new float[] { 15, 30, 45 };
 
+    private bool hasItem = true;
+
+    [SerializeField] private GameObject itemPrefab;
+
 
     void Start() {
+        Instantiate(itemPrefab, transform.position, Quaternion.identity);
         StartCoroutine(spawnItem());
     }
 
-    // Update is called once per frame
-    void Update() {
+    private void Update() {
 
     }
 
     private IEnumerator spawnItem() {
         while (true) {
-
             yield return new WaitForSeconds(spawnRates[(int)tier]);
+            if (!hasItem) {
+                Instantiate(itemPrefab, transform.position, Quaternion.identity);
+                hasItem = true;
+            }
         }
     }
 }
