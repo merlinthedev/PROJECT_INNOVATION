@@ -23,8 +23,6 @@ public class SpriteGenerator : MonoBehaviour {
         RenderTexture.active = activeTexture;
         Destroy(renderTexture);
 
-        var sprite = Sprite.Create(texture, rect, new Vector2(0.5f, 0.5f));
-
         var path = EditorUtility.SaveFilePanelInProject("Save Sprite", spriteName, "png", "Save Sprite", "Assets");
         if (path.Length != 0) {
             var bytes = texture.EncodeToPNG();
