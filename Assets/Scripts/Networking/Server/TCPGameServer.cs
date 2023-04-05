@@ -24,12 +24,16 @@ namespace server {
         [SerializeField] private int serverPort = 55555;    //the port we listen on
 
         private TcpListener listener;
-
-        // refactor to Guid, ClientGameInformation
+        
         private Dictionary<Guid, ClientGameInformation> clients = new Dictionary<Guid, ClientGameInformation>();
         private List<Guid> brokenClients = new List<Guid>();
 
         [SerializeField] private GameObject playerServerPrefab;
+        
+        /// <summary>
+        /// Events since last sync
+        /// </summary>
+        private Queue<NetworkEvent> syncEvents = new Queue<NetworkEvent>();
 
         private void Awake() {
             Log.LogInfo("Starting server on port " + serverPort, this, ConsoleColor.Gray);
@@ -39,6 +43,8 @@ namespace server {
             //and tell them whether we will accept them or not instead of bluntly declining them
             listener = new TcpListener(IPAddress.Any, serverPort);
             listener.Start(50);
+
+            NetworkEventBus.SubscribeAll(OnNetworkEvent);
         }
 
         private TCPGameServer() { }
@@ -49,6 +55,7 @@ namespace server {
             processNewClients();
             processExistingClients();
             sendTransformUpdates();
+            sendEvents();
             cleanupFaultyClients();
 
             //Debug.Log("Amount of clients on the server; " + clients.Count);
@@ -125,12 +132,17 @@ namespace server {
                 transformList.updatedTransforms.Add(transformPacket);
             }
 
-            foreach (var client in clients.Values) {
-                client.tcpMessageChannel.SendMessage(transformList);
-            }
+            BroadcastMessage(transformList);
 
             NetworkTransform.UpdatedTransforms.Clear();
 
+        }
+
+        private void sendEvents() {
+            while (syncEvents.Count > 0) {
+                var networkEvent = syncEvents.Dequeue();
+                BroadcastMessage(networkEvent);
+            }
         }
 
         private void handleTransformPacket(TransformPacket transformPacket) {
@@ -146,7 +158,11 @@ namespace server {
             Debug.Log("OH NO A CLIENT DISCONNECTED WHAT DO WE DO?!");
         }
 
-
+        private void BroadcastMessage(ISerializable message) {
+            foreach (var client in clients.Values) {
+                client.tcpMessageChannel.SendMessage(message);
+            }
+        }
 
         /// <summary>
         /// Method to get rid of faulty clients
@@ -164,10 +180,7 @@ namespace server {
             foreach (var brokenClient in brokenClients) {
                 clients[brokenClient].tcpMessageChannel.Close();
                 clients.Remove(brokenClient);
-                foreach (var client in clients) {
-                    client.Value.tcpMessageChannel.SendMessage(new PlayerDisconnectEvent() { guid = brokenClient });
-
-                }
+                BroadcastMessage(new PlayerDisconnectEvent() { guid = brokenClient });
 
                 Destroy(NetworkTransform.Transforms[brokenClient].gameObject);
                 NetworkTransform.Transforms.Remove(brokenClient);
@@ -204,6 +217,10 @@ namespace server {
 
         public int GetAmountOfClients() {
             return this.clients.Count;
+        }
+
+        private void OnNetworkEvent(NetworkEvent newEvent) {
+            syncEvents.Enqueue(newEvent);
         }
 
     }
