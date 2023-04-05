@@ -6,7 +6,9 @@ public class SpriteGenerator : MonoBehaviour {
     public Camera camera;
     public Vector2Int imageSize;
     public string spriteName;
-    
+
+#if UNITY_EDITOR
+
     public void RenderSprite() {
         RenderTexture renderTexture = new RenderTexture(imageSize.x, imageSize.y, 24);
         camera.targetTexture = renderTexture;
@@ -27,9 +29,11 @@ public class SpriteGenerator : MonoBehaviour {
         if (path.Length != 0) {
             var bytes = texture.EncodeToPNG();
             System.IO.File.WriteAllBytes(path, bytes);
+
             AssetDatabase.Refresh();
         }
 
         DestroyImmediate(texture);
     }
+#endif
 }

@@ -14,7 +14,7 @@ public abstract class NetworkEvent : ISerializable {
 public class NetworkEventBus {
     private static Dictionary<Type, System.Action<NetworkEvent>> onEventRaised = new Dictionary<Type, System.Action<NetworkEvent>>();
     private static System.Action<NetworkEvent> onAnyRaised;
-    
+
     public static readonly Type[] EventTypes = {
         typeof(NetworkEvent),
         typeof(TestNetworkEvent),
@@ -135,3 +135,20 @@ public class JumpEvent : NetworkEvent {
     }
 }
 
+public class PickupEvent : NetworkEvent {
+    public Guid itemGuid { get; private set; }
+
+    public PickupEvent(Guid itemGuid) {
+        this.itemGuid = itemGuid;
+    }
+
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+        packet.Write(itemGuid);
+    }
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
+        itemGuid = packet.ReadGuid();
+    }
+}
