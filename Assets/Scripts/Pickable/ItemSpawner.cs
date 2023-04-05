@@ -19,7 +19,7 @@ public class ItemSpawner : MonoBehaviour {
 
     void Start() {
         Instantiate(itemPrefab, transform.position, Quaternion.identity);
-        StartCoroutine(spawnItem());
+        // StartCoroutine(spawnItem());
     }
 
     private void Update() {
