@@ -5,8 +5,8 @@ using System.Collections.Generic;
 public abstract class Event { }
 
 public abstract class NetworkEvent : ISerializable {
-    public abstract void Deserialize(Packet packet);
     public abstract void Serialize(Packet packet);
+    public abstract void Deserialize(Packet packet);
 
     public Guid source;
 }
@@ -14,12 +14,19 @@ public abstract class NetworkEvent : ISerializable {
 public class NetworkEventBus {
     private static Dictionary<Type, System.Action<NetworkEvent>> onEventRaised = new Dictionary<Type, System.Action<NetworkEvent>>();
     private static System.Action<NetworkEvent> onAnyRaised;
+    
+    public static readonly Type[] EventTypes = {
+        typeof(NetworkEvent),
+        typeof(TestNetworkEvent),
+        typeof(JumpEvent)
+    };
 
     public static void Subscribe<T>(System.Action<T> handler) where T : NetworkEvent {
         if (!onEventRaised.ContainsKey(typeof(T))) {
             onEventRaised.Add(typeof(T), null);
         }
-        onEventRaised[typeof(T)] += (System.Action<NetworkEvent>)handler;
+        onEventRaised[typeof(T)] += (e) => handler((T)e);
+        // onEventRaised[typeof(T)] += (System.Action<NetworkEvent>)handler;
     }
 
     public static void SubscribeToType(Type eventType, Action<NetworkEvent> handler) {
@@ -28,7 +35,7 @@ public class NetworkEventBus {
         }
         onEventRaised[eventType] += handler;
     }
-    
+
     public static void SubscribeAll(System.Action<NetworkEvent> handler) {
         onAnyRaised += handler;
     }
@@ -37,7 +44,8 @@ public class NetworkEventBus {
         if (!onEventRaised.ContainsKey(typeof(T))) {
             return;
         }
-        onEventRaised[typeof(T)] -= (System.Action<NetworkEvent>)handler;
+        // onEventRaised[typeof(T)] -= (System.Action<NetworkEvent>)handler;
+        onEventRaised[typeof(T)] -= (e) => handler((T)e);
     }
 
     public static void UnsubscribeAll(System.Action<NetworkEvent> handler) {
@@ -105,4 +113,25 @@ public class OnStateEnter : Event {
     ======== NETWORK EVENTS ==========
     ==================================
 */
+
+public class TestNetworkEvent : NetworkEvent {
+
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+    }
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
+    }
+}
+
+public class JumpEvent : NetworkEvent {
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+    }
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
+    }
+}
 

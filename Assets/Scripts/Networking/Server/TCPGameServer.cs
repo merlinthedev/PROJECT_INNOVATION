@@ -45,7 +45,10 @@ namespace server {
             listener.Start(50);
 
             NetworkEventBus.SubscribeAll(OnNetworkEvent);
+
+            // StartCoroutine(sendNetworkEvents());
         }
+
 
         private TCPGameServer() { }
 
