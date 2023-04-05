@@ -5,9 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Item", menuName = "Item")]
 public class ItemStats : ScriptableObject {
 
-    [SerializeField] private ItemSpawner.Tier tier; 
-    [SerializeField] private string itemName;
-    [SerializeField] private Sprite itemSprite;
-    [SerializeField] private GameObject gameObject;
+    public ItemSpawner.Tier Tier; 
+    public string ItemName;
+    public Sprite ItemSprite;
+    public GameObject GameObject;
+    public int Weight = 1;
 
 }

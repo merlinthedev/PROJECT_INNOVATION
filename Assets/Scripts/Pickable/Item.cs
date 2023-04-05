@@ -1,21 +1,19 @@
+using System.Numerics;
+using UnityEditor;
 using UnityEngine;
 
-public class Item : MonoBehaviour {
+public class Item : AInteractable {
     [SerializeField] private ItemStats itemStats;
+    public int Weight { get { return itemStats.Weight; } }
 
-    private float initialY;
+    protected override void OnPickUp() {
+        
+    }
+
     private void Start() {
-        initialY = transform.position.y;
     }
 
     private void Update() {
-        doHover();
+        
     }
-
-    private void doHover() {
-        transform.position = new Vector3(transform.position.x, initialY + Mathf.Sin(Time.time) + 0.5f, transform.position.z);
-    }
-
-
-
 }
