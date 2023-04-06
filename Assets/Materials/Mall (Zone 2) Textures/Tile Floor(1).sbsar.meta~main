@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Tile Floor.sbsar.meta
 guid: 7157535c5ff46a74d99fcbe206ddb1b5
+=======
+guid: 0947e434acde7fe4ea0cfdd452e5b6d7
+>>>>>>> main:Assets/Materials/Mall (Zone 2) Textures/Tile Floor(1).sbsar.meta
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -9,6 +13,6 @@ ScriptedImporter:
   assetBundleVariant: 
   script: {fileID: 11500000, guid: dda12f74ff9116a42b23482252b2c482, type: 3}
   _instancesCopy:
-  - {fileID: 11400000, guid: ba77802ac63a8b146900465710589adc, type: 2}
+  - {fileID: 11400000, guid: 29971406b5956224c937a4de765410b4, type: 2}
   _fileAsset: {instanceID: 0}
-  _assetPath: Assets/Tile Floor.sbsar
+  _assetPath: Assets/Materials/Mall (Zone 2) Textures/Tile Floor(1).sbsar
