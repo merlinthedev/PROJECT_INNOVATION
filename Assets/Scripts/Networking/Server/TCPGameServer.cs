@@ -57,8 +57,8 @@ namespace server {
             //check for new members	
             processNewClients();
             processExistingClients();
-            sendTransformUpdates();
             sendEvents();
+            sendTransformUpdates();
             cleanupFaultyClients();
 
             //Debug.Log("Amount of clients on the server; " + clients.Count);
@@ -91,6 +91,16 @@ namespace server {
                 var nt = instantiated.GetComponent<NetworkTransform>();
                 nt.key = newClientGuid;
                 nt.Initialize();
+
+
+                ExistingItemsPacket existingItemsPacket = new ExistingItemsPacket();
+
+                // send items before other NetworkTransforms
+                foreach (var item in Item.Items) {
+                    existingItemsPacket.existingItems.Add(item.GetComponent<NetworkTransform>().GetPacket());
+                }
+
+                channel.SendMessage(existingItemsPacket);
 
                 foreach (var networkTransform in NetworkTransform.Transforms.Values.ToList()) {
                     connectEvent.objectTransforms.Add(networkTransform.GetPacket());

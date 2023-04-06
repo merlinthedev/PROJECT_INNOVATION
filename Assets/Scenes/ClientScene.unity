@@ -1205,6 +1205,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 1612820887, guid: 2d299ca8f2e0d9c40aa7fa3f629115b9, type: 3}
+  itemPrefab: {fileID: 3814849650973993924, guid: 71f2a2437fbbe7240a422aee6260658f,
+    type: 3}
   virtualCamera: {fileID: 1615410097}
   clientCartController: {fileID: 1675620812}
 --- !u!114 &1675620812

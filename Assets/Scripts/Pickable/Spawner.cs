@@ -30,6 +30,8 @@ public class Spawner : MonoBehaviour {
 
         var item = Instantiate(configuration.GetRandomPrefab(), spawnRoot.position, Quaternion.identity);
 
+        Item.Items.Add((Item)item);
+
         NetworkEventBus.Raise(new ItemSpawnedEvent {
             source = item.GetComponent<NetworkTransform>().Key,
         });
