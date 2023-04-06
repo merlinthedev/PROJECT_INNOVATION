@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour {
         // NetworkEventBus.Subscribe<TestNetworkEvent>(onTestNetworkEventClient);
         NetworkEventBus.Subscribe<ItemSpawnedEvent>(onItemSpawned);
         NetworkEventBus.Subscribe<ItemPickedUpEvent>(onItemPickedUp);
+        NetworkEventBus.Subscribe<ItemDroppedOffEvent>(onItemDroppedOff);
 
         Debug.LogWarning("Level manager subscribed to events");
     }
@@ -16,6 +17,12 @@ public class LevelManager : MonoBehaviour {
         // NetworkEventBus.Unsubscribe<TestNetworkEvent>(onTestNetworkEventClient);
         NetworkEventBus.Unsubscribe<ItemSpawnedEvent>(onItemSpawned);
         NetworkEventBus.Unsubscribe<ItemPickedUpEvent>(onItemPickedUp);
+        NetworkEventBus.Unsubscribe<ItemDroppedOffEvent>(onItemDroppedOff);
+    }
+
+    private void onItemDroppedOff(ItemDroppedOffEvent itemDroppedOffEvent) {
+        Debug.LogWarning("Item dropped off event received in the level manager");
+        EventBus<InventoryUIEvent>.Raise(new InventoryUIEvent(0));
     }
 
     private void onTestNetworkEventClient(TestNetworkEvent testNetworkEvent) {
@@ -33,6 +40,9 @@ public class LevelManager : MonoBehaviour {
 
     private void onItemPickedUp(ItemPickedUpEvent itemPickedUpEvent) {
         Debug.LogWarning("Item picked up event received in the level manager");
+
+        // inform the UI;
+        EventBus<InventoryUIEvent>.Raise(new InventoryUIEvent(itemPickedUpEvent.inventorySize));
 
         NetworkTransform.Transforms.TryGetValue(itemPickedUpEvent.itemGuid, out NetworkTransform networkTransform);
         if (networkTransform != null) {

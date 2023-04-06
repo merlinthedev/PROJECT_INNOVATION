@@ -110,6 +110,14 @@ public class OnStateEnter : Event {
 
 }
 
+public class InventoryUIEvent : Event {
+    public int inventorySize { get; private set; }
+
+    public InventoryUIEvent(int inventorySize) {
+        this.inventorySize = inventorySize;
+    }
+}
+
 /*
     ==================================
     ======== NETWORK EVENTS ==========
@@ -149,15 +157,28 @@ public class ItemSpawnedEvent : NetworkEvent {
 
 public class ItemPickedUpEvent : NetworkEvent {
     public Guid itemGuid { get; set; }
+    public int inventorySize;
 
     public override void Serialize(Packet packet) {
         packet.Write(source);
         packet.Write(itemGuid);
+        packet.Write(inventorySize);
     }
 
     public override void Deserialize(Packet packet) {
         source = packet.ReadGuid();
         itemGuid = packet.ReadGuid();
+        inventorySize = packet.ReadInt();
+    }
+}
+
+public class ItemDroppedOffEvent : NetworkEvent {
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+    }
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
     }
 }
 

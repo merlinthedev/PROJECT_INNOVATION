@@ -23,6 +23,10 @@ public class Player : MonoBehaviour {
 
     public void DropOffItems() {
         items.Clear();
+
+        NetworkEventBus.Raise(new ItemDroppedOffEvent {
+            source = GetComponent<NetworkTransform>().Key,
+        });
     }
 
     #endregion
@@ -47,12 +51,14 @@ public class Player : MonoBehaviour {
     private void OnEnable() {
         NetworkEventBus.Subscribe<ItemSpawnedEvent>(onItemSpawn);
         NetworkEventBus.Subscribe<ItemPickedUpEvent>(onItemPickup);
+        NetworkEventBus.Subscribe<ItemDroppedOffEvent>(onItemDroppedOff);
 
     }
 
     private void OnDisable() {
         NetworkEventBus.Unsubscribe<ItemSpawnedEvent>(onItemSpawn);
         NetworkEventBus.Unsubscribe<ItemPickedUpEvent>(onItemPickup);
+        NetworkEventBus.Unsubscribe<ItemDroppedOffEvent>(onItemDroppedOff);
     }
 
     private void onItemSpawn(ItemSpawnedEvent itemSpawnedEvent) {
@@ -63,6 +69,10 @@ public class Player : MonoBehaviour {
         Debug.Log("Item picked up received by the server.");
     }
 
+    private void onItemDroppedOff(ItemDroppedOffEvent itemDroppedOffEvent) {
+        Debug.Log("Item dropped off received by the server.");
+    }
+
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.CompareTag("Item") && leftoverCapacity > 0) {
             Item item = other.gameObject.GetComponent<Item>();
@@ -71,6 +81,7 @@ public class Player : MonoBehaviour {
             ItemPickedUpEvent itemPickedUpEvent = new ItemPickedUpEvent();
             itemPickedUpEvent.itemGuid = item.GetComponent<NetworkTransform>().key;
             itemPickedUpEvent.source = GetComponent<NetworkTransform>().Key;
+            itemPickedUpEvent.inventorySize = items.Count;
             NetworkEventBus.Raise(itemPickedUpEvent);
 
             item.PickUp();
@@ -78,8 +89,6 @@ public class Player : MonoBehaviour {
 
             Debug.Log("Item picked up");
             other.gameObject.SetActive(false);
-
-
         }
 
         if (other.gameObject.CompareTag("PowerUp") && powerUp == null) {

@@ -11,6 +11,8 @@ public class Spawner : MonoBehaviour {
     private float lastPickupTime = 0f;
     private bool hasItem = false;
 
+    public Tier tier;
+
     private void Start() {
         Spawners.Add(this);
         if (NetworkManager.IsServer) spawnItem();
