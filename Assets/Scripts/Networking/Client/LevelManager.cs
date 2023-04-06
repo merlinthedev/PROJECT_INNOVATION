@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour {
 
-    [SerializeField] private GameObject itemPrefab;
 
     private void OnEnable() {
         // NetworkEventBus.Subscribe<TestNetworkEvent>(onTestNetworkEventClient);
@@ -31,6 +30,11 @@ public class LevelManager : MonoBehaviour {
     }
 
     private void onItemPickedUp(ItemPickedUpEvent itemPickedUpEvent) {
+        Debug.LogWarning("Item picked up event received in the level manager");
 
+        NetworkTransform.Transforms.TryGetValue(itemPickedUpEvent.itemGuid, out NetworkTransform networkTransform);
+        if (networkTransform != null) {
+            Destroy(networkTransform.gameObject);
+        }
     }
 }

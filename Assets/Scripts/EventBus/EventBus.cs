@@ -148,11 +148,7 @@ public class ItemSpawnedEvent : NetworkEvent {
 }
 
 public class ItemPickedUpEvent : NetworkEvent {
-    public Guid itemGuid { get; private set; }
-
-    public ItemPickedUpEvent(Guid itemGuid) {
-        this.itemGuid = itemGuid;
-    }
+    public Guid itemGuid { get; set; }
 
     public override void Serialize(Packet packet) {
         packet.Write(source);

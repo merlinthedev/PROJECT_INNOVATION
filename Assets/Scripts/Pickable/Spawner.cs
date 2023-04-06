@@ -47,6 +47,10 @@ public class Spawner : MonoBehaviour {
         hasItem = true;
     }
 
+    public void SetHasItem(bool hasItem) {
+        this.hasItem = hasItem;
+    }
+
 
     public enum Tier {
         Common,

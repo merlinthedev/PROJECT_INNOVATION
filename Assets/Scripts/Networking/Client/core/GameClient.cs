@@ -103,9 +103,9 @@ public class GameClient : MonoBehaviour {
     }
 
     private void handleNetworkEvent(NetworkEvent networkEvent) {
-        // Debug.LogWarning("Received a network event with type: " + networkEvent.GetType());
+        Debug.LogWarning("Received a network event with type: " + networkEvent.GetType());
         NetworkEventBus.Raise(networkEvent);
-        // Debug.LogWarning("Raised a network event with type: " + networkEvent.GetType());
+        Debug.LogWarning("Raised a network event with type: " + networkEvent.GetType());
     }
 
     private void handlePlayerDisconnectEvent(PlayerDisconnectEvent playerDisconnectEvent) {

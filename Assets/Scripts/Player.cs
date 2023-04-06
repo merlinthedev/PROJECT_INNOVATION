@@ -40,18 +40,36 @@ public class Player : MonoBehaviour {
 
     #endregion
 
+    private void OnEnable() {
+        NetworkEventBus.Subscribe<ItemPickedUpEvent>(onItemPickup);
+    }
+
+    private void OnDisable() {
+        NetworkEventBus.Unsubscribe<ItemPickedUpEvent>(onItemPickup);
+    }
+
+    private void onItemPickup(ItemPickedUpEvent itemPickedUpEvent) {
+        Debug.Log("Item picked up received by the server.");
+
+    }
+
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.CompareTag("Item") && leftoverCapacity > 0) {
             Item item = other.gameObject.GetComponent<Item>();
             AddItem(item);
-            NetworkTransform networkTransform = item.GetComponent<NetworkTransform>();
-            ItemPickedUpEvent itemPickedUpEvent = new ItemPickedUpEvent(networkTransform.Key);
+
+            ItemPickedUpEvent itemPickedUpEvent = new ItemPickedUpEvent();
+            itemPickedUpEvent.itemGuid = item.GetComponent<NetworkTransform>().key;
             itemPickedUpEvent.source = GetComponent<NetworkTransform>().Key;
             NetworkEventBus.Raise(itemPickedUpEvent);
 
-            NetworkTransform.Transforms.Remove(networkTransform.Key);
 
             Debug.Log("Item picked up");
+            other.gameObject.SetActive(false);
+
+            item.spawner.SetHasItem(false);
+
+            NetworkTransform.Transforms.Remove(item.GetComponent<NetworkTransform>().key);
         }
 
         if (other.gameObject.CompareTag("PowerUp") && powerUp == null) {
