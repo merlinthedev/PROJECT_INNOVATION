@@ -62,42 +62,6 @@ public class Player : MonoBehaviour {
 
     #endregion
 
-    private void OnEnable() {
-        NetworkEventBus.Subscribe<ItemSpawnedEvent>(onItemSpawn);
-        NetworkEventBus.Subscribe<ItemPickedUpEvent>(onItemPickup);
-        NetworkEventBus.Subscribe<ItemDroppedOffEvent>(onItemDroppedOff);
-        NetworkEventBus.Subscribe<ScoreUpdatedEvent>(onScoreUpdated);
-
-    }
-
-    private void OnDisable() {
-        NetworkEventBus.Unsubscribe<ItemSpawnedEvent>(onItemSpawn);
-        NetworkEventBus.Unsubscribe<ItemPickedUpEvent>(onItemPickup);
-        NetworkEventBus.Unsubscribe<ItemDroppedOffEvent>(onItemDroppedOff);
-        NetworkEventBus.Unsubscribe<ScoreUpdatedEvent>(onScoreUpdated);
-    }
-
-
-    #region NEED FKN FIX FAST 
-
-    private void onItemSpawn(ItemSpawnedEvent itemSpawnedEvent) {
-        Debug.Log("Item spawned received by the server.");
-    }
-
-    private void onItemPickup(ItemPickedUpEvent itemPickedUpEvent) {
-        Debug.Log("Item picked up received by the server.");
-    }
-
-    private void onItemDroppedOff(ItemDroppedOffEvent itemDroppedOffEvent) {
-        Debug.Log("Item dropped off received by the server.");
-    }
-
-    private void onScoreUpdated(ScoreUpdatedEvent scoreUpdatedEvent) {
-        Debug.Log("Score updated received by the server.");
-    }
-
-    #endregion
-
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.CompareTag("Item") && leftoverCapacity > 0) {
             Item item = other.gameObject.GetComponent<Item>();
