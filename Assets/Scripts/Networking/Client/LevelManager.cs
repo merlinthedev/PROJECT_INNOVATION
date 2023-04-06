@@ -9,6 +9,7 @@ public class LevelManager : MonoBehaviour {
         NetworkEventBus.Subscribe<ItemSpawnedEvent>(onItemSpawned);
         NetworkEventBus.Subscribe<ItemPickedUpEvent>(onItemPickedUp);
         NetworkEventBus.Subscribe<ItemDroppedOffEvent>(onItemDroppedOff);
+        NetworkEventBus.Subscribe<ScoreUpdatedEvent>(onScoreUpdated);
 
         Debug.LogWarning("Level manager subscribed to events");
     }
@@ -18,6 +19,12 @@ public class LevelManager : MonoBehaviour {
         NetworkEventBus.Unsubscribe<ItemSpawnedEvent>(onItemSpawned);
         NetworkEventBus.Unsubscribe<ItemPickedUpEvent>(onItemPickedUp);
         NetworkEventBus.Unsubscribe<ItemDroppedOffEvent>(onItemDroppedOff);
+        NetworkEventBus.Unsubscribe<ScoreUpdatedEvent>(onScoreUpdated);
+    }
+
+    private void onScoreUpdated(ScoreUpdatedEvent scoreUpdatedEvent) {
+        Debug.LogWarning("Score updated event received in the level manager");
+        EventBus<ScoreUIEvent>.Raise(new ScoreUIEvent(scoreUpdatedEvent.score));
     }
 
     private void onItemDroppedOff(ItemDroppedOffEvent itemDroppedOffEvent) {

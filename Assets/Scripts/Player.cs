@@ -3,6 +3,9 @@ using System.Linq;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
+
+    private float score = 0f;
+
     #region Items
     [SerializeField] Transform itemHolder;
     [SerializeField] private int capacity = 2;
@@ -22,6 +25,17 @@ public class Player : MonoBehaviour {
     }
 
     public void DropOffItems() {
+        foreach (var item in items) {
+            score += (item.itemStats.discount > 0 ? ((float)item.itemStats.Tier + 1) * (item.itemStats.discount * 100) : ((float)item.itemStats.Tier + 1));
+
+            Destroy(item.gameObject);
+        }
+
+        NetworkEventBus.Raise(new ScoreUpdatedEvent {
+            source = GetComponent<NetworkTransform>().Key,
+            score = score,
+        });
+
         items.Clear();
 
         NetworkEventBus.Raise(new ItemDroppedOffEvent {
@@ -52,6 +66,7 @@ public class Player : MonoBehaviour {
         NetworkEventBus.Subscribe<ItemSpawnedEvent>(onItemSpawn);
         NetworkEventBus.Subscribe<ItemPickedUpEvent>(onItemPickup);
         NetworkEventBus.Subscribe<ItemDroppedOffEvent>(onItemDroppedOff);
+        NetworkEventBus.Subscribe<ScoreUpdatedEvent>(onScoreUpdated);
 
     }
 
@@ -59,7 +74,11 @@ public class Player : MonoBehaviour {
         NetworkEventBus.Unsubscribe<ItemSpawnedEvent>(onItemSpawn);
         NetworkEventBus.Unsubscribe<ItemPickedUpEvent>(onItemPickup);
         NetworkEventBus.Unsubscribe<ItemDroppedOffEvent>(onItemDroppedOff);
+        NetworkEventBus.Unsubscribe<ScoreUpdatedEvent>(onScoreUpdated);
     }
+
+
+    #region NEED FKN FIX FAST 
 
     private void onItemSpawn(ItemSpawnedEvent itemSpawnedEvent) {
         Debug.Log("Item spawned received by the server.");
@@ -72,6 +91,12 @@ public class Player : MonoBehaviour {
     private void onItemDroppedOff(ItemDroppedOffEvent itemDroppedOffEvent) {
         Debug.Log("Item dropped off received by the server.");
     }
+
+    private void onScoreUpdated(ScoreUpdatedEvent scoreUpdatedEvent) {
+        Debug.Log("Score updated received by the server.");
+    }
+
+    #endregion
 
     private void OnTriggerEnter(Collider other) {
         if (other.gameObject.CompareTag("Item") && leftoverCapacity > 0) {

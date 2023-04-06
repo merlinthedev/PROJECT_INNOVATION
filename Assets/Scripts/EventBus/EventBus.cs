@@ -118,6 +118,14 @@ public class InventoryUIEvent : Event {
     }
 }
 
+public class ScoreUIEvent : Event {
+    public float score { get; private set; }
+
+    public ScoreUIEvent(float score) {
+        this.score = score;
+    }
+}
+
 /*
     ==================================
     ======== NETWORK EVENTS ==========
@@ -179,6 +187,20 @@ public class ItemDroppedOffEvent : NetworkEvent {
 
     public override void Deserialize(Packet packet) {
         source = packet.ReadGuid();
+    }
+}
+
+public class ScoreUpdatedEvent : NetworkEvent {
+    public float score { get; set; }
+
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+        packet.Write(score);
+    }
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
+        score = packet.ReadFloat();
     }
 }
 

@@ -6,10 +6,12 @@ public class Item : AInteractable {
 
     public static List<Item> Items = new List<Item>();
 
-    [SerializeField] private ItemStats itemStats;
+    public ItemStats itemStats;
     public int Weight { get { return itemStats.Weight; } }
 
     private float initialY;
+
+    
 
     protected override void OnPickUp() {
 
