@@ -63,22 +63,7 @@ public class ShoppingCartController : MonoBehaviour {
         }
 
         movementInputReceiver.DoMove(new Vector2(0, movementInput));
-
-        // added Jumping test thing
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space)) {
-            GetComponent<Rigidbody>().AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            isGrounded = false;
-
-            //with particles *gasp*
-            if (jumpParticles != null) {
-                isJumping = true;
-                //jumpParticles.transform.position = transform.position + Vector3.down * 0.5f; // Spawn particles at player position
-                jumpParticles.Play();
-            }
-        }
-
-
-        
+ 
     }
 
     private void OnCollisionEnter(Collision collision) {
