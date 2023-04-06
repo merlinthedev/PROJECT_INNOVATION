@@ -13,6 +13,6 @@ public class UIScoreHandler : MonoBehaviour {
     }
 
     private void onScoreUpdate(ScoreUIEvent scoreUIEvent) {
-        scoreText.text = scoreUIEvent.score.ToString();
+        scoreText.text = "Score: " + scoreUIEvent.score.ToString();
     }
 }
