@@ -55,11 +55,11 @@ public class NetworkEventBus {
     }
 
     public static void Raise(NetworkEvent e) {
+        onAnyRaised?.Invoke(e);
         if (!onEventRaised.ContainsKey(e.GetType())) {
             return;
         }
         onEventRaised[e.GetType()]?.Invoke(e);
-        onAnyRaised?.Invoke(e);
     }
 }
 
