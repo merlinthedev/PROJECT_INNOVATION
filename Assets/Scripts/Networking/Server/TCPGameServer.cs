@@ -94,15 +94,20 @@ namespace server {
 
 
                 ExistingItemsPacket existingItemsPacket = new ExistingItemsPacket();
+                List<NetworkTransform> networkTransforms = new List<NetworkTransform>();
 
                 // send items before other NetworkTransforms
                 foreach (var item in Item.Items) {
                     existingItemsPacket.existingItems.Add(item.GetComponent<NetworkTransform>().GetPacket());
+                    networkTransforms.Add(item.GetComponent<NetworkTransform>());
                 }
 
                 channel.SendMessage(existingItemsPacket);
 
                 foreach (var networkTransform in NetworkTransform.Transforms.Values.ToList()) {
+                    if (networkTransforms.Contains(networkTransform)) {
+                        continue;
+                    }
                     connectEvent.objectTransforms.Add(networkTransform.GetPacket());
                 }
 

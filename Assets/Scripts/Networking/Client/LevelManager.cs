@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour {
 
+    [SerializeField] private GameObject itemPrefab;
 
     private void OnEnable() {
         // NetworkEventBus.Subscribe<TestNetworkEvent>(onTestNetworkEventClient);
@@ -23,10 +24,11 @@ public class LevelManager : MonoBehaviour {
 
     private void onItemSpawned(ItemSpawnedEvent itemSpawnedEvent) {
         Debug.LogWarning("Item spawned event received");
-        // var item = Instantiate(itemPrefab, Spawner.Spawners[Random.Range(0, Spawner.Spawners.Count - 1)].gameObject.transform.position, Quaternion.identity);
-        // var itemNetworkTransform = item.GetComponent<NetworkTransform>();
-        // NetworkTransform.Transforms.Add(itemNetworkTransform.Key, itemNetworkTransform);
-        // itemNetworkTransform.Initialize();
+        var item = Instantiate(itemPrefab, Spawner.Spawners[Random.Range(0, Spawner.Spawners.Count - 1)].gameObject.transform.position, Quaternion.identity);
+        var itemNetworkTransform = item.GetComponent<NetworkTransform>();
+        itemNetworkTransform.Initialize();
+
+
     }
 
     private void onItemPickedUp(ItemPickedUpEvent itemPickedUpEvent) {

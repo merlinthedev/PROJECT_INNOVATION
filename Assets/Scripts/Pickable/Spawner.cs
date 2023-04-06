@@ -23,6 +23,7 @@ public class Spawner : MonoBehaviour {
 
     public void OnPickup(AInteractable pickable) {
         lastPickupTime = Time.time;
+        hasItem = false;
     }
 
     private void spawnItem() {

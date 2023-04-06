@@ -76,6 +76,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Server Shopping Cart Thing
       objectReference: {fileID: 0}
+    - target: {fileID: 5073113415654187644, guid: 2d299ca8f2e0d9c40aa7fa3f629115b9,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d299ca8f2e0d9c40aa7fa3f629115b9, type: 3}
 --- !u!1 &2671685037222174034 stripped

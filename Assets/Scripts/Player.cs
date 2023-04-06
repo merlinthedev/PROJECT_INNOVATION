@@ -21,6 +21,10 @@ public class Player : MonoBehaviour {
         items.Remove(item);
     }
 
+    public void DropOffItems() {
+        items.Clear();
+    }
+
     #endregion
 
     #region PowerUps
@@ -41,16 +45,22 @@ public class Player : MonoBehaviour {
     #endregion
 
     private void OnEnable() {
+        NetworkEventBus.Subscribe<ItemSpawnedEvent>(onItemSpawn);
         NetworkEventBus.Subscribe<ItemPickedUpEvent>(onItemPickup);
+
     }
 
     private void OnDisable() {
+        NetworkEventBus.Unsubscribe<ItemSpawnedEvent>(onItemSpawn);
         NetworkEventBus.Unsubscribe<ItemPickedUpEvent>(onItemPickup);
+    }
+
+    private void onItemSpawn(ItemSpawnedEvent itemSpawnedEvent) {
+        Debug.Log("Item spawned received by the server.");
     }
 
     private void onItemPickup(ItemPickedUpEvent itemPickedUpEvent) {
         Debug.Log("Item picked up received by the server.");
-
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -63,13 +73,13 @@ public class Player : MonoBehaviour {
             itemPickedUpEvent.source = GetComponent<NetworkTransform>().Key;
             NetworkEventBus.Raise(itemPickedUpEvent);
 
+            item.PickUp();
+            NetworkTransform.Transforms.Remove(item.GetComponent<NetworkTransform>().key);
 
             Debug.Log("Item picked up");
             other.gameObject.SetActive(false);
 
-            item.spawner.SetHasItem(false);
 
-            NetworkTransform.Transforms.Remove(item.GetComponent<NetworkTransform>().key);
         }
 
         if (other.gameObject.CompareTag("PowerUp") && powerUp == null) {
