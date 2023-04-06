@@ -60,6 +60,7 @@ namespace shared {
             try {
                 client = new TcpClient();
                 client.Connect(serverIP, serverPort);
+                client.NoDelay = true; //disable Nagle's algorithm
                 stream = client.GetStream();
                 remoteEndPoint = client.Client.RemoteEndPoint as IPEndPoint;
                 errors.Clear();

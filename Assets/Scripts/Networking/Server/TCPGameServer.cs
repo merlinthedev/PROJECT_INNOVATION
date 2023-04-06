@@ -73,6 +73,7 @@ namespace server {
                 //get the waiting client
                 Log.LogInfo("Accepting new client...", this, ConsoleColor.White);
                 TcpClient client = listener.AcceptTcpClient();
+                client.Client.NoDelay = true; // Disable Nagle's algorithm - no this on the other side too
                 //and wrap the client in an easier to use communication channel
                 TcpMessageChannel channel = new TcpMessageChannel(client);
 
