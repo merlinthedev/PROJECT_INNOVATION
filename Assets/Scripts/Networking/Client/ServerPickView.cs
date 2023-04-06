@@ -35,7 +35,7 @@ public class ServerPickView : MonoBehaviour {
                 inputPort = int.Parse(split[1]);
             } else {
                 inputIp = value;
-                inputPort = 0;
+                inputPort = 54321;
             }
         });
 

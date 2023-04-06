@@ -1,18 +1,18 @@
 using shared;
 using System.Collections.Generic;
 
-public class TransformListPacket : ASerializable {
+public class TransformListPacket : ISerializable {
 
     public List<TransformPacket> updatedTransforms { get; set; } = new List<TransformPacket>();
 
-    public override void Serialize(Packet packet) {
+    public void Serialize(Packet packet) {
         packet.Write(updatedTransforms.Count);
         foreach (TransformPacket transform in updatedTransforms) {
             transform.Serialize(packet);
         }
     }
 
-    public override void Deserialize(Packet packet) {
+    public void Deserialize(Packet packet) {
         int count = packet.ReadInt();
         for (int i = 0; i < count; i++) {
             TransformPacket transform = new TransformPacket();

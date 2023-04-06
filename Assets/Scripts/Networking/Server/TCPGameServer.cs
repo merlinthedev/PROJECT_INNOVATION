@@ -25,11 +25,15 @@ namespace server {
 
         private TcpListener listener;
 
-        // refactor to Guid, ClientGameInformation
         private Dictionary<Guid, ClientGameInformation> clients = new Dictionary<Guid, ClientGameInformation>();
         private List<Guid> brokenClients = new List<Guid>();
 
         [SerializeField] private GameObject playerServerPrefab;
+
+        /// <summary>
+        /// Events since last sync
+        /// </summary>
+        private Queue<NetworkEvent> syncEvents = new Queue<NetworkEvent>();
 
         private void Awake() {
             Log.LogInfo("Starting server on port " + serverPort, this, ConsoleColor.Gray);
@@ -39,7 +43,12 @@ namespace server {
             //and tell them whether we will accept them or not instead of bluntly declining them
             listener = new TcpListener(IPAddress.Any, serverPort);
             listener.Start(50);
+
+            NetworkEventBus.SubscribeAll(OnNetworkEvent);
+
+            // StartCoroutine(sendNetworkEvents());
         }
+
 
         private TCPGameServer() { }
 
@@ -48,6 +57,7 @@ namespace server {
             //check for new members	
             processNewClients();
             processExistingClients();
+            sendEvents();
             sendTransformUpdates();
             cleanupFaultyClients();
 
@@ -63,6 +73,7 @@ namespace server {
                 //get the waiting client
                 Log.LogInfo("Accepting new client...", this, ConsoleColor.White);
                 TcpClient client = listener.AcceptTcpClient();
+                client.Client.NoDelay = true; // Disable Nagle's algorithm - no this on the other side too
                 //and wrap the client in an easier to use communication channel
                 TcpMessageChannel channel = new TcpMessageChannel(client);
 
@@ -77,12 +88,27 @@ namespace server {
 
 
 
-                var instantiated = Instantiate(playerServerPrefab, new Vector3(0, 10, 0), Quaternion.identity);
+                var instantiated = Instantiate(playerServerPrefab, new Vector3(80, 2, 13), Quaternion.identity);
                 var nt = instantiated.GetComponent<NetworkTransform>();
                 nt.key = newClientGuid;
                 nt.Initialize();
 
+
+                ExistingItemsPacket existingItemsPacket = new ExistingItemsPacket();
+                List<NetworkTransform> networkTransforms = new List<NetworkTransform>();
+
+                // send items before other NetworkTransforms
+                foreach (var item in Item.Items) {
+                    existingItemsPacket.existingItems.Add(item.GetComponent<NetworkTransform>().GetPacket());
+                    networkTransforms.Add(item.GetComponent<NetworkTransform>());
+                }
+
+                channel.SendMessage(existingItemsPacket);
+
                 foreach (var networkTransform in NetworkTransform.Transforms.Values.ToList()) {
+                    if (networkTransforms.Contains(networkTransform)) {
+                        continue;
+                    }
                     connectEvent.objectTransforms.Add(networkTransform.GetPacket());
                 }
 
@@ -125,12 +151,18 @@ namespace server {
                 transformList.updatedTransforms.Add(transformPacket);
             }
 
-            foreach (var client in clients.Values) {
-                client.tcpMessageChannel.SendMessage(transformList);
-            }
+            broadcastMessage(transformList);
 
             NetworkTransform.UpdatedTransforms.Clear();
 
+        }
+
+        private void sendEvents() {
+            while (syncEvents.Count > 0) {
+                var networkEvent = syncEvents.Dequeue();
+                broadcastMessage(networkEvent);
+                Debug.Log("Sending event: " + networkEvent.GetType());
+            }
         }
 
         private void handleTransformPacket(TransformPacket transformPacket) {
@@ -146,7 +178,11 @@ namespace server {
             Debug.Log("OH NO A CLIENT DISCONNECTED WHAT DO WE DO?!");
         }
 
-
+        private void broadcastMessage(ISerializable message) {
+            foreach (var client in clients.Values) {
+                client.tcpMessageChannel.SendMessage(message);
+            }
+        }
 
         /// <summary>
         /// Method to get rid of faulty clients
@@ -159,15 +195,12 @@ namespace server {
                 }
             }
 
-            if(brokenClients.Count == 0) return;
+            if (brokenClients.Count == 0) return;
 
             foreach (var brokenClient in brokenClients) {
                 clients[brokenClient].tcpMessageChannel.Close();
                 clients.Remove(brokenClient);
-                foreach (var client in clients) {
-                    client.Value.tcpMessageChannel.SendMessage(new PlayerDisconnectEvent() { guid = brokenClient });
-
-                }
+                broadcastMessage(new PlayerDisconnectEvent() { guid = brokenClient });
 
                 Destroy(NetworkTransform.Transforms[brokenClient].gameObject);
                 NetworkTransform.Transforms.Remove(brokenClient);
@@ -204,6 +237,11 @@ namespace server {
 
         public int GetAmountOfClients() {
             return this.clients.Count;
+        }
+
+        private void OnNetworkEvent(NetworkEvent newEvent) {
+            Debug.Log("Got event: " + newEvent.GetType());
+            syncEvents.Enqueue(newEvent);
         }
 
     }

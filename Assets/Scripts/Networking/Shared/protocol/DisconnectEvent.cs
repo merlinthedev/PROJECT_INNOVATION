@@ -1,12 +1,12 @@
-public class DisconnectEvent : shared.ASerializable {
+public class DisconnectEvent : shared.ISerializable {
 
     public System.Guid guid { get; set; }
 
-    public override void Serialize(shared.Packet packet) {
+    public void Serialize(shared.Packet packet) {
         packet.Write(guid);
     }
 
-    public override void Deserialize(shared.Packet packet) {
+    public void Deserialize(shared.Packet packet) {
         guid = packet.ReadGuid();
     }
 

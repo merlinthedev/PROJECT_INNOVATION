@@ -6,6 +6,7 @@ using shared;
 public class GameClient : MonoBehaviour {
 
     [SerializeField] private NetworkTransform playerPrefab;
+    [SerializeField] private NetworkTransform itemPrefab;
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
 
     private TcpMessageChannel tcpMessageChannel;
@@ -55,12 +56,12 @@ public class GameClient : MonoBehaviour {
         }
 
         while (tcpMessageChannel.HasMessage() && gameObject.activeSelf) {
-            ASerializable message = tcpMessageChannel.ReceiveMessage();
+            ISerializable message = tcpMessageChannel.ReceiveMessage();
             handleNetworkMessage(message);
         }
     }
 
-    private void handleNetworkMessage(ASerializable message) {
+    private void handleNetworkMessage(ISerializable message) {
         // handle messages
         // Debug.Log("Received a message of type " + message.GetType() + ", but we have no way of handling it yet...");
 
@@ -82,7 +83,29 @@ public class GameClient : MonoBehaviour {
             case PlayerDisconnectEvent playerDisconnectEvent:
                 handlePlayerDisconnectEvent(playerDisconnectEvent);
                 break;
+            case NetworkEvent networkEvent:
+                handleNetworkEvent(networkEvent);
+                break;
+            case ExistingItemsPacket existingItemsPacket:
+                handleExistingItemsPacket(existingItemsPacket);
+                break;
         }
+    }
+
+    private void handleExistingItemsPacket(ExistingItemsPacket existingItemsPacket) {
+        existingItemsPacket.existingItems.ForEach(transformPacket => {
+            var newItem = Instantiate(itemPrefab, transformPacket.Position(), transformPacket.Rotation());
+            newItem.key = transformPacket.guid;
+            newItem.kinematic = true;
+            newItem.Initialize();
+
+        });
+    }
+
+    private void handleNetworkEvent(NetworkEvent networkEvent) {
+        Debug.LogWarning("Received a network event with type: " + networkEvent.GetType());
+        NetworkEventBus.Raise(networkEvent);
+        Debug.LogWarning("Raised a network event with type: " + networkEvent.GetType());
     }
 
     private void handlePlayerDisconnectEvent(PlayerDisconnectEvent playerDisconnectEvent) {
@@ -115,12 +138,18 @@ public class GameClient : MonoBehaviour {
             transform.UpdateTransform(transformPacket);
         } else {
             Debug.LogWarning("Received a transform packet for a client that is not in our dictionary. How did this happen? :O");
-
             //for now, we instantiate a new transform at that position
+
             var newClient = Instantiate(playerPrefab, transformPacket.Position(), transformPacket.Rotation());
             newClient.key = transformPacket.guid;
             newClient.kinematic = true;
             newClient.Initialize();
+
+
+            // var newObject = Instantiate(transform, transformPacket.Position(), transformPacket.Rotation());
+            // newObject.key = transformPacket.guid;
+            // newObject.kinematic = true;
+            // newObject.Initialize();
         }
     }
 

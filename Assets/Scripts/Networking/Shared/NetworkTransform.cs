@@ -4,12 +4,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NetworkTransform : MonoBehaviour {
+public class NetworkTransform : AGuidSource {
+
+    // In case we receive a packet before we know of it (i.e. it's not in the dictionary yet), instantiate it with this model
+    public GameObject model;
+
     public static readonly Dictionary<Guid, NetworkTransform> Transforms = new Dictionary<Guid, NetworkTransform>();
     public static readonly HashSet<NetworkTransform> UpdatedTransforms = new HashSet<NetworkTransform>();
 
-    [SerializeField] private string keyString = Guid.NewGuid().ToString();
-    public Guid key { get => Guid.Parse(keyString); set => keyString = value.ToString(); }
     bool initialized = false;
 
     [Tooltip("Whether the transform is being updated from incoming packets")]

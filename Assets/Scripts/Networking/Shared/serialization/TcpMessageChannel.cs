@@ -25,7 +25,7 @@ namespace shared {
         private List<Exception> errors = new List<Exception>();
 
         //quick cache thingy to avoid reserialization of objects when you have a lot of clients (only applies to the serverside)
-        private static ASerializable lastSerializedMessage = null;
+        private static ISerializable lastSerializedMessage = null;
         private static byte[] lastSerializedBytes = null;
 
         /**
@@ -60,6 +60,7 @@ namespace shared {
             try {
                 client = new TcpClient();
                 client.Connect(serverIP, serverPort);
+                client.NoDelay = true; //disable Nagle's algorithm
                 stream = client.GetStream();
                 remoteEndPoint = client.Client.RemoteEndPoint as IPEndPoint;
                 errors.Clear();
@@ -74,7 +75,7 @@ namespace shared {
         /**
          * Send the given message through the underlying TcpClient's NetStream.
          */
-        public void SendMessage(ASerializable message) {
+        public void SendMessage(ISerializable message) {
             if (HasErrors()) {
                 Log.LogInfo("This channel has errors, cannot send.", this, ConsoleColor.Red);
                 return;
@@ -106,7 +107,7 @@ namespace shared {
          * Block until a complete message is read over the underlying's TcpClient's NetStream.
          * If you don't want to block, check HasMessage first().
          */
-        public ASerializable ReceiveMessage() {
+        public ISerializable ReceiveMessage() {
             if (HasErrors()) {
                 Log.LogInfo("This channel has errors, cannot receive.", this, ConsoleColor.Red);
                 return null;
@@ -115,7 +116,7 @@ namespace shared {
             try {
                 byte[] inBytes = StreamUtil.Read(stream);
                 Packet inPacket = new Packet(inBytes);
-                ASerializable inObject = inPacket.ReadObject();
+                ISerializable inObject = inPacket.ReadObject();
 
                 return inObject;
             } catch (Exception e) {
