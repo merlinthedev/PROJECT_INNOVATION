@@ -23,14 +23,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1721088990}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.13052596, y: 0.000000029802322, z: 0.0000000037252903, w: 0.99144495}
+  m_LocalPosition: {x: -0.06, y: 1.46, z: -3.32}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5073113415654187638}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
 --- !u!1 &370696316135612433
 GameObject:
   m_ObjectHideFlags: 0
@@ -471,7 +471,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3993095379485580913}
-  m_LocalRotation: {x: -0, y: -0.70710576, z: -0, w: 0.70710784}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -0.052, y: -0.516, z: 0.153}
   m_LocalScale: {x: 43.78943, y: 40.254845, z: 43.78943}
   m_ConstrainProportionsScale: 0
@@ -481,7 +481,7 @@ Transform:
   - {fileID: 7755304119565295152}
   m_Father: {fileID: 5073113415654187638}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &4567696664324558618
 GameObject:
   m_ObjectHideFlags: 0
@@ -612,16 +612,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5073113415654187644}
-  m_LocalRotation: {x: -0, y: 0.0000059604645, z: -0, w: -1}
-  m_LocalPosition: {x: 1.18, y: 1.263, z: 2.13}
-  m_LocalScale: {x: 0.95581, y: 0.95581, z: 0.95581}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.18, y: 1.2577, z: 2.13}
+  m_LocalScale: {x: 0.95581, y: 1.0117999, z: 0.95581}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1721088991}
   - {fileID: 4332889159897023691}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 359.999, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &5073113415654187642
 Rigidbody:
   m_ObjectHideFlags: 0
