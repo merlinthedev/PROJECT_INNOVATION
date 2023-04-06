@@ -89,9 +89,11 @@ public class GameClient : MonoBehaviour {
     }
 
     private void handleNetworkEvent(NetworkEvent networkEvent) {
+        // Debug.LogWarning("Received a network event with type: " + networkEvent.GetType());
         NetworkEventBus.Raise(networkEvent);
+        // Debug.LogWarning("Raised a network event with type: " + networkEvent.GetType());
     }
-    
+
     private void handlePlayerDisconnectEvent(PlayerDisconnectEvent playerDisconnectEvent) {
         NetworkTransform transform;
         NetworkTransform.Transforms.TryGetValue(playerDisconnectEvent.guid, out transform);
@@ -122,12 +124,18 @@ public class GameClient : MonoBehaviour {
             transform.UpdateTransform(transformPacket);
         } else {
             Debug.LogWarning("Received a transform packet for a client that is not in our dictionary. How did this happen? :O");
-
             //for now, we instantiate a new transform at that position
-            var newClient = Instantiate(playerPrefab, transformPacket.Position(), transformPacket.Rotation());
-            newClient.key = transformPacket.guid;
-            newClient.kinematic = true;
-            newClient.Initialize();
+            /*
+                var newClient = Instantiate(playerPrefab, transformPacket.Position(), transformPacket.Rotation());
+                newClient.key = transformPacket.guid;
+                newClient.kinematic = true;
+                newClient.Initialize();
+            */
+
+            var newObject = Instantiate(transform, transformPacket.Position(), transformPacket.Rotation());
+            newObject.key = transformPacket.guid;
+            newObject.kinematic = true;
+            newObject.Initialize();
         }
     }
 

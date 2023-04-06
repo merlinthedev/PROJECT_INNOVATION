@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class Spawner : MonoBehaviour {
+
+    public static List<Spawner> Spawners = new List<Spawner>();
+
     [SerializeField] private SpawnerConfiguration configuration;
     [SerializeField] private Transform spawnRoot;
 
@@ -8,11 +12,12 @@ public class Spawner : MonoBehaviour {
     private bool hasItem = false;
 
     private void Start() {
-        spawnItem();
+        Spawners.Add(this);
+        if (NetworkManager.IsServer) spawnItem();
     }
 
     private void Update() {
-        if (!hasItem && Time.time - lastPickupTime > configuration.spawnDelay)
+        if (!hasItem && Time.time - lastPickupTime > configuration.spawnDelay && NetworkManager.IsServer)
             spawnItem();
     }
 
@@ -24,12 +29,17 @@ public class Spawner : MonoBehaviour {
         if (hasItem) return;
 
         var item = Instantiate(configuration.GetRandomPrefab(), spawnRoot.position, Quaternion.identity);
+
+        NetworkEventBus.Raise(new ItemSpawnedEvent {
+            source = item.GetComponent<NetworkTransform>().Key,
+        });
+
         item.transform.SetParent(spawnRoot);
         item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y + 0.5f, item.transform.position.z);
         Debug.Log("Spawned at " + transform.position);
         var networkTransform = item.GetComponent<NetworkTransform>();
 
-        // networkTransform.Initialize();
+        networkTransform.Initialize();
 
         item.spawner = this;
         hasItem = true;

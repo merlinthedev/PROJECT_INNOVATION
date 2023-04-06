@@ -44,6 +44,14 @@ public class Player : MonoBehaviour {
         if (other.gameObject.CompareTag("Item") && leftoverCapacity > 0) {
             Item item = other.gameObject.GetComponent<Item>();
             AddItem(item);
+            NetworkTransform networkTransform = item.GetComponent<NetworkTransform>();
+            ItemPickedUpEvent itemPickedUpEvent = new ItemPickedUpEvent(networkTransform.Key);
+            itemPickedUpEvent.source = GetComponent<NetworkTransform>().Key;
+            NetworkEventBus.Raise(itemPickedUpEvent);
+
+            NetworkTransform.Transforms.Remove(networkTransform.Key);
+
+            Debug.Log("Item picked up");
         }
 
         if (other.gameObject.CompareTag("PowerUp") && powerUp == null) {

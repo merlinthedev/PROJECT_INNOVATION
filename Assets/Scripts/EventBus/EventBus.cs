@@ -18,7 +18,9 @@ public class NetworkEventBus {
     public static readonly Type[] EventTypes = {
         typeof(NetworkEvent),
         typeof(TestNetworkEvent),
-        typeof(JumpEvent)
+        typeof(JumpEvent),
+        typeof(ItemPickedUpEvent),
+        typeof(ItemSpawnedEvent),
     };
 
     public static void Subscribe<T>(System.Action<T> handler) where T : NetworkEvent {
@@ -135,10 +137,20 @@ public class JumpEvent : NetworkEvent {
     }
 }
 
-public class PickupEvent : NetworkEvent {
+public class ItemSpawnedEvent : NetworkEvent {
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+    }
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
+    }
+}
+
+public class ItemPickedUpEvent : NetworkEvent {
     public Guid itemGuid { get; private set; }
 
-    public PickupEvent(Guid itemGuid) {
+    public ItemPickedUpEvent(Guid itemGuid) {
         this.itemGuid = itemGuid;
     }
 
@@ -152,3 +164,4 @@ public class PickupEvent : NetworkEvent {
         itemGuid = packet.ReadGuid();
     }
 }
+

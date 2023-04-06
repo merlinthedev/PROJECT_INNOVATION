@@ -6,19 +6,25 @@ public class NetworkEventTester : MonoBehaviour {
     public bool isServer;
 
     private void OnEnable() {
-        NetworkEventBus.Subscribe<TestNetworkEvent>(onNetworkEvent);
+        NetworkEventBus.Subscribe<TestNetworkEvent>(onTestNetworkEvent);
+        NetworkEventBus.Subscribe<ItemSpawnedEvent>(onItemSpawnedEvent);
     }
 
     private void OnDisable() {
-        NetworkEventBus.Unsubscribe<TestNetworkEvent>(onNetworkEvent);
+        NetworkEventBus.Unsubscribe<TestNetworkEvent>(onTestNetworkEvent);
+        NetworkEventBus.Unsubscribe<ItemSpawnedEvent>(onItemSpawnedEvent);
     }
 
     private void Start() {
         if (isServer) StartCoroutine(sendNetworkEvent());
+    } 
+
+    private void onItemSpawnedEvent(ItemSpawnedEvent itemSpawnedEvent) {
+        Debug.Log("ItemSpawnedEvent event received");
     }
 
-    private void onNetworkEvent(TestNetworkEvent testNetworkEvent) {
-        Debug.Log("Received network event: " + testNetworkEvent.source);
+    private void onTestNetworkEvent(TestNetworkEvent itemPickedUpEvent) {
+        Debug.Log("TestNetworkEvent event received");
     }
 
     private IEnumerator sendNetworkEvent() {
@@ -26,7 +32,10 @@ public class NetworkEventTester : MonoBehaviour {
             NetworkEventBus.Raise(new TestNetworkEvent {
                 source = System.Guid.NewGuid()
             });
-            yield return new WaitForSeconds(1);
+            NetworkEventBus.Raise(new ItemSpawnedEvent {
+                source = System.Guid.NewGuid()
+            });
+            yield return new WaitForSeconds(5);
         }
     }
 

@@ -24,12 +24,12 @@ namespace server {
         [SerializeField] private int serverPort = 55555;    //the port we listen on
 
         private TcpListener listener;
-        
+
         private Dictionary<Guid, ClientGameInformation> clients = new Dictionary<Guid, ClientGameInformation>();
         private List<Guid> brokenClients = new List<Guid>();
 
         [SerializeField] private GameObject playerServerPrefab;
-        
+
         /// <summary>
         /// Events since last sync
         /// </summary>
@@ -135,7 +135,7 @@ namespace server {
                 transformList.updatedTransforms.Add(transformPacket);
             }
 
-            BroadcastMessage(transformList);
+            broadcastMessage(transformList);
 
             NetworkTransform.UpdatedTransforms.Clear();
 
@@ -144,7 +144,8 @@ namespace server {
         private void sendEvents() {
             while (syncEvents.Count > 0) {
                 var networkEvent = syncEvents.Dequeue();
-                BroadcastMessage(networkEvent);
+                broadcastMessage(networkEvent);
+                Debug.Log("Sending event: " + networkEvent.GetType());
             }
         }
 
@@ -161,7 +162,7 @@ namespace server {
             Debug.Log("OH NO A CLIENT DISCONNECTED WHAT DO WE DO?!");
         }
 
-        private void BroadcastMessage(ISerializable message) {
+        private void broadcastMessage(ISerializable message) {
             foreach (var client in clients.Values) {
                 client.tcpMessageChannel.SendMessage(message);
             }
@@ -183,7 +184,7 @@ namespace server {
             foreach (var brokenClient in brokenClients) {
                 clients[brokenClient].tcpMessageChannel.Close();
                 clients.Remove(brokenClient);
-                BroadcastMessage(new PlayerDisconnectEvent() { guid = brokenClient });
+                broadcastMessage(new PlayerDisconnectEvent() { guid = brokenClient });
 
                 Destroy(NetworkTransform.Transforms[brokenClient].gameObject);
                 NetworkTransform.Transforms.Remove(brokenClient);
@@ -223,6 +224,7 @@ namespace server {
         }
 
         private void OnNetworkEvent(NetworkEvent newEvent) {
+            Debug.Log("Got event: " + newEvent.GetType());
             syncEvents.Enqueue(newEvent);
         }
 

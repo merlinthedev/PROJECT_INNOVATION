@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1612820887, guid: 2d299ca8f2e0d9c40aa7fa3f629115b9, type: 3}
+      propertyPath: model
+      value: 
+      objectReference: {fileID: 2671685037222174034}
     - target: {fileID: 5073113415654187638, guid: 2d299ca8f2e0d9c40aa7fa3f629115b9,
         type: 3}
       propertyPath: m_RootOrder
@@ -134,5 +138,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1daa664133eb1aa4eaefc33dccc5cbf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemHolder: {fileID: 0}
   capacity: 2
   items: []
+  powerUpHolder: {fileID: 0}
+  powerUp: {fileID: 0}

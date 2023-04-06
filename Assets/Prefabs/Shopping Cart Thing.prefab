@@ -144,6 +144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyString: dbc7776f-7d32-4494-9858-e3496b7fba3f
+  model: {fileID: 5073113415654187644}
   kinematic: 0
   smoothingType: 1
   smoothSpeed: 25
