@@ -40,6 +40,7 @@ public class LevelManager : MonoBehaviour {
         Debug.LogWarning("Item spawned event received");
         var item = Instantiate(itemPrefab, Spawner.Spawners[Random.Range(0, Spawner.Spawners.Count - 1)].gameObject.transform.position, Quaternion.identity);
         var itemNetworkTransform = item.GetComponent<NetworkTransform>();
+        itemNetworkTransform.SetKey(itemSpawnedEvent.source);
         itemNetworkTransform.Initialize();
 
 
