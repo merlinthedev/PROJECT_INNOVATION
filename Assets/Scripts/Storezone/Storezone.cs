@@ -26,8 +26,14 @@ public class Storezone : MonoBehaviour {
 
     private void OnTriggerExit(Collider other) {
         if (other.gameObject.CompareTag("Player")) {
-            other.gameObject.GetComponent<Player>().DiscardItems();
+            var player = other.gameObject.GetComponent<Player>();
+            if(player != null) {
+                if(!player.IsSafeToLeave) {
+                    player.DiscardItems();
+                }
+            }
         }
     }
+
 
 }

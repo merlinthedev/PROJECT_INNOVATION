@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
 
     private float score = 0f;
+    public bool IsSafeToLeave { get; set; } = false;
 
     private void Start() {
         this.itemHolder = this.gameObject.transform;
@@ -43,6 +45,11 @@ public class Player : MonoBehaviour {
         NetworkEventBus.Raise(new ItemDroppedOffEvent {
             source = GetComponent<NetworkTransform>().Key,
         });
+    }
+
+    public IEnumerator ResetSafeToLeaveFlag() {
+        yield return new WaitForSeconds(2f);
+        IsSafeToLeave = false;
     }
 
     public void DropOffItems() {
