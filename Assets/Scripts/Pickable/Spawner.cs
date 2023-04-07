@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Spawner : MonoBehaviour {
+public class Spawner : AGuidSource {
 
     public static List<Spawner> Spawners = new List<Spawner>();
 
@@ -38,7 +38,9 @@ public class Spawner : MonoBehaviour {
         Item.Items.Add((Item)item);
 
         NetworkEventBus.Raise(new ItemSpawnedEvent {
-            source = item.GetComponent<NetworkTransform>().Key,
+            source = key,
+            itemID = 0,
+            itemGuid = item.GetComponent<NetworkTransform>().Key
         });
 
         item.transform.SetParent(spawnRoot);
