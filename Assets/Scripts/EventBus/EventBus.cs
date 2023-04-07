@@ -216,16 +216,26 @@ public class ScoreUpdatedEvent : NetworkEvent {
 
 public class ItemDiscountUpdateEvent : NetworkEvent {
     public float discount { get; set; }
-    public List<Guid> influencedItems = new List<Guid>();
+    public List<Guid> influencedItems { get; set; } = new List<Guid>();
 
     public override void Serialize(Packet packet) {
         packet.Write(source);
         packet.Write(discount);
+        packet.Write(influencedItems.Count);
+        foreach (Guid itemGuid in influencedItems) {
+            packet.Write(itemGuid);
+        }
     }
 
     public override void Deserialize(Packet packet) {
         source = packet.ReadGuid();
         discount = packet.ReadFloat();
+        int count = packet.ReadInt();
+        for (int i = 0; i < count; i++) {
+            influencedItems.Add(packet.ReadGuid());
+        }
     }
+
+
 }
 

@@ -16,7 +16,7 @@ public class UIItemDiscountHelper : MonoBehaviour {
 
 
     public void SetDiscount(float discount) {
-        Debug.Log("Setting discount to " + discount);
+        // Debug.Log("Setting discount to " + discount);
         discount *= 100;
         // round to 0
         discount = Mathf.Round(discount);
@@ -36,12 +36,17 @@ public class UIItemDiscountHelper : MonoBehaviour {
     }
 
     private void onItemDiscountUpdateEvent(ItemDiscountUpdateEvent itemDiscountUpdateEvent) {
+        // if (itemDiscountUpdateEvent.influencedItems.Count == 0) {
+        //     Debug.Log("CLIENT: No items influenced");
+        //     return;
+        // }
 
-        foreach (var x in itemDiscountUpdateEvent.influencedItems) {
-            Debug.Log("influenced items: " + x);
-        }
+        // foreach (var x in itemDiscountUpdateEvent.influencedItems) {
+        //     Debug.Log("CLIENT: influenced item with GUID: " + x);
+        // }
 
         if (!itemDiscountUpdateEvent.influencedItems.Contains(networkTransform.Key)) {
+            // Debug.Log("CLIENT: This item is not influenced, key:" + networkTransform.Key);
             return;
         }
 

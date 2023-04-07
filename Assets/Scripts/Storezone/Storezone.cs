@@ -36,13 +36,18 @@ public class Storezone : MonoBehaviour {
             itemDiscountUpdateEvent.source = System.Guid.Empty;
             itemDiscountUpdateEvent.discount = storeDiscount;
 
+            itemDiscountUpdateEvent.influencedItems.Clear();
+
             // loop through all the items in Item.Items, check for their spawner and if the spawner has this has a reference to Storezone, update the discount
             foreach (var item in Item.Items) {
                 if (item.Storezone == this) {
                     item.itemStats.discount = storeDiscount;
-                    itemDiscountUpdateEvent.influencedItems.Add(item.GetComponent<NetworkTransform>().Key);
+                    var key = item.GetComponent<NetworkTransform>().Key;
+                    itemDiscountUpdateEvent.influencedItems.Add(key);
                 }
             }
+
+            Debug.Log("Raising network event with " + itemDiscountUpdateEvent.influencedItems.Count + " items.");
 
             NetworkEventBus.Raise(itemDiscountUpdateEvent);
             yield return new WaitForSeconds(storeDiscountChangeInterval);

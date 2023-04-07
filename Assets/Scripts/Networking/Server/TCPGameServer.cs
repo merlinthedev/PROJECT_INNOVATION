@@ -99,15 +99,13 @@ namespace server {
 
                 // send items before other NetworkTransforms
                 foreach (var item in Item.Items) {
-                    existingItemsPacket.existingItems.Add(item.GetComponent<NetworkTransform>().GetPacket());
+                    // existingItemsPacket.existingItems.Add(item.GetComponent<NetworkTransform>().GetPacket());
                     networkTransforms.Add(item.GetComponent<NetworkTransform>());
-
-                    existingItemsPacket.discountMap.Add(item.GetComponent<NetworkTransform>().key, item.GetComponent<Item>().itemStats.discount);
+                    existingItemsPacket.existingItemMap.Add(item.GetComponent<NetworkTransform>().key, item.GetComponent<NetworkTransform>().GetPacket());
                 }
 
-
-
                 channel.SendMessage(existingItemsPacket);
+
 
                 foreach (var networkTransform in NetworkTransform.Transforms.Values.ToList()) {
                     if (networkTransforms.Contains(networkTransform)) {

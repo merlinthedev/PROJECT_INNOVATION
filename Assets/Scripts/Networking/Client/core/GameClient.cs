@@ -94,18 +94,28 @@ public class GameClient : MonoBehaviour {
     }
 
     private void handleExistingItemsPacket(ExistingItemsPacket existingItemsPacket) {
-        existingItemsPacket.existingItems.ForEach(transformPacket => {
-            var newItem = Instantiate(itemPrefab, transformPacket.Position(), transformPacket.Rotation());
-            newItem.key = transformPacket.guid;
-            newItem.kinematic = true;
-            newItem.Initialize();
-        });
+        // existingItemsPacket.existingItems.ForEach(transformPacket => {
+        //     var newItem = Instantiate(itemPrefab, transformPacket.Position(), transformPacket.Rotation());
+        //     newItem.key = transformPacket.guid;
+        //     newItem.kinematic = true;
+        //     newItem.Initialize();
+        // });
 
         ItemDiscountUpdateEvent itemDiscountUpdateEvent = new ItemDiscountUpdateEvent();
+        itemDiscountUpdateEvent.influencedItems = new System.Collections.Generic.List<System.Guid>();
+        itemDiscountUpdateEvent.discount = 0.1f;
 
-        foreach (var kvp in existingItemsPacket.discountMap) {
+        foreach (var kvp in existingItemsPacket.existingItemMap) {
+            var newItem = Instantiate(itemPrefab, kvp.Value.Position(), kvp.Value.Rotation());
+            newItem.key = kvp.Key;
+            newItem.kinematic = true;
+            newItem.Initialize();
+
+            itemDiscountUpdateEvent.influencedItems.Add(kvp.Key);
             
         }
+
+        NetworkEventBus.Raise(itemDiscountUpdateEvent);
     }
 
     private void handleNetworkEvent(NetworkEvent networkEvent) {
