@@ -49256,6 +49256,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2688416425333945936, guid: 6272006397fe2194e90e8d5fd330a16b,
         type: 3}
+      propertyPath: Storezone
+      value: 
+      objectReference: {fileID: 1502898110}
+    - target: {fileID: 2688416425333945936, guid: 6272006397fe2194e90e8d5fd330a16b,
+        type: 3}
       propertyPath: storezone
       value: 
       objectReference: {fileID: 1502898110}
@@ -50338,7 +50343,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   storeDiscount: 0.1
+  storeDiscountChangeInterval: 5
   storezoneCollider: {fileID: 1502898111}
+  minDiscount: 0.1
+  maxDiscount: 0.8
 --- !u!65 &1502898111
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -71472,6 +71480,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2688416425333945936, guid: 6272006397fe2194e90e8d5fd330a16b,
+        type: 3}
+      propertyPath: Storezone
+      value: 
+      objectReference: {fileID: 1502898110}
     - target: {fileID: 2688416425333945936, guid: 6272006397fe2194e90e8d5fd330a16b,
         type: 3}
       propertyPath: storezone

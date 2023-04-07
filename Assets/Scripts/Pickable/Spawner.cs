@@ -8,7 +8,7 @@ public class Spawner : AGuidSource {
     [SerializeField] private SpawnerConfiguration configuration;
     [SerializeField] private Transform spawnRoot;
 
-    [SerializeField] private Storezone storezone;
+    public Storezone Storezone;
 
     private float lastPickupTime = 0f;
     private bool hasItem = false;
@@ -37,14 +37,18 @@ public class Spawner : AGuidSource {
         // replace item id
         item.GetComponent<NetworkTransform>().NewKey();
 
-        item.GetComponent<Item>().itemStats.discount = storezone.StoreDiscount;
+        var itemComponent = item.GetComponent<Item>();
+
+        itemComponent.itemStats.discount = Storezone.StoreDiscount;
+        itemComponent.Storezone = Storezone;
 
         Item.Items.Add((Item)item);
 
         NetworkEventBus.Raise(new ItemSpawnedEvent {
             source = key,
             itemID = 0,
-            itemGuid = item.GetComponent<NetworkTransform>().Key
+            itemGuid = item.GetComponent<NetworkTransform>().Key,
+            itemDiscount = Storezone.StoreDiscount
         });
 
         item.transform.SetParent(spawnRoot);

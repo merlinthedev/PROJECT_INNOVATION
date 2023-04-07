@@ -36,7 +36,7 @@ public class Player : MonoBehaviour {
             // drop them back into the world
             item.transform.SetParent(null);
             // make sure to set the transform to next to the player but not to the point where we pick it up
-            item.transform.position = new UnityEngine.Vector3(transform.position.x + 10f, transform.position.y + 1f, transform.position.z);
+            item.transform.position = item.Storezone.transform.position + new UnityEngine.Vector3(0f, 1f, 0f);
             item.gameObject.SetActive(true);
         }
 

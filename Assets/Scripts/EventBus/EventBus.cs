@@ -156,17 +156,20 @@ public class JumpEvent : NetworkEvent {
 public class ItemSpawnedEvent : NetworkEvent {
     public int itemID { get; set; }
     public Guid itemGuid { get; set; }
+    public float itemDiscount { get; set; }
 
     public override void Serialize(Packet packet) {
         packet.Write(source);
         packet.Write(itemID);
         packet.Write(itemGuid);
+        packet.Write(itemDiscount);
     }
 
     public override void Deserialize(Packet packet) {
         source = packet.ReadGuid();
         itemID = packet.ReadInt();
         itemGuid = packet.ReadGuid();
+        itemDiscount = packet.ReadFloat();
     }
 }
 
@@ -208,6 +211,21 @@ public class ScoreUpdatedEvent : NetworkEvent {
     public override void Deserialize(Packet packet) {
         source = packet.ReadGuid();
         score = packet.ReadFloat();
+    }
+}
+
+public class ItemDiscountUpdateEvent : NetworkEvent {
+    public float discount { get; set; }
+    public List<Guid> influencedItems = new List<Guid>();
+
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+        packet.Write(discount);
+    }
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
+        discount = packet.ReadFloat();
     }
 }
 

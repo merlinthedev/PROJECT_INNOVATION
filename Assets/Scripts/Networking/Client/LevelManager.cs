@@ -44,6 +44,16 @@ public class LevelManager : MonoBehaviour {
         itemNetworkTransform.Initialize();
 
 
+        var uiComponent = item.gameObject.GetComponentInChildren<UIItemDiscountHelper>();
+
+        if (uiComponent != null) {
+            uiComponent.SetDiscount(itemSpawnedEvent.itemDiscount);
+        } else {
+            Debug.LogWarning("No UI component found on the item prefab");
+        }
+
+
+
     }
 
     private void onItemPickedUp(ItemPickedUpEvent itemPickedUpEvent) {

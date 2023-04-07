@@ -6,13 +6,12 @@ public class Item : AInteractable {
 
     public static List<Item> Items = new List<Item>();
 
+    public Storezone Storezone;
+
     public ItemStats itemStats;
     public int Weight { get { return itemStats.Weight; } }
 
     private float initialY;
-
-    
-
     protected override void OnPickUp() {
 
     }

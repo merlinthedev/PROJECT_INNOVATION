@@ -36,8 +36,10 @@ public class InventoryUIHandler : MonoBehaviour {
             var newItem = Instantiate(itemPrefab, childTransform);
             Debug.Log("Instantiated where did it go ?XD");
             newItem.GetComponent<Image>().sprite = Sprite.Create(itemTexture, new Rect(0, 0, itemTexture.width, itemTexture.height), Vector2.zero);
-            newItem.GetComponent<RectTransform>().anchoredPosition = new Vector2(50 * (i + 1), 0);
+            newItem.GetComponent<RectTransform>().anchoredPosition = new Vector2(50 * i, 0);
             items.Add(newItem);
+
+            
             // do we need to instantiate?
         }
     }
