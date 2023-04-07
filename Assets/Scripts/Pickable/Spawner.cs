@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Spawner : MonoBehaviour {
+public class Spawner : AGuidSource {
 
     public static List<Spawner> Spawners = new List<Spawner>();
 

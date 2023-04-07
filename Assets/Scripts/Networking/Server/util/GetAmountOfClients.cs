@@ -20,7 +20,7 @@ public class GetAmountOfClients : MonoBehaviour {
     private void Start() {
         serverAddress = tcpGameServer.GetServerAddress();
         serverPort = tcpGameServer.GetServerPort().ToString();
-        textMeshProUGUI.text = "Amout of clients: " + tcpGameServer.GetAmountOfClients().ToString() + " \non server: " + serverAddress + ":" + serverPort;
+        textMeshProUGUI.text = "Amount of clients: " + tcpGameServer.GetAmountOfClients().ToString() + " \non server: " + serverAddress + ":" + serverPort;
     }
 
     private void handleJoinQuitEvent(JoinQuitEvent joinQuitEvent) {
