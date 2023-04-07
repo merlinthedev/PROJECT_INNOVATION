@@ -8,6 +8,8 @@ public class Spawner : AGuidSource {
     [SerializeField] private SpawnerConfiguration configuration;
     [SerializeField] private Transform spawnRoot;
 
+    [SerializeField] private Storezone storezone;
+
     private float lastPickupTime = 0f;
     private bool hasItem = false;
 
@@ -34,6 +36,8 @@ public class Spawner : AGuidSource {
         var item = Instantiate(configuration.GetRandomPrefab(), spawnRoot.position, Quaternion.identity);
         // replace item id
         item.GetComponent<NetworkTransform>().NewKey();
+
+        item.GetComponent<Item>().itemStats.discount = storezone.StoreDiscount;
 
         Item.Items.Add((Item)item);
 

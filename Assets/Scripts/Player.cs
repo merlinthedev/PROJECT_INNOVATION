@@ -6,8 +6,13 @@ public class Player : MonoBehaviour {
 
     private float score = 0f;
 
+    private void Start() {
+        this.itemHolder = this.gameObject.transform;
+    }
+
+
     #region Items
-    [SerializeField] Transform itemHolder;
+    [SerializeField] private Transform itemHolder;
     [SerializeField] private int capacity = 2;
     [SerializeField] private List<Item> items = new List<Item>();
     //current capacity we have
@@ -22,6 +27,22 @@ public class Player : MonoBehaviour {
 
     public void RemoveItem(Item item) {
         items.Remove(item);
+    }
+
+    public void DiscardItems() {
+        foreach (var item in items) {
+            // drop them back into the world
+            item.transform.SetParent(null);
+            // make sure to set the transform to next to the player but not to the point where we pick it up
+            item.transform.position = new UnityEngine.Vector3(transform.position.x + 10f, transform.position.y + 1f, transform.position.z);
+            item.gameObject.SetActive(true);
+        }
+
+        items.Clear();
+
+        NetworkEventBus.Raise(new ItemDroppedOffEvent {
+            source = GetComponent<NetworkTransform>().Key,
+        });
     }
 
     public void DropOffItems() {
