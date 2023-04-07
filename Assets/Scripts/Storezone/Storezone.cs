@@ -30,7 +30,6 @@ public class Storezone : MonoBehaviour {
 
     private IEnumerator changeDiscount() {
         while (true) {
-            yield return new WaitForSeconds(storeDiscountChangeInterval);
             storeDiscount = Random.Range(minDiscount, maxDiscount);
 
             ItemDiscountUpdateEvent itemDiscountUpdateEvent = new ItemDiscountUpdateEvent();
@@ -46,6 +45,7 @@ public class Storezone : MonoBehaviour {
             }
 
             NetworkEventBus.Raise(itemDiscountUpdateEvent);
+            yield return new WaitForSeconds(storeDiscountChangeInterval);
         }
     }
 

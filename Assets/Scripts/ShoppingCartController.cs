@@ -24,7 +24,7 @@ public class ShoppingCartController : MonoBehaviour {
     private bool isJumping = false;
 
     void Start() {
-        jumpParticles = transform.Find("jumpParticles").GetComponent<ParticleSystem>();
+        // jumpParticles = transform.Find("jumpParticles").GetComponent<ParticleSystem>();
     }
     private void Awake() {
         movementInputReceiver = GetComponent<IMovementInputReceiver>();

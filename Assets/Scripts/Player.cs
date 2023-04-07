@@ -99,6 +99,7 @@ public class Player : MonoBehaviour {
             itemPickedUpEvent.itemGuid = item.GetComponent<NetworkTransform>().key;
             itemPickedUpEvent.source = GetComponent<NetworkTransform>().Key;
             itemPickedUpEvent.inventorySize = items.Count;
+            itemPickedUpEvent.discount = item.itemStats.discount;
             NetworkEventBus.Raise(itemPickedUpEvent);
 
             item.PickUp();

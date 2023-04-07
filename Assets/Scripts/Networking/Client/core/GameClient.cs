@@ -1,6 +1,7 @@
 using UnityEngine;
 using Cinemachine;
 using System;
+using System.Linq;
 using shared;
 
 public class GameClient : MonoBehaviour {
@@ -98,14 +99,19 @@ public class GameClient : MonoBehaviour {
             newItem.key = transformPacket.guid;
             newItem.kinematic = true;
             newItem.Initialize();
-
         });
+
+        ItemDiscountUpdateEvent itemDiscountUpdateEvent = new ItemDiscountUpdateEvent();
+
+        foreach (var kvp in existingItemsPacket.discountMap) {
+            
+        }
     }
 
     private void handleNetworkEvent(NetworkEvent networkEvent) {
-        Debug.LogWarning("Received a network event with type: " + networkEvent.GetType());
+        // Debug.LogWarning("Received a network event with type: " + networkEvent.GetType());
         NetworkEventBus.Raise(networkEvent);
-        Debug.LogWarning("Raised a network event with type: " + networkEvent.GetType());
+        // Debug.LogWarning("Raised a network event with type: " + networkEvent.GetType());
     }
 
     private void handlePlayerDisconnectEvent(PlayerDisconnectEvent playerDisconnectEvent) {

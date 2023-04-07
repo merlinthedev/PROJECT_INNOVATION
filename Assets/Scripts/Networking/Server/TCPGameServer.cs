@@ -101,7 +101,11 @@ namespace server {
                 foreach (var item in Item.Items) {
                     existingItemsPacket.existingItems.Add(item.GetComponent<NetworkTransform>().GetPacket());
                     networkTransforms.Add(item.GetComponent<NetworkTransform>());
+
+                    existingItemsPacket.discountMap.Add(item.GetComponent<NetworkTransform>().key, item.GetComponent<Item>().itemStats.discount);
                 }
+
+
 
                 channel.SendMessage(existingItemsPacket);
 

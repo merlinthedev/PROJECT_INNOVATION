@@ -29,7 +29,10 @@ public class LevelManager : MonoBehaviour {
 
     private void onItemDroppedOff(ItemDroppedOffEvent itemDroppedOffEvent) {
         Debug.LogWarning("Item dropped off event received in the level manager");
-        EventBus<InventoryUIEvent>.Raise(new InventoryUIEvent(0));
+        EventBus<InventoryUIEvent>.Raise(new InventoryUIEvent {
+            inventorySize = 0,
+            discount = 0
+        });
     }
 
     private void onTestNetworkEventClient(TestNetworkEvent testNetworkEvent) {
@@ -60,7 +63,10 @@ public class LevelManager : MonoBehaviour {
         Debug.LogWarning("Item picked up event received in the level manager");
 
         // inform the UI;
-        EventBus<InventoryUIEvent>.Raise(new InventoryUIEvent(itemPickedUpEvent.inventorySize));
+        EventBus<InventoryUIEvent>.Raise(new InventoryUIEvent {
+            inventorySize = itemPickedUpEvent.inventorySize,
+            discount = itemPickedUpEvent.discount,
+        });
 
         NetworkTransform.Transforms.TryGetValue(itemPickedUpEvent.itemGuid, out NetworkTransform networkTransform);
         if (networkTransform != null) {

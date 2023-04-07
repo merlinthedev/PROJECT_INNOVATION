@@ -111,11 +111,8 @@ public class OnStateEnter : Event {
 }
 
 public class InventoryUIEvent : Event {
-    public int inventorySize { get; private set; }
-
-    public InventoryUIEvent(int inventorySize) {
-        this.inventorySize = inventorySize;
-    }
+    public int inventorySize { get; set; }
+    public float discount { get; set; }
 }
 
 public class ScoreUIEvent : Event {
@@ -176,17 +173,20 @@ public class ItemSpawnedEvent : NetworkEvent {
 public class ItemPickedUpEvent : NetworkEvent {
     public Guid itemGuid { get; set; }
     public int inventorySize;
+    public float discount;
 
     public override void Serialize(Packet packet) {
         packet.Write(source);
         packet.Write(itemGuid);
         packet.Write(inventorySize);
+        packet.Write(discount);
     }
 
     public override void Deserialize(Packet packet) {
         source = packet.ReadGuid();
         itemGuid = packet.ReadGuid();
         inventorySize = packet.ReadInt();
+        discount = packet.ReadFloat();
     }
 }
 
