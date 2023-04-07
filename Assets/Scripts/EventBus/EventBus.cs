@@ -154,12 +154,19 @@ public class JumpEvent : NetworkEvent {
 }
 
 public class ItemSpawnedEvent : NetworkEvent {
+    public int itemID { get; set; }
+    public Guid itemGuid { get; set; }
+
     public override void Serialize(Packet packet) {
         packet.Write(source);
+        packet.Write(itemID);
+        packet.Write(itemGuid);
     }
 
     public override void Deserialize(Packet packet) {
         source = packet.ReadGuid();
+        itemID = packet.ReadInt();
+        itemGuid = packet.ReadGuid();
     }
 }
 
