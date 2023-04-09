@@ -47,7 +47,7 @@ public class Storezone : MonoBehaviour {
                 }
             }
 
-            Debug.Log("Raising network event with " + itemDiscountUpdateEvent.influencedItems.Count + " items.");
+            // Debug.Log("Raising network event with " + itemDiscountUpdateEvent.influencedItems.Count + " items.");
 
             NetworkEventBus.Raise(itemDiscountUpdateEvent);
             yield return new WaitForSeconds(storeDiscountChangeInterval);

@@ -30,7 +30,7 @@ public class LevelManager : MonoBehaviour {
     private void onItemDroppedOff(ItemDroppedOffEvent itemDroppedOffEvent) {
         Debug.LogWarning("Item dropped off event received in the level manager");
         EventBus<InventoryUIEvent>.Raise(new InventoryUIEvent {
-            inventorySize = 0,
+            shouldClear = true,
             discount = 0
         });
     }
@@ -64,13 +64,15 @@ public class LevelManager : MonoBehaviour {
 
         // inform the UI;
         EventBus<InventoryUIEvent>.Raise(new InventoryUIEvent {
-            inventorySize = itemPickedUpEvent.inventorySize,
+            shouldClear = itemPickedUpEvent.shouldClear,
             discount = itemPickedUpEvent.discount,
         });
 
         NetworkTransform.Transforms.TryGetValue(itemPickedUpEvent.itemGuid, out NetworkTransform networkTransform);
         if (networkTransform != null) {
             Destroy(networkTransform.gameObject);
+        } else {
+            Debug.LogWarning("Network transform not found, cannot destroy the item");
         }
     }
 }

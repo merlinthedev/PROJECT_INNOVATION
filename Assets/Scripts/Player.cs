@@ -69,6 +69,9 @@ public class Player : MonoBehaviour {
         NetworkEventBus.Raise(new ItemDroppedOffEvent {
             source = GetComponent<NetworkTransform>().Key,
         });
+
+        // destroy networktransform 
+        NetworkTransform.Transforms.Remove(GetComponent<NetworkTransform>().Key);
     }
 
     #endregion
@@ -98,7 +101,7 @@ public class Player : MonoBehaviour {
             ItemPickedUpEvent itemPickedUpEvent = new ItemPickedUpEvent();
             itemPickedUpEvent.itemGuid = item.GetComponent<NetworkTransform>().key;
             itemPickedUpEvent.source = GetComponent<NetworkTransform>().Key;
-            itemPickedUpEvent.inventorySize = items.Count;
+            itemPickedUpEvent.shouldClear = false;
             itemPickedUpEvent.discount = item.itemStats.discount;
             NetworkEventBus.Raise(itemPickedUpEvent);
 

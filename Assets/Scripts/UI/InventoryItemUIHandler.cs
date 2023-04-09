@@ -21,5 +21,7 @@ public class InventoryItemUIHandler : MonoBehaviour {
                 discountText.color = Color.red;
                 break;
         }
+
+        Debug.Log("Discount set");
     }
 }

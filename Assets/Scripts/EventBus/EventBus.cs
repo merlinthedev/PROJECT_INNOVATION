@@ -111,7 +111,7 @@ public class OnStateEnter : Event {
 }
 
 public class InventoryUIEvent : Event {
-    public int inventorySize { get; set; }
+    public bool shouldClear { get; set; }
     public float discount { get; set; }
 }
 
@@ -172,20 +172,20 @@ public class ItemSpawnedEvent : NetworkEvent {
 
 public class ItemPickedUpEvent : NetworkEvent {
     public Guid itemGuid { get; set; }
-    public int inventorySize;
+    public bool shouldClear { get; set; }
     public float discount;
 
     public override void Serialize(Packet packet) {
         packet.Write(source);
         packet.Write(itemGuid);
-        packet.Write(inventorySize);
+        packet.Write(shouldClear);
         packet.Write(discount);
     }
 
     public override void Deserialize(Packet packet) {
         source = packet.ReadGuid();
         itemGuid = packet.ReadGuid();
-        inventorySize = packet.ReadInt();
+        shouldClear = packet.ReadBool();
         discount = packet.ReadFloat();
     }
 }
