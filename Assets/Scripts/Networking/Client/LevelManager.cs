@@ -47,6 +47,11 @@ public class LevelManager : MonoBehaviour {
 
     private void onScoreUpdated(ScoreUpdatedEvent scoreUpdatedEvent) {
         Debug.LogWarning("Score updated event received in the level manager");
+
+        if (scoreUpdatedEvent.source != GameClient.getInstance().GetGuid()) {
+            return;
+        }
+
         EventBus<ScoreUIEvent>.Raise(new ScoreUIEvent(scoreUpdatedEvent.score));
     }
 
