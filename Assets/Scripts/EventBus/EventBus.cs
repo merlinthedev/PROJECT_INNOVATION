@@ -190,13 +190,41 @@ public class ItemPickedUpEvent : NetworkEvent {
     }
 }
 
-public class ItemDroppedOffEvent : NetworkEvent {
+public class ItemsDroppedOffEvent : NetworkEvent {
+    public List<Guid> droppedItems { get; set; } = new List<Guid>();
     public override void Serialize(Packet packet) {
         packet.Write(source);
+        packet.Write(droppedItems.Count);
+        foreach (Guid itemGuid in droppedItems) {
+            packet.Write(itemGuid);
+        }
     }
 
     public override void Deserialize(Packet packet) {
         source = packet.ReadGuid();
+        int count = packet.ReadInt();
+        for (int i = 0; i < count; i++) {
+            droppedItems.Add(packet.ReadGuid());
+        }
+    }
+}
+
+public class ItemsDiscardedEvent : NetworkEvent {
+    public List<Guid> discardedItems { get; set; } = new List<Guid>();
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+        packet.Write(discardedItems.Count);
+        foreach (Guid itemGuid in discardedItems) {
+            packet.Write(itemGuid);
+        }
+    }
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
+        int count = packet.ReadInt();
+        for (int i = 0; i < count; i++) {
+            discardedItems.Add(packet.ReadGuid());
+        }
     }
 }
 

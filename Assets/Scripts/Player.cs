@@ -32,19 +32,22 @@ public class Player : MonoBehaviour {
     }
 
     public void DiscardItems() {
+        ItemsDiscardedEvent itemsDiscardedEvent = new ItemsDiscardedEvent();
+        itemsDiscardedEvent.source = GetComponent<NetworkTransform>().Key;
+
         foreach (var item in items) {
             // drop them back into the world
             item.transform.SetParent(null);
             // make sure to set the transform to next to the player but not to the point where we pick it up
             item.transform.position = item.Storezone.transform.position + new UnityEngine.Vector3(0f, 1f, 0f);
             item.gameObject.SetActive(true);
+
+            itemsDiscardedEvent.discardedItems.Add(item.GetComponent<NetworkTransform>().key);
         }
 
         items.Clear();
 
-        NetworkEventBus.Raise(new ItemDroppedOffEvent {
-            source = GetComponent<NetworkTransform>().Key,
-        });
+        NetworkEventBus.Raise(itemsDiscardedEvent);
     }
 
     public IEnumerator ResetSafeToLeaveFlag() {
@@ -53,9 +56,12 @@ public class Player : MonoBehaviour {
     }
 
     public void DropOffItems() {
+        ItemsDroppedOffEvent itemDroppedOffEvent = new ItemsDroppedOffEvent();
+        itemDroppedOffEvent.source = GetComponent<NetworkTransform>().Key;
+
         foreach (var item in items) {
             score += (item.itemStats.discount > 0 ? ((float)item.itemStats.Tier + 1) * (item.itemStats.discount * 100) : ((float)item.itemStats.Tier + 1));
-
+            itemDroppedOffEvent.droppedItems.Add(item.GetComponent<NetworkTransform>().key);
             Destroy(item.gameObject);
         }
 
@@ -66,9 +72,7 @@ public class Player : MonoBehaviour {
 
         items.Clear();
 
-        NetworkEventBus.Raise(new ItemDroppedOffEvent {
-            source = GetComponent<NetworkTransform>().Key,
-        });
+        NetworkEventBus.Raise(itemDroppedOffEvent);
 
         // destroy networktransform 
         NetworkTransform.Transforms.Remove(GetComponent<NetworkTransform>().Key);
@@ -106,7 +110,7 @@ public class Player : MonoBehaviour {
             NetworkEventBus.Raise(itemPickedUpEvent);
 
             item.PickUp();
-            NetworkTransform.Transforms.Remove(item.GetComponent<NetworkTransform>().key);
+            // NetworkTransform.Transforms.Remove(item.GetComponent<NetworkTransform>().key);
 
             Debug.Log("Item picked up");
             other.gameObject.SetActive(false);

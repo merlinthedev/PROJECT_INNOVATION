@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 public class Spawner : AGuidSource {
 
-    public static List<Spawner> Spawners = new List<Spawner>();
 
     [SerializeField] private SpawnerConfiguration configuration;
     [SerializeField] private Transform spawnRoot;
@@ -16,7 +15,7 @@ public class Spawner : AGuidSource {
     public Tier tier;
 
     private void Start() {
-        Spawners.Add(this);
+        Storezone.Spawners.Add(this);
         if (NetworkManager.IsServer) spawnItem();
     }
 
@@ -35,14 +34,16 @@ public class Spawner : AGuidSource {
 
         var item = Instantiate(configuration.GetRandomPrefab(), spawnRoot.position, Quaternion.identity);
         // replace item id
-        item.GetComponent<NetworkTransform>().NewKey();
+        var networkTransform = item.GetComponent<NetworkTransform>();
+
+        networkTransform.NewKey();
 
         var itemComponent = item.GetComponent<Item>();
 
-        itemComponent.itemStats.discount = Storezone.StoreDiscount;
         itemComponent.Storezone = Storezone;
+        itemComponent.itemStats.discount = Storezone.StoreDiscount;
 
-        Item.Items.Add((Item)item);
+        Item.Items.Add(item as Item);
 
         NetworkEventBus.Raise(new ItemSpawnedEvent {
             source = key,
@@ -54,12 +55,26 @@ public class Spawner : AGuidSource {
         item.transform.SetParent(spawnRoot);
         item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y + 0.5f, item.transform.position.z);
         Debug.Log("Spawned at " + transform.position);
-        var networkTransform = item.GetComponent<NetworkTransform>();
 
         networkTransform.Initialize();
 
         item.spawner = this;
         hasItem = true;
+    }
+
+    public void UpdateItemStats() {
+        ItemDiscountUpdateEvent itemDiscountUpdateEvent = new ItemDiscountUpdateEvent();
+        itemDiscountUpdateEvent.source = key;
+        itemDiscountUpdateEvent.discount = Storezone.StoreDiscount;
+
+
+        var item = Item.Items.Find(x => x.spawner == this);
+        if (item != null) {
+            item.itemStats.discount = Storezone.StoreDiscount;
+            itemDiscountUpdateEvent.influencedItems.Add(item.GetComponent<NetworkTransform>().Key);
+        }
+
+        NetworkEventBus.Raise(itemDiscountUpdateEvent);
     }
 
     public void SetHasItem(bool hasItem) {

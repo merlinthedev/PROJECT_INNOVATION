@@ -11,6 +11,8 @@ public class Storezone : MonoBehaviour {
     [SerializeField] private float minDiscount = 0.1f;
     [SerializeField] private float maxDiscount = 0.5f;
 
+    public List<Spawner> Spawners = new List<Spawner>();
+
     public float StoreDiscount {
         get {
             return storeDiscount;
@@ -32,24 +34,10 @@ public class Storezone : MonoBehaviour {
         while (true) {
             storeDiscount = Random.Range(minDiscount, maxDiscount);
 
-            ItemDiscountUpdateEvent itemDiscountUpdateEvent = new ItemDiscountUpdateEvent();
-            itemDiscountUpdateEvent.source = System.Guid.Empty;
-            itemDiscountUpdateEvent.discount = storeDiscount;
-
-            itemDiscountUpdateEvent.influencedItems.Clear();
-
-            // loop through all the items in Item.Items, check for their spawner and if the spawner has this has a reference to Storezone, update the discount
-            foreach (var item in Item.Items) {
-                if (item.Storezone == this) {
-                    item.itemStats.discount = storeDiscount;
-                    var key = item.GetComponent<NetworkTransform>().Key;
-                    itemDiscountUpdateEvent.influencedItems.Add(key);
-                }
+            foreach (var spawner in Spawners) {
+                spawner.UpdateItemStats();
             }
 
-            // Debug.Log("Raising network event with " + itemDiscountUpdateEvent.influencedItems.Count + " items.");
-
-            NetworkEventBus.Raise(itemDiscountUpdateEvent);
             yield return new WaitForSeconds(storeDiscountChangeInterval);
         }
     }
@@ -65,6 +53,4 @@ public class Storezone : MonoBehaviour {
             }
         }
     }
-
-
 }

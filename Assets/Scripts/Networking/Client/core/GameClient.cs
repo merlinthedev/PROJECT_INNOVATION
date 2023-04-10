@@ -112,7 +112,7 @@ public class GameClient : MonoBehaviour {
             newItem.Initialize();
 
             itemDiscountUpdateEvent.influencedItems.Add(kvp.Key);
-            
+
         }
 
         NetworkEventBus.Raise(itemDiscountUpdateEvent);
@@ -131,6 +131,7 @@ public class GameClient : MonoBehaviour {
             Destroy(transform.gameObject);
         } else {
             Debug.LogWarning("Received a disconnect event for a client that is not in our dictionary. How did this happen? :O");
+            Debug.LogWarning("GUID: " + playerDisconnectEvent.guid);
         }
     }
 
@@ -154,6 +155,7 @@ public class GameClient : MonoBehaviour {
             transform.UpdateTransform(transformPacket);
         } else {
             Debug.LogWarning("Received a transform packet for a client that is not in our dictionary. How did this happen? :O");
+            Debug.LogWarning("GUID: " + transformPacket.guid);
             //for now, we instantiate a new transform at that position
 
             var newClient = Instantiate(playerPrefab, transformPacket.Position(), transformPacket.Rotation());

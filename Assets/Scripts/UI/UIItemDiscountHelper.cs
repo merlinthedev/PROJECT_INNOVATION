@@ -36,15 +36,6 @@ public class UIItemDiscountHelper : MonoBehaviour {
     }
 
     private void onItemDiscountUpdateEvent(ItemDiscountUpdateEvent itemDiscountUpdateEvent) {
-        // if (itemDiscountUpdateEvent.influencedItems.Count == 0) {
-        //     Debug.Log("CLIENT: No items influenced");
-        //     return;
-        // }
-
-        // foreach (var x in itemDiscountUpdateEvent.influencedItems) {
-        //     Debug.Log("CLIENT: influenced item with GUID: " + x);
-        // }
-
         if (!itemDiscountUpdateEvent.influencedItems.Contains(networkTransform.Key)) {
             // Debug.Log("CLIENT: This item is not influenced, key:" + networkTransform.Key);
             return;
