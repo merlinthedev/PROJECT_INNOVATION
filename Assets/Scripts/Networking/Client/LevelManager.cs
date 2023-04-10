@@ -25,6 +25,10 @@ public class LevelManager : MonoBehaviour {
     }
 
     private void onItemsDiscarded(ItemsDiscardedEvent itemsDiscardedEvent) {
+        if (itemsDiscardedEvent.source != GameClient.getInstance().GetGuid()) {
+            return;
+        }
+
         Debug.LogWarning("Items discarded event received in the level manager");
         EventBus<InventoryUIEvent>.Raise(new InventoryUIEvent {
             shouldClear = true,
@@ -47,6 +51,10 @@ public class LevelManager : MonoBehaviour {
     }
 
     private void onItemDroppedOff(ItemsDroppedOffEvent itemDroppedOffEvent) {
+        if (itemDroppedOffEvent.source != GameClient.getInstance().GetGuid()) {
+            return;
+        }
+
         Debug.LogWarning("Item dropped off event received in the level manager");
         EventBus<InventoryUIEvent>.Raise(new InventoryUIEvent {
             shouldClear = true,
@@ -88,8 +96,15 @@ public class LevelManager : MonoBehaviour {
     }
 
     private void onItemPickedUp(ItemPickedUpEvent itemPickedUpEvent) {
+        if (itemPickedUpEvent.source != GameClient.getInstance().GetGuid()) {
+            return;
+        }
+
         Debug.LogWarning("Item picked up event received in the level manager");
         Debug.LogWarning("Guid: " + itemPickedUpEvent.itemGuid);
+
+
+
 
         // inform the UI;
         EventBus<InventoryUIEvent>.Raise(new InventoryUIEvent {

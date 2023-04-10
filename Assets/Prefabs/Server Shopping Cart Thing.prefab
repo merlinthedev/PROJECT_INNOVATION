@@ -143,8 +143,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1daa664133eb1aa4eaefc33dccc5cbf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemHolder: {fileID: 0}
+  itemHolder: {fileID: 2671685037222174040}
   capacity: 2
   items: []
   powerUpHolder: {fileID: 0}
   powerUp: {fileID: 0}
+--- !u!4 &2671685037222174040 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5073113415654187638, guid: 2d299ca8f2e0d9c40aa7fa3f629115b9,
+    type: 3}
+  m_PrefabInstance: {fileID: 7166610911074762542}
+  m_PrefabAsset: {fileID: 0}
