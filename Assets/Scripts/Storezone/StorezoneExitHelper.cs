@@ -19,6 +19,7 @@ public class StorezoneExitHelper : MonoBehaviour {
             if (player != null) {
                 player.IsSafeToLeave = true;
                 // start a coroutine to reset the flag after a few seconds
+
                 StartCoroutine(player.ResetSafeToLeaveFlag());
             }
         }
