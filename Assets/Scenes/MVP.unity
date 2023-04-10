@@ -7009,6 +7009,12 @@ PrefabInstance:
       propertyPath: storezone
       value: 
       objectReference: {fileID: 1502898110}
+    - target: {fileID: 2688416425333945936, guid: 6272006397fe2194e90e8d5fd330a16b,
+        type: 3}
+      propertyPath: configuration
+      value: 
+      objectReference: {fileID: 11400000, guid: 8b8cac86027544948b934f9846b01b84,
+        type: 2}
     - target: {fileID: 2688416425333945939, guid: 6272006397fe2194e90e8d5fd330a16b,
         type: 3}
       propertyPath: m_Name
