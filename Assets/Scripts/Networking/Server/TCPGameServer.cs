@@ -190,7 +190,6 @@ namespace server {
         /// Method to get rid of faulty clients
         /// </summary>
         private void cleanupFaultyClients() {
-
             foreach (var client in clients) {
                 if (client.Value.tcpMessageChannel.HasErrors()) {
                     brokenClients.Add(client.Key);
