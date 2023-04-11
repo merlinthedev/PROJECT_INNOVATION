@@ -9,14 +9,14 @@ EditorBuildSettings:
     path: Assets/Scenes/Blockout.unity
     guid: 6e2bc04188a4e044c967449378e127da
   - enabled: 1
+    path: Assets/Scenes/ServerMenuScene.unity
+    guid: c3f930f207258284188ba91c3e558191
+  - enabled: 1
     path: Assets/Scenes/ServerScene.unity
     guid: 8e6b5d260daa64b489750e24ff838710
   - enabled: 1
     path: Assets/Scenes/ClientScene.unity
     guid: 21e6daba598335242b305aec1741351f
-  - enabled: 1
-    path: Assets/Scenes/Test Level.unity
-    guid: dfb185f3d2612dc4a82e00f56291e1e5
   - enabled: 1
     path: Assets/Scenes/MVP.unity
     guid: fa280f9eb91cdad4b839d6e983ee9936

@@ -21,6 +21,9 @@ namespace server {
 	 * - only 1 game can be played at a time
 	 */
     class TCPGameServer : MonoBehaviour {
+
+        public static TCPGameServer Instance { get; private set; }
+
         [SerializeField] private int serverPort = 55555;    //the port we listen on
 
         private TcpListener listener;
@@ -36,6 +39,14 @@ namespace server {
         private Queue<NetworkEvent> syncEvents = new Queue<NetworkEvent>();
 
         private void Awake() {
+            if (Instance != null) {
+                Debug.LogWarning("There is already an existing GameManager present. Aborting instantiation.");
+                Destroy(gameObject);
+                return;
+            }
+
+            Instance = this;
+
             Log.LogInfo("Starting server on port " + serverPort, this, ConsoleColor.Gray);
 
             //start listening for incoming connections (with max 50 in the queue)
