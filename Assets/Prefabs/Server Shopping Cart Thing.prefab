@@ -118,9 +118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxSpeed: 18
-  BoostMultiplier: 2.5
   Stickyness: 0.6
-  boosting: 0
   Acceleration: 8
   GroundedTime: 0.1
   ConstantSteerSpeed: 120
@@ -143,6 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1daa664133eb1aa4eaefc33dccc5cbf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movement: {fileID: 0}
   itemHolder: {fileID: 2671685037222174040}
   capacity: 2
   items: []

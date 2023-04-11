@@ -10110,7 +10110,7 @@ PrefabInstance:
         type: 3}
       propertyPath: storezoneCollider
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 482553421}
     - target: {fileID: 1983959948211788608, guid: 2fba2983ef1771a469e4705134700b5e,
         type: 3}
       propertyPath: Spawners.Array.size
@@ -10225,7 +10225,7 @@ PrefabInstance:
         type: 3}
       propertyPath: storezoneCollider
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 482553422}
     - target: {fileID: 8386053268478848403, guid: 2fba2983ef1771a469e4705134700b5e,
         type: 3}
       propertyPath: Spawners.Array.size
@@ -10250,7 +10250,7 @@ PrefabInstance:
         type: 3}
       propertyPath: storezoneCollider
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 482553420}
     - target: {fileID: 8654771842301510356, guid: 2fba2983ef1771a469e4705134700b5e,
         type: 3}
       propertyPath: Spawners.Array.size
@@ -10296,6 +10296,24 @@ PrefabInstance:
 --- !u!1 &482553419 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2791103719662092123, guid: 2fba2983ef1771a469e4705134700b5e,
+    type: 3}
+  m_PrefabInstance: {fileID: 482553418}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &482553420 stripped
+MeshCollider:
+  m_CorrespondingSourceObject: {fileID: 7152416611262084673, guid: 2fba2983ef1771a469e4705134700b5e,
+    type: 3}
+  m_PrefabInstance: {fileID: 482553418}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &482553421 stripped
+MeshCollider:
+  m_CorrespondingSourceObject: {fileID: 5894903378887883149, guid: 2fba2983ef1771a469e4705134700b5e,
+    type: 3}
+  m_PrefabInstance: {fileID: 482553418}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &482553422 stripped
+MeshCollider:
+  m_CorrespondingSourceObject: {fileID: 7273204718887801066, guid: 2fba2983ef1771a469e4705134700b5e,
     type: 3}
   m_PrefabInstance: {fileID: 482553418}
   m_PrefabAsset: {fileID: 0}
