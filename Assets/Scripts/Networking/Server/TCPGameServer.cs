@@ -213,12 +213,14 @@ namespace server {
             if (brokenClients.Count == 0) return;
 
             foreach (var brokenClient in brokenClients) {
-                clients[brokenClient].tcpMessageChannel.Close();
-                clients.Remove(brokenClient);
-                broadcastMessage(new PlayerDisconnectEvent() { guid = brokenClient });
+                try {
+                    clients[brokenClient].tcpMessageChannel.Close();
+                    clients.Remove(brokenClient);
+                    broadcastMessage(new PlayerDisconnectEvent() { guid = brokenClient });
 
-                Destroy(NetworkTransform.Transforms[brokenClient].gameObject);
-                NetworkTransform.Transforms.Remove(brokenClient);
+                    Destroy(NetworkTransform.Transforms[brokenClient].gameObject);
+                    NetworkTransform.Transforms.Remove(brokenClient);
+                } catch (Exception e) { }
             }
 
             EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));
