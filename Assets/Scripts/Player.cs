@@ -6,7 +6,7 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
     private float score = 0f;
-    public bool IsSafeToLeave { get; set; } = false;
+    public bool IsSafeToLeave = false;
 
     private void Start() {
         this.itemHolder = this.gameObject.transform;
