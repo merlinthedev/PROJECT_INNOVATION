@@ -71,7 +71,7 @@ GameObject:
   - component: {fileID: 946808604663073712}
   - component: {fileID: 3087714772201030739}
   - component: {fileID: 8893077926480650092}
-  - component: {fileID: 6838433141104233161}
+  - component: {fileID: 4186488129162388651}
   m_Layer: 0
   m_Name: Room_1_Collider
   m_TagString: Untagged
@@ -110,7 +110,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2791103719662092123}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -159,12 +159,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   storeDiscount: 0.1
   storeDiscountChangeInterval: 60
-  storezoneCollider: {fileID: 6838433141104233161}
+  storezoneCollider: {fileID: 4186488129162388651}
   minDiscount: 0.1
   maxDiscount: 0.5
   Spawners: []
---- !u!65 &6838433141104233161
-BoxCollider:
+--- !u!64 &4186488129162388651
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -173,9 +173,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.025796413, y: 0.023301944, z: 0.002}
-  m_Center: {x: 0.0028492296, y: 0.001598062, z: -7.063752e-18}
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 2129529196642206126, guid: 0d122abe4620832419a46f557639f093, type: 3}
 --- !u!1 &2849667307564145848
 GameObject:
   m_ObjectHideFlags: 0
@@ -452,7 +453,7 @@ GameObject:
   - component: {fileID: 8243113454659028198}
   - component: {fileID: 9185378894938133059}
   - component: {fileID: 8654771842301510356}
-  - component: {fileID: 6189858389579637379}
+  - component: {fileID: 7152416611262084673}
   m_Layer: 0
   m_Name: Room_4_Collider
   m_TagString: Untagged
@@ -540,12 +541,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   storeDiscount: 0.1
   storeDiscountChangeInterval: 60
-  storezoneCollider: {fileID: 6189858389579637379}
+  storezoneCollider: {fileID: 7152416611262084673}
   minDiscount: 0.1
   maxDiscount: 0.5
   Spawners: []
---- !u!65 &6189858389579637379
-BoxCollider:
+--- !u!64 &7152416611262084673
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -554,9 +555,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.025795383, y: 0.023301944, z: 0.0039321985}
-  m_Center: {x: 12.252206, y: -0.00090193684, z: 0.0019660965}
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3614424296152579795, guid: 0d122abe4620832419a46f557639f093, type: 3}
 --- !u!1 &7832526530067812316
 GameObject:
   m_ObjectHideFlags: 0
@@ -569,7 +571,7 @@ GameObject:
   - component: {fileID: 8613862297305565725}
   - component: {fileID: 652676906904197792}
   - component: {fileID: 8386053268478848403}
-  - component: {fileID: 7289597205990335906}
+  - component: {fileID: 7273204718887801066}
   m_Layer: 0
   m_Name: Room_2_Collider
   m_TagString: Untagged
@@ -657,12 +659,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   storeDiscount: 0.1
   storeDiscountChangeInterval: 60
-  storezoneCollider: {fileID: 7289597205990335906}
+  storezoneCollider: {fileID: 7273204718887801066}
   minDiscount: 0.1
   maxDiscount: 0.5
   Spawners: []
---- !u!65 &7289597205990335906
-BoxCollider:
+--- !u!64 &7273204718887801066
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -671,9 +673,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.025795383, y: 0.023301944, z: 0.0047772834}
-  m_Center: {x: -12.2465105, y: 0.0015980628, z: 0.0023886426}
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6023921896006463264, guid: 0d122abe4620832419a46f557639f093, type: 3}
 --- !u!1 &7894874925641192061
 GameObject:
   m_ObjectHideFlags: 0
@@ -686,7 +689,7 @@ GameObject:
   - component: {fileID: 8858321893378083150}
   - component: {fileID: 7305313347636719667}
   - component: {fileID: 1983959948211788608}
-  - component: {fileID: 1964042324140142389}
+  - component: {fileID: 5894903378887883149}
   m_Layer: 0
   m_Name: Room_3_Collider
   m_TagString: Untagged
@@ -774,12 +777,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   storeDiscount: 0.1
   storeDiscountChangeInterval: 60
-  storezoneCollider: {fileID: 1964042324140142389}
+  storezoneCollider: {fileID: 5894903378887883149}
   minDiscount: 0.1
   maxDiscount: 0.5
   Spawners: []
---- !u!65 &1964042324140142389
-BoxCollider:
+--- !u!64 &5894903378887883149
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -788,9 +791,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.025796413, y: 0.02330194, z: 0.003}
-  m_Center: {x: 0.0028494687, y: -0.0009016989, z: -8.16545e-16}
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -3617438753854113594, guid: 0d122abe4620832419a46f557639f093, type: 3}
 --- !u!1 &7950416177695952049
 GameObject:
   m_ObjectHideFlags: 0
