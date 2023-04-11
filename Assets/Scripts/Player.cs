@@ -130,6 +130,15 @@ public class Player : MonoBehaviour {
         if (other.gameObject.CompareTag("PowerUp") && powerUp == null) {
             PowerUp powerUp = other.gameObject.GetComponent<PowerUp>();
             AddPowerUp(powerUp);
+
+            PowerUpPickedUpEvent powerUpPickedUpEvent = new PowerUpPickedUpEvent();
+            powerUpPickedUpEvent.powerUpGuid = powerUp.GetComponent<NetworkTransform>().key;
+            powerUpPickedUpEvent.source = GetComponent<NetworkTransform>().Key;
+            powerUpPickedUpEvent.PowerUpID = powerUp.InteractableID;
+            NetworkEventBus.Raise(powerUpPickedUpEvent);
+
+            powerUp.PickUp();
+            other.gameObject.SetActive(false);
         }
     }
 

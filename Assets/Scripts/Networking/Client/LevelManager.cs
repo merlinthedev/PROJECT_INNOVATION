@@ -10,6 +10,7 @@ public class LevelManager : MonoBehaviour {
         NetworkEventBus.Subscribe<ItemsDroppedOffEvent>(onItemDroppedOff);
         NetworkEventBus.Subscribe<ScoreUpdatedEvent>(onScoreUpdated);
         NetworkEventBus.Subscribe<ItemsDiscardedEvent>(onItemsDiscarded);
+        NetworkEventBus.Subscribe<PowerUpPickedUpEvent>(onPowerUpPickup);
 
         Debug.LogWarning("Level manager subscribed to events");
     }
@@ -21,6 +22,7 @@ public class LevelManager : MonoBehaviour {
         NetworkEventBus.Unsubscribe<ItemsDroppedOffEvent>(onItemDroppedOff);
         NetworkEventBus.Unsubscribe<ScoreUpdatedEvent>(onScoreUpdated);
         NetworkEventBus.Unsubscribe<ItemsDiscardedEvent>(onItemsDiscarded);
+        NetworkEventBus.Unsubscribe<PowerUpPickedUpEvent>(onPowerUpPickup);
     }
 
     private void onItemsDiscarded(ItemsDiscardedEvent itemsDiscardedEvent) {
@@ -115,5 +117,24 @@ public class LevelManager : MonoBehaviour {
             discount = itemPickedUpEvent.discount,
         });
 
+    }
+
+    private void onPowerUpPickup(PowerUpPickedUpEvent powerUpPickedUpEvent) {
+        //disable item that is picked up
+        NetworkTransform.Transforms.TryGetValue(powerUpPickedUpEvent.powerUpGuid, out NetworkTransform networkTransform);
+        if (networkTransform != null) {
+            networkTransform.gameObject.SetActive(false);
+        } else {
+            Debug.LogWarning("Network transform not found, cannot destroy the item");
+        }
+
+        //check if we picked up the item or someone else did
+        if (powerUpPickedUpEvent.source != GameClient.getInstance().GetGuid()) {
+            return;
+        }
+        // inform the UI when we picked it up
+        EventBus<PowerUpUIEvent>.Raise(new PowerUpUIEvent {
+            PowerUpID = powerUpPickedUpEvent.PowerUpID
+        });
     }
 }

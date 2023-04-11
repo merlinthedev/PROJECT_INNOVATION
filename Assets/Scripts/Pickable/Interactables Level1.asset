@@ -23,3 +23,8 @@ MonoBehaviour:
       type: 3}
     clientPrefab: {fileID: 3814849650973993924, guid: 71f2a2437fbbe7240a422aee6260658f,
       type: 3}
+  - itemName: BoostPowerUp
+    serverPrefab: {fileID: 3701257547284835253, guid: 656526122b0751c41b6e06f27f35e174,
+      type: 3}
+    clientPrefab: {fileID: 4992692690347235289, guid: c2654f4e5476a164cb21e7d7bc134f89,
+      type: 3}

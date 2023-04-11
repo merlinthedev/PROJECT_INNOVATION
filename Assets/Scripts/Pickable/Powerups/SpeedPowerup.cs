@@ -8,7 +8,6 @@ public class SpeedPowerup : PowerUp {
     
 
     protected override void OnPickUp() {
-        throw new System.NotImplementedException();
     }
 
     protected override void OnUse(Player player) {

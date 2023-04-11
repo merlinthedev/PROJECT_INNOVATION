@@ -122,6 +122,10 @@ public class InventoryUIEvent : Event {
     public float discount { get; set; }
 }
 
+public class PowerUpUIEvent : Event {
+    public int PowerUpID { get; set; }
+}
+
 public class ScoreUIEvent : Event {
     public float score { get; private set; }
 
@@ -282,17 +286,20 @@ public class PowerupSpawnedEvent : NetworkEvent {
     }
 }
 
-public class PowerupPickedUpEvent : NetworkEvent {
-    public Guid powerupGuid { get; set; }
+public class PowerUpPickedUpEvent : NetworkEvent {
+    public Guid powerUpGuid { get; set; }
+    public int PowerUpID { get; set; }
 
     public override void Serialize(Packet packet) {
         packet.Write(source);
-        packet.Write(powerupGuid);
+        packet.Write(powerUpGuid);
+        packet.Write(PowerUpID);
     }
 
     public override void Deserialize(Packet packet) {
         source = packet.ReadGuid();
-        powerupGuid = packet.ReadGuid();
+        powerUpGuid = packet.ReadGuid();
+        PowerUpID = packet.ReadInt();
     }
 }
 

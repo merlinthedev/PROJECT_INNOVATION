@@ -1,18 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class PowerupUIHandler : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+public class PowerupUIHandler : MonoBehaviour {
+    [SerializeField] private Image powerupSpriteTarget;
+    [SerializeField] private InteractableConfiguration interactableConfig;
+
+    private void OnEnable() {
+        EventBus<PowerUpUIEvent>.Subscribe(PowerUpEvent);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void OnDisable() {
+        EventBus<PowerUpUIEvent>.Unsubscribe(PowerUpEvent);
+    }
+
+    void PowerUpEvent(PowerUpUIEvent powerUpUIEvent) {
+        Debug.Log($"Item ID: {powerUpUIEvent.PowerUpID}");
+        PowerUp powerUp = interactableConfig.interactables[powerUpUIEvent.PowerUpID].serverPrefab as PowerUp;
+        if (powerUp != null) {
+            SetPowerUp(powerUp);
+        } else {
+            RemovePowerUp();
+        }
+    }
+
+    public void SetPowerUp(PowerUp powerUp) {
+        powerupSpriteTarget.sprite = powerUp.PowerUpSprite;
+    }
+
+    public void RemovePowerUp() {
+        powerupSpriteTarget.sprite = null;
     }
 }

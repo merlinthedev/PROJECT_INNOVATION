@@ -15,12 +15,12 @@ public class Spawner : AGuidSource {
 
     private void Start() {
         Storezone.Spawners.Add(this);
-        if (NetworkManager.IsServer) spawnItem();
+        if (NetworkManager.IsServer) spawnInteractable();
     }
 
     private void Update() {
         if (!hasItem && Time.time - lastPickupTime > configuration.spawnDelay && NetworkManager.IsServer)
-            spawnItem();
+            spawnInteractable();
     }
 
     public void OnPickup(AInteractable pickable) {
@@ -28,37 +28,43 @@ public class Spawner : AGuidSource {
         hasItem = false;
     }
 
-    private void spawnItem() {
+    private void spawnInteractable() {
         if (hasItem) return;
         var prefab = configuration.GetRandomPrefab();
         var prefabIndex = interactables.GetPrefabIndex(prefab);
-        var item = Instantiate(prefab, spawnRoot.position, Quaternion.identity);
+        var interactable = Instantiate(prefab, spawnRoot.position, Quaternion.identity);
+        interactable.InteractableID = prefabIndex;
         // replace item id
-        var networkTransform = item.GetComponent<NetworkTransform>();
+        var networkTransform = interactable.GetComponent<NetworkTransform>();
 
         networkTransform.NewKey();
 
-        var itemComponent = item.GetComponent<Item>();
+        AInteractable.interactables.Add(interactable);
 
-        itemComponent.Storezone = Storezone;
-        itemComponent.discount = Storezone.StoreDiscount;
+        if (interactable is Item) {
+            var itemComponent = interactable.GetComponent<Item>();
 
-        Item.Items.Add(item as Item);
+            itemComponent.Storezone = Storezone;
+            itemComponent.discount = Storezone.StoreDiscount;
 
-        NetworkEventBus.Raise(new ItemSpawnedEvent {
-            source = key,
-            itemID = prefabIndex,
-            itemGuid = item.GetComponent<NetworkTransform>().Key,
-            itemDiscount = Storezone.StoreDiscount
-        });
 
-        item.transform.SetParent(spawnRoot);
-        item.transform.position = new Vector3(item.transform.position.x, item.transform.position.y + 0.5f, item.transform.position.z);
+            Item.Items.Add(interactable as Item);
+
+            NetworkEventBus.Raise(new ItemSpawnedEvent {
+                source = key,
+                itemID = prefabIndex,
+                itemGuid = interactable.GetComponent<NetworkTransform>().Key,
+                itemDiscount = Storezone.StoreDiscount
+            });
+        }
+
+        interactable.transform.SetParent(spawnRoot);
+        interactable.transform.position = new Vector3(interactable.transform.position.x, interactable.transform.position.y + 0.5f, interactable.transform.position.z);
         Debug.Log("Spawned at " + transform.position);
 
         networkTransform.Initialize();
 
-        item.spawner = this;
+        interactable.spawner = this;
         hasItem = true;
     }
 
