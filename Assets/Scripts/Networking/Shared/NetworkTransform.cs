@@ -34,6 +34,9 @@ public class NetworkTransform : AGuidSource {
     }
 
     public void Initialize() {
+        targetPosition = transform.position;
+        targetRotation = transform.rotation;
+        
         UpdateTransformPacket();
         kinematic = !NetworkManager.IsServer;
         initialized = true;
