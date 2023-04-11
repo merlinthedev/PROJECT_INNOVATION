@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.215302, g: 0.66594833, b: 0.8698379, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1211,6 +1211,12 @@ PrefabInstance:
       propertyPath: Storezone
       value: 
       objectReference: {fileID: 1484944985}
+    - target: {fileID: 2688416425333945936, guid: 6272006397fe2194e90e8d5fd330a16b,
+        type: 3}
+      propertyPath: interactables
+      value: 
+      objectReference: {fileID: 11400000, guid: 221dbdbe210ff3e409e8fd0932eaa88d,
+        type: 2}
     - target: {fileID: 2688416425333945939, guid: 6272006397fe2194e90e8d5fd330a16b,
         type: 3}
       propertyPath: m_Name
@@ -10104,7 +10110,7 @@ PrefabInstance:
         type: 3}
       propertyPath: storezoneCollider
       value: 
-      objectReference: {fileID: 482553421}
+      objectReference: {fileID: 0}
     - target: {fileID: 1983959948211788608, guid: 2fba2983ef1771a469e4705134700b5e,
         type: 3}
       propertyPath: Spawners.Array.size
@@ -10219,7 +10225,7 @@ PrefabInstance:
         type: 3}
       propertyPath: storezoneCollider
       value: 
-      objectReference: {fileID: 482553422}
+      objectReference: {fileID: 0}
     - target: {fileID: 8386053268478848403, guid: 2fba2983ef1771a469e4705134700b5e,
         type: 3}
       propertyPath: Spawners.Array.size
@@ -10244,7 +10250,7 @@ PrefabInstance:
         type: 3}
       propertyPath: storezoneCollider
       value: 
-      objectReference: {fileID: 482553423}
+      objectReference: {fileID: 0}
     - target: {fileID: 8654771842301510356, guid: 2fba2983ef1771a469e4705134700b5e,
         type: 3}
       propertyPath: Spawners.Array.size
@@ -10290,24 +10296,6 @@ PrefabInstance:
 --- !u!1 &482553419 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2791103719662092123, guid: 2fba2983ef1771a469e4705134700b5e,
-    type: 3}
-  m_PrefabInstance: {fileID: 482553418}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &482553421 stripped
-BoxCollider:
-  m_CorrespondingSourceObject: {fileID: 1964042324140142389, guid: 2fba2983ef1771a469e4705134700b5e,
-    type: 3}
-  m_PrefabInstance: {fileID: 482553418}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &482553422 stripped
-BoxCollider:
-  m_CorrespondingSourceObject: {fileID: 7289597205990335906, guid: 2fba2983ef1771a469e4705134700b5e,
-    type: 3}
-  m_PrefabInstance: {fileID: 482553418}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &482553423 stripped
-BoxCollider:
-  m_CorrespondingSourceObject: {fileID: 6189858389579637379, guid: 2fba2983ef1771a469e4705134700b5e,
     type: 3}
   m_PrefabInstance: {fileID: 482553418}
   m_PrefabAsset: {fileID: 0}
@@ -13841,6 +13829,12 @@ PrefabInstance:
       propertyPath: Storezone
       value: 
       objectReference: {fileID: 954941827}
+    - target: {fileID: 2688416425333945936, guid: 6272006397fe2194e90e8d5fd330a16b,
+        type: 3}
+      propertyPath: interactables
+      value: 
+      objectReference: {fileID: 11400000, guid: 221dbdbe210ff3e409e8fd0932eaa88d,
+        type: 2}
     - target: {fileID: 2688416425333945939, guid: 6272006397fe2194e90e8d5fd330a16b,
         type: 3}
       propertyPath: m_Name
@@ -24099,6 +24093,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8b8cac86027544948b934f9846b01b84,
         type: 2}
+    - target: {fileID: 2688416425333945936, guid: 6272006397fe2194e90e8d5fd330a16b,
+        type: 3}
+      propertyPath: interactables
+      value: 
+      objectReference: {fileID: 11400000, guid: 221dbdbe210ff3e409e8fd0932eaa88d,
+        type: 2}
     - target: {fileID: 2688416425333945939, guid: 6272006397fe2194e90e8d5fd330a16b,
         type: 3}
       propertyPath: m_Name
@@ -31888,6 +31888,12 @@ PrefabInstance:
       propertyPath: configuration
       value: 
       objectReference: {fileID: 11400000, guid: 8b8cac86027544948b934f9846b01b84,
+        type: 2}
+    - target: {fileID: 2688416425333945936, guid: 6272006397fe2194e90e8d5fd330a16b,
+        type: 3}
+      propertyPath: interactables
+      value: 
+      objectReference: {fileID: 11400000, guid: 221dbdbe210ff3e409e8fd0932eaa88d,
         type: 2}
     - target: {fileID: 2688416425333945939, guid: 6272006397fe2194e90e8d5fd330a16b,
         type: 3}

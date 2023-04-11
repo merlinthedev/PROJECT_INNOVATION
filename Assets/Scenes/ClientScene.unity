@@ -1441,8 +1441,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df356cdf1e6ac774e99396b5d678a6cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemPrefab: {fileID: 3814849650973993921, guid: 71f2a2437fbbe7240a422aee6260658f,
-    type: 3}
+  interactableConfiguration: {fileID: 11400000, guid: 221dbdbe210ff3e409e8fd0932eaa88d,
+    type: 2}
 --- !u!114 &1591373034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2485,8 +2485,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 410, y: 0}
+  m_SizeDelta: {x: 800, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4264062744797698742
 MonoBehaviour:
@@ -3148,8 +3148,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 400, y: 0}
+  m_SizeDelta: {x: 790, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7631772772782349077
 MonoBehaviour:
