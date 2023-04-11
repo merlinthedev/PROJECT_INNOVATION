@@ -22,6 +22,8 @@ public class AGuidEditorWindow : EditorWindow {
                     var GuidSources = obj.GetComponentsInChildren<AGuidSource>();
                     foreach (var GuidSource in GuidSources) {
                         GuidSource.NewKey();
+                        //mark change dirty
+                        EditorUtility.SetDirty(GuidSource);
                     }
                 }
             }
@@ -66,6 +68,8 @@ public class AGuidEditorWindow : EditorWindow {
         //a button to assign a new GUID to the transform
         if (GUILayout.Button("New GUID")) {
             transform.key = System.Guid.NewGuid();
+            //mark change dirty
+            EditorUtility.SetDirty(transform);
         }
     }
 }

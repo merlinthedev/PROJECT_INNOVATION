@@ -9,7 +9,7 @@ public class Spawner : AGuidSource {
     public Storezone Storezone;
 
     private float lastPickupTime = 0f;
-    private bool hasItem = false;
+    [SerializeField] private bool hasItem = false;
 
     public Tier tier;
 
@@ -41,7 +41,7 @@ public class Spawner : AGuidSource {
         var itemComponent = item.GetComponent<Item>();
 
         itemComponent.Storezone = Storezone;
-        itemComponent.ItemStats.discount = Storezone.StoreDiscount;
+        itemComponent.discount = Storezone.StoreDiscount;
 
         Item.Items.Add(item as Item);
 
@@ -70,7 +70,7 @@ public class Spawner : AGuidSource {
 
         var item = Item.Items.Find(x => x.spawner == this);
         if (item != null) {
-            item.ItemStats.discount = Storezone.StoreDiscount;
+            item.discount = Storezone.StoreDiscount;
             itemDiscountUpdateEvent.influencedItems.Add(item.GetComponent<NetworkTransform>().Key);
         }
 

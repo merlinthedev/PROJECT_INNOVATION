@@ -64,7 +64,7 @@ public class Player : MonoBehaviour {
         itemDroppedOffEvent.source = GetComponent<NetworkTransform>().Key;
 
         foreach (var item in items) {
-            score += (item.ItemStats.discount > 0 ? ((float)item.ItemStats.Tier + 1) * (item.ItemStats.discount * 100) : ((float)item.ItemStats.Tier + 1));
+            score += (item.discount > 0 ? ((float)item.ItemStats.Tier + 1) * (item.discount * 100) : ((float)item.ItemStats.Tier + 1));
             itemDroppedOffEvent.droppedItems.Add(item.GetComponent<NetworkTransform>().key);
             Destroy(item.gameObject);
         }
@@ -117,7 +117,7 @@ public class Player : MonoBehaviour {
             itemPickedUpEvent.itemGuid = item.GetComponent<NetworkTransform>().key;
             itemPickedUpEvent.source = GetComponent<NetworkTransform>().Key;
             itemPickedUpEvent.shouldClear = false;
-            itemPickedUpEvent.discount = item.ItemStats.discount;
+            itemPickedUpEvent.discount = item.discount;
             NetworkEventBus.Raise(itemPickedUpEvent);
 
             item.PickUp();

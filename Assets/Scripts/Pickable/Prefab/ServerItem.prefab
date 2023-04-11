@@ -120,4 +120,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e28b4468e946bb44c864118383f98b68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemStats: {fileID: 11400000, guid: d680f6b30c4b44a4993f48a5814a514d, type: 2}
+  Storezone: {fileID: 0}
+  ItemStats: {fileID: 11400000, guid: d680f6b30c4b44a4993f48a5814a514d, type: 2}

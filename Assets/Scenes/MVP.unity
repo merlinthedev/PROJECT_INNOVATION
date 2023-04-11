@@ -16924,6 +16924,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cube
       objectReference: {fileID: 0}
+    - target: {fileID: 8622781474358351069, guid: ecc66c51a81d38744a235fe2dd10cfcc,
+        type: 3}
+      propertyPath: keyString
+      value: 4c459ec9-860c-49fb-b9f9-74a598f5e264
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ecc66c51a81d38744a235fe2dd10cfcc, type: 3}
 --- !u!4 &828648985 stripped
@@ -25341,7 +25346,7 @@ PrefabInstance:
     - target: {fileID: 1202713876642805335, guid: ecc66c51a81d38744a235fe2dd10cfcc,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.381
+      value: 4.46
       objectReference: {fileID: 0}
     - target: {fileID: 1202713876642805335, guid: ecc66c51a81d38744a235fe2dd10cfcc,
         type: 3}
@@ -25387,6 +25392,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Cube (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8622781474358351069, guid: ecc66c51a81d38744a235fe2dd10cfcc,
+        type: 3}
+      propertyPath: keyString
+      value: 9515d6de-cc02-4cdb-8720-fbb4344a629b
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ecc66c51a81d38744a235fe2dd10cfcc, type: 3}
@@ -42413,6 +42423,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Cube
+      objectReference: {fileID: 0}
+    - target: {fileID: 8622781474358351069, guid: ecc66c51a81d38744a235fe2dd10cfcc,
+        type: 3}
+      propertyPath: keyString
+      value: 22d4119e-d8dc-4350-bba1-1df06cfb1257
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ecc66c51a81d38744a235fe2dd10cfcc, type: 3}
