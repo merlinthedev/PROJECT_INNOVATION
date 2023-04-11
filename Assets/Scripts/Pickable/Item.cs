@@ -8,8 +8,8 @@ public class Item : AInteractable {
 
     public Storezone Storezone;
 
-    public ItemStats itemStats;
-    public int Weight { get { return itemStats.Weight; } }
+    public ItemStats ItemStats;
+    public int Weight { get { return ItemStats.Weight; } }
 
     private float initialY;
     protected override void OnPickUp() {

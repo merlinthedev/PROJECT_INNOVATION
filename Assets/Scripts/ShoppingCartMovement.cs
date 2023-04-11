@@ -6,9 +6,7 @@ public class ShoppingCartMovement : MonoBehaviour, IMovementInputReceiver {
     #region settings
     [Header("Movement")]
     [SerializeField] private float MaxSpeed = 10f;
-    [SerializeField] private float BoostMultiplier = 2.5f;
     [SerializeField] private float Stickyness = 0.6f;
-    [SerializeField] private bool boosting = false;
     [SerializeField] private float Acceleration = 10f;
     [SerializeField] private float GroundedTime = 0.1f;
 
@@ -43,6 +41,13 @@ public class ShoppingCartMovement : MonoBehaviour, IMovementInputReceiver {
 
     private Rigidbody rb;
 
+    private bool isBoosting { get => boostStartTime + boostDuration >= Time.time; }
+    private float boostStartTime = 0f;
+    private float boostMultiplier = 1f;
+    private float boostDuration = 0f;
+    public bool IsBoosting { get => isBoosting; }
+    public float BoostProgress { get => Mathf.Clamp01((Time.time - boostStartTime) / boostDuration); }
+
     #endregion
 
 
@@ -69,7 +74,7 @@ public class ShoppingCartMovement : MonoBehaviour, IMovementInputReceiver {
         #region movement
         if (isOnGround) {
             float forwardInput = Mathf.Clamp(inputVelocity.y, -1, 1);
-            float speedFactor = boosting ? MaxSpeed * BoostMultiplier : MaxSpeed;
+            float speedFactor = isBoosting ? MaxSpeed * boostMultiplier : MaxSpeed;
             speedFactor *= Stickyness;
             forwardInput *= speedFactor;
             Vector3 force = transform.forward * forwardInput;
@@ -105,5 +110,11 @@ public class ShoppingCartMovement : MonoBehaviour, IMovementInputReceiver {
             lastJumpTime = Time.time;
             JumpEvent.Invoke();
         }
+    }
+
+    public void Boost(float boostMultiplier, float boostDuration) {
+        this.boostMultiplier = boostMultiplier;
+        this.boostDuration = boostDuration;
+        boostStartTime = Time.time;
     }
 }

@@ -50,6 +50,13 @@ public class NetworkEventBus {
         onEventRaised[typeof(T)] -= (e) => handler((T)e);
     }
 
+    public static void UnsubscribeFromType(Type eventType, Action<NetworkEvent> handler) {
+        if (!onEventRaised.ContainsKey(eventType)) {
+            return;
+        }
+        onEventRaised[eventType] -= handler;
+    }
+
     public static void UnsubscribeAll(System.Action<NetworkEvent> handler) {
         onAnyRaised -= handler;
     }
@@ -150,6 +157,8 @@ public class JumpEvent : NetworkEvent {
     }
 }
 
+#region items
+
 public class ItemSpawnedEvent : NetworkEvent {
     public int itemID { get; set; }
     public Guid itemGuid { get; set; }
@@ -228,20 +237,6 @@ public class ItemsDiscardedEvent : NetworkEvent {
     }
 }
 
-public class ScoreUpdatedEvent : NetworkEvent {
-    public float score { get; set; }
-
-    public override void Serialize(Packet packet) {
-        packet.Write(source);
-        packet.Write(score);
-    }
-
-    public override void Deserialize(Packet packet) {
-        source = packet.ReadGuid();
-        score = packet.ReadFloat();
-    }
-}
-
 public class ItemDiscountUpdateEvent : NetworkEvent {
     public float discount { get; set; }
     public List<Guid> influencedItems { get; set; } = new List<Guid>();
@@ -263,7 +258,67 @@ public class ItemDiscountUpdateEvent : NetworkEvent {
             influencedItems.Add(packet.ReadGuid());
         }
     }
-
-
 }
 
+#endregion
+
+
+#region powerups
+
+public class PowerupSpawnedEvent : NetworkEvent {
+    public int powerupID { get; set; }
+    public Guid powerupGuid { get; set; }
+
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+        packet.Write(powerupID);
+        packet.Write(powerupGuid);
+    }
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
+        powerupID = packet.ReadInt();
+        powerupGuid = packet.ReadGuid();
+    }
+}
+
+public class PowerupPickedUpEvent : NetworkEvent {
+    public Guid powerupGuid { get; set; }
+
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+        packet.Write(powerupGuid);
+    }
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
+        powerupGuid = packet.ReadGuid();
+    }
+}
+
+public class PowerupUsedEvent : NetworkEvent {
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+    }
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
+    }
+}
+
+#endregion
+
+
+public class ScoreUpdatedEvent : NetworkEvent {
+    public float score { get; set; }
+
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+        packet.Write(score);
+    }
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
+        score = packet.ReadFloat();
+    }
+}

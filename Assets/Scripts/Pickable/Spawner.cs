@@ -41,7 +41,7 @@ public class Spawner : AGuidSource {
         var itemComponent = item.GetComponent<Item>();
 
         itemComponent.Storezone = Storezone;
-        itemComponent.itemStats.discount = Storezone.StoreDiscount;
+        itemComponent.ItemStats.discount = Storezone.StoreDiscount;
 
         Item.Items.Add(item as Item);
 
@@ -70,7 +70,7 @@ public class Spawner : AGuidSource {
 
         var item = Item.Items.Find(x => x.spawner == this);
         if (item != null) {
-            item.itemStats.discount = Storezone.StoreDiscount;
+            item.ItemStats.discount = Storezone.StoreDiscount;
             itemDiscountUpdateEvent.influencedItems.Add(item.GetComponent<NetworkTransform>().Key);
         }
 
