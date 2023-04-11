@@ -1,8 +1,7 @@
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour {
-
-    [SerializeField] private GameObject itemPrefab;
+    [SerializeField] private InteractableConfiguration interactableConfiguration;
 
     private void OnEnable() {
         // NetworkEventBus.Subscribe<TestNetworkEvent>(onTestNetworkEventClient);
@@ -82,10 +81,10 @@ public class LevelManager : MonoBehaviour {
 
     private void onItemSpawned(ItemSpawnedEvent itemSpawnedEvent) {
         Debug.LogWarning("Item spawned event received");
+        var itemPrefab = interactableConfiguration.interactables[itemSpawnedEvent.itemID].clientPrefab;
         var item = Instantiate(itemPrefab, new Vector3(0, 0, 0), Quaternion.identity);
-        var itemNetworkTransform = item.GetComponent<NetworkTransform>();
-        itemNetworkTransform.SetKey(itemSpawnedEvent.itemGuid);
-        itemNetworkTransform.Initialize();
+        item.SetKey(itemSpawnedEvent.itemGuid);
+        item.Initialize();
 
 
         var uiComponent = item.gameObject.GetComponentInChildren<UIItemDiscountHelper>();
@@ -95,31 +94,26 @@ public class LevelManager : MonoBehaviour {
         } else {
             Debug.LogWarning("No UI component found on the item prefab");
         }
-
-
-
     }
 
     private void onItemPickedUp(ItemPickedUpEvent itemPickedUpEvent) {
-        if (itemPickedUpEvent.source != GameClient.getInstance().GetGuid()) {
-            return;
-        }
-
-        Debug.LogWarning("Item picked up event received in the level manager");
-        Debug.LogWarning("Guid: " + itemPickedUpEvent.itemGuid);
-
-
-        // inform the UI;
-        EventBus<InventoryUIEvent>.Raise(new InventoryUIEvent {
-            shouldClear = itemPickedUpEvent.shouldClear,
-            discount = itemPickedUpEvent.discount,
-        });
-
+        //disable item that is picked up
         NetworkTransform.Transforms.TryGetValue(itemPickedUpEvent.itemGuid, out NetworkTransform networkTransform);
         if (networkTransform != null) {
             networkTransform.gameObject.SetActive(false);
         } else {
             Debug.LogWarning("Network transform not found, cannot destroy the item");
         }
+
+        //check if we picked up the item or someone else did
+        if (itemPickedUpEvent.source != GameClient.getInstance().GetGuid()) {
+            return;
+        }
+        // inform the UI when we picked it up
+        EventBus<InventoryUIEvent>.Raise(new InventoryUIEvent {
+            shouldClear = itemPickedUpEvent.shouldClear,
+            discount = itemPickedUpEvent.discount,
+        });
+
     }
 }

@@ -14,4 +14,15 @@ public class InteractableConfiguration : ScriptableObject
     }
 
     public InteractablePair[] interactables;
+
+    public int GetPrefabIndex(AInteractable interactable) {
+        for (int i = 0; i < interactables.Length; i++) {
+            if (interactables[i].serverPrefab == interactable) {
+                return i;
+            }
+        }
+
+        Debug.LogError("Could not find interactable in configuration", interactable);
+        return -1;
+    }
 }

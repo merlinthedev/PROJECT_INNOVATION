@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 
 public class Spawner : AGuidSource {
-
-
+    [SerializeField] private InteractableConfiguration interactables;
     [SerializeField] private SpawnerConfiguration configuration;
     [SerializeField] private Transform spawnRoot;
 
@@ -31,8 +30,9 @@ public class Spawner : AGuidSource {
 
     private void spawnItem() {
         if (hasItem) return;
-
-        var item = Instantiate(configuration.GetRandomPrefab(), spawnRoot.position, Quaternion.identity);
+        var prefab = configuration.GetRandomPrefab();
+        var prefabIndex = interactables.GetPrefabIndex(prefab);
+        var item = Instantiate(prefab, spawnRoot.position, Quaternion.identity);
         // replace item id
         var networkTransform = item.GetComponent<NetworkTransform>();
 
@@ -47,7 +47,7 @@ public class Spawner : AGuidSource {
 
         NetworkEventBus.Raise(new ItemSpawnedEvent {
             source = key,
-            itemID = 0,
+            itemID = prefabIndex,
             itemGuid = item.GetComponent<NetworkTransform>().Key,
             itemDiscount = Storezone.StoreDiscount
         });
