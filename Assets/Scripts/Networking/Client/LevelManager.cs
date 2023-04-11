@@ -109,8 +109,6 @@ public class LevelManager : MonoBehaviour {
         Debug.LogWarning("Guid: " + itemPickedUpEvent.itemGuid);
 
 
-
-
         // inform the UI;
         EventBus<InventoryUIEvent>.Raise(new InventoryUIEvent {
             shouldClear = itemPickedUpEvent.shouldClear,

@@ -12,6 +12,10 @@ public class Player : MonoBehaviour {
         this.itemHolder = this.gameObject.transform;
     }
 
+    #region Movement
+    [SerializeField] private ShoppingCartMovement movement;
+    public ShoppingCartMovement Movement { get; }
+    #endregion
 
     #region Items
     [SerializeField] private Transform itemHolder;
@@ -60,7 +64,7 @@ public class Player : MonoBehaviour {
         itemDroppedOffEvent.source = GetComponent<NetworkTransform>().Key;
 
         foreach (var item in items) {
-            score += (item.itemStats.discount > 0 ? ((float)item.itemStats.Tier + 1) * (item.itemStats.discount * 100) : ((float)item.itemStats.Tier + 1));
+            score += (item.ItemStats.discount > 0 ? ((float)item.ItemStats.Tier + 1) * (item.ItemStats.discount * 100) : ((float)item.ItemStats.Tier + 1));
             itemDroppedOffEvent.droppedItems.Add(item.GetComponent<NetworkTransform>().key);
             Destroy(item.gameObject);
         }
@@ -95,6 +99,13 @@ public class Player : MonoBehaviour {
         powerUp = null;
     }
 
+    public void UsePowerUp() {
+        if (powerUp != null) {
+            powerUp.Use(this);
+            RemovePowerUp();
+        }
+    }
+
     #endregion
 
     private void OnTriggerEnter(Collider other) {
@@ -106,7 +117,7 @@ public class Player : MonoBehaviour {
             itemPickedUpEvent.itemGuid = item.GetComponent<NetworkTransform>().key;
             itemPickedUpEvent.source = GetComponent<NetworkTransform>().Key;
             itemPickedUpEvent.shouldClear = false;
-            itemPickedUpEvent.discount = item.itemStats.discount;
+            itemPickedUpEvent.discount = item.ItemStats.discount;
             NetworkEventBus.Raise(itemPickedUpEvent);
 
             item.PickUp();
