@@ -126,6 +126,7 @@ namespace server {
                 }
 
                 clientGameInformation.movementInputReceiver = instantiated.GetComponent<IMovementInputReceiver>();
+                clientGameInformation.player = instantiated.GetComponent<Player>();
 
                 channel.SendMessage(connectEvent);
                 EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));
@@ -185,6 +186,8 @@ namespace server {
         private void handleInputPacket(InputPacket inputPacket, ClientGameInformation source) {
             source.movementInputReceiver.DoMove(inputPacket.move);
             source.movementInputReceiver.DoView(inputPacket.view);
+            if(inputPacket.powerUpPressed)
+                source.player.UsePowerUp();
         }
 
         private void handleDisconnectEvent(DisconnectEvent disconnectEvent) {

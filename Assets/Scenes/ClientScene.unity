@@ -1089,6 +1089,7 @@ GameObject:
   - component: {fileID: 359202172}
   - component: {fileID: 359202171}
   - component: {fileID: 359202173}
+  - component: {fileID: 359202174}
   m_Layer: 5
   m_Name: Powerup
   m_TagString: Untagged
@@ -1191,6 +1192,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerupSpriteTarget: {fileID: 1372960880}
   interactableConfig: {fileID: 11400000, guid: 221dbdbe210ff3e409e8fd0932eaa88d, type: 2}
+--- !u!114 &359202174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359202169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84e901c345078fb47b04b9c4e410d30b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &416753761
 GameObject:
   m_ObjectHideFlags: 0
@@ -5245,6 +5258,7 @@ MonoBehaviour:
     type: 3}
   virtualCamera: {fileID: 1615410097}
   clientCartController: {fileID: 1675620812}
+  PowerUpButton: {fileID: 359202174}
 --- !u!114 &1675620812
 MonoBehaviour:
   m_ObjectHideFlags: 0

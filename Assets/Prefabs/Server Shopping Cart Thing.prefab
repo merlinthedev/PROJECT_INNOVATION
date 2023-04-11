@@ -142,7 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsSafeToLeave: 0
-  movement: {fileID: 0}
+  movement: {fileID: 2275713438171957951}
   itemHolder: {fileID: 2671685037222174040}
   capacity: 2
   items: []

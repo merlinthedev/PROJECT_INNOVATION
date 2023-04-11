@@ -15,6 +15,7 @@ public class GameClient : MonoBehaviour {
     private static GameClient instance;
     private Guid guid;
     [SerializeField] private ClientCartController clientCartController;
+    [SerializeField] private ButtonPressed PowerUpButton;
 
     private void Awake() {
         if (instance != null) {
@@ -43,7 +44,7 @@ public class GameClient : MonoBehaviour {
         }
         try {
             InputPacket inputPacket = clientCartController.GetInputPacket();
-
+            inputPacket.powerUpPressed = PowerUpButton.isPressed;
             tcpMessageChannel.SendMessage(inputPacket);
         } catch (Exception e) {
             Debug.LogError("Error while sending input data: " + e.Message);

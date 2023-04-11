@@ -14,7 +14,7 @@ public class Player : MonoBehaviour {
 
     #region Movement
     [SerializeField] private ShoppingCartMovement movement;
-    public ShoppingCartMovement Movement { get; }
+    public ShoppingCartMovement Movement { get => movement; }
     #endregion
 
     #region Items
