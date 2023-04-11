@@ -10217,7 +10217,7 @@ PrefabInstance:
         type: 3}
       propertyPath: storezoneCollider
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 482553421}
     - target: {fileID: 1983959948211788608, guid: 2fba2983ef1771a469e4705134700b5e,
         type: 3}
       propertyPath: Spawners.Array.size
@@ -10332,7 +10332,7 @@ PrefabInstance:
         type: 3}
       propertyPath: storezoneCollider
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 482553422}
     - target: {fileID: 8386053268478848403, guid: 2fba2983ef1771a469e4705134700b5e,
         type: 3}
       propertyPath: Spawners.Array.size
@@ -10357,7 +10357,7 @@ PrefabInstance:
         type: 3}
       propertyPath: storezoneCollider
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 482553420}
     - target: {fileID: 8654771842301510356, guid: 2fba2983ef1771a469e4705134700b5e,
         type: 3}
       propertyPath: Spawners.Array.size
