@@ -11,6 +11,7 @@ public class LevelManager : MonoBehaviour {
         NetworkEventBus.Subscribe<ScoreUpdatedEvent>(onScoreUpdated);
         NetworkEventBus.Subscribe<ItemsDiscardedEvent>(onItemsDiscarded);
         NetworkEventBus.Subscribe<PowerUpPickedUpEvent>(onPowerUpPickup);
+        NetworkEventBus.Subscribe<PowerupUsedEvent>(onPowerUpUsed);
 
         Debug.LogWarning("Level manager subscribed to events");
     }
@@ -23,6 +24,7 @@ public class LevelManager : MonoBehaviour {
         NetworkEventBus.Unsubscribe<ScoreUpdatedEvent>(onScoreUpdated);
         NetworkEventBus.Unsubscribe<ItemsDiscardedEvent>(onItemsDiscarded);
         NetworkEventBus.Unsubscribe<PowerUpPickedUpEvent>(onPowerUpPickup);
+        NetworkEventBus.Unsubscribe<PowerupUsedEvent>(onPowerUpUsed);
     }
 
     private void onItemsDiscarded(ItemsDiscardedEvent itemsDiscardedEvent) {
@@ -135,6 +137,17 @@ public class LevelManager : MonoBehaviour {
         // inform the UI when we picked it up
         EventBus<PowerUpUIEvent>.Raise(new PowerUpUIEvent {
             PowerUpID = powerUpPickedUpEvent.PowerUpID
+        });
+    }
+
+    private void onPowerUpUsed(PowerupUsedEvent powerupUsedEvent) {
+        //check if we picked up the item or someone else did
+        if (powerupUsedEvent.source != GameClient.getInstance().GetGuid()) {
+            return;
+        }
+        // inform the UI when we picked it up
+        EventBus<PowerUpUIEvent>.Raise(new PowerUpUIEvent {
+            PowerUpID = -1
         });
     }
 }

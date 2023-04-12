@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class Player : AGuidListener {
 
     private float score = 0f;
     public bool IsSafeToLeave = false;
@@ -37,7 +37,7 @@ public class Player : MonoBehaviour {
 
     public void DiscardItems() {
         ItemsDiscardedEvent itemsDiscardedEvent = new ItemsDiscardedEvent();
-        itemsDiscardedEvent.source = GetComponent<NetworkTransform>().Key;
+        itemsDiscardedEvent.source = Key;
 
         foreach (var item in items) {
             // drop them back into the world
@@ -61,7 +61,7 @@ public class Player : MonoBehaviour {
 
     public void DropOffItems() {
         ItemsDroppedOffEvent itemDroppedOffEvent = new ItemsDroppedOffEvent();
-        itemDroppedOffEvent.source = GetComponent<NetworkTransform>().Key;
+        itemDroppedOffEvent.source = Key;
 
         foreach (var item in items) {
             score += (item.discount > 0 ? ((float)item.ItemStats.Tier + 1) * (item.discount * 100) : ((float)item.ItemStats.Tier + 1));
@@ -70,7 +70,7 @@ public class Player : MonoBehaviour {
         }
 
         NetworkEventBus.Raise(new ScoreUpdatedEvent {
-            source = GetComponent<NetworkTransform>().Key,
+            source = Key,
             score = score,
         });
 
@@ -79,7 +79,7 @@ public class Player : MonoBehaviour {
         NetworkEventBus.Raise(itemDroppedOffEvent);
 
         // destroy networktransform 
-        NetworkTransform.Transforms.Remove(GetComponent<NetworkTransform>().Key);
+        NetworkTransform.Transforms.Remove(Key);
     }
 
     #endregion
@@ -103,6 +103,9 @@ public class Player : MonoBehaviour {
         if (powerUp != null) {
             powerUp.Use(this);
             RemovePowerUp();
+
+            PowerupUsedEvent powerUpUsedEvent = new PowerupUsedEvent();
+            powerUpUsedEvent.source = Key;
         }
     }
 
@@ -115,7 +118,7 @@ public class Player : MonoBehaviour {
 
             ItemPickedUpEvent itemPickedUpEvent = new ItemPickedUpEvent();
             itemPickedUpEvent.itemGuid = item.GetComponent<NetworkTransform>().key;
-            itemPickedUpEvent.source = GetComponent<NetworkTransform>().Key;
+            itemPickedUpEvent.source = Key;
             itemPickedUpEvent.shouldClear = false;
             itemPickedUpEvent.discount = item.discount;
             NetworkEventBus.Raise(itemPickedUpEvent);
@@ -133,7 +136,7 @@ public class Player : MonoBehaviour {
 
             PowerUpPickedUpEvent powerUpPickedUpEvent = new PowerUpPickedUpEvent();
             powerUpPickedUpEvent.powerUpGuid = powerUp.GetComponent<NetworkTransform>().key;
-            powerUpPickedUpEvent.source = GetComponent<NetworkTransform>().Key;
+            powerUpPickedUpEvent.source = Key;
             powerUpPickedUpEvent.PowerUpID = powerUp.InteractableID;
             NetworkEventBus.Raise(powerUpPickedUpEvent);
 
