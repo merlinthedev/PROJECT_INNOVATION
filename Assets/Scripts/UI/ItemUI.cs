@@ -14,14 +14,14 @@ public class ItemUI : MonoBehaviour {
         RemoveItem();
     }
 
-    public void SetItem(Item item, Guid itemGuid) {
+    public void SetItem(Item item, float discount, Guid itemGuid) {
         if (item == null) {
             Debug.LogError("Item is null");
             return;
         }
         defaultImage.sprite = item.ItemStats.ItemSprite;
         defaultImage.enabled = true;
-        discountText.text = item.discount.ToString();
+        discountText.text = discount.ToString();
 
         HasItem = true;
         ItemGuid = itemGuid;

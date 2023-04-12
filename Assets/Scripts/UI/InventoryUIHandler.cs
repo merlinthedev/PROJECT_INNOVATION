@@ -19,7 +19,7 @@ public class InventoryUIHandler : MonoBehaviour {
     private void onInventoryUpdatedEvent(InventoryUIEvent inventoryUIEvent) {
         switch (inventoryUIEvent.actionType) {
             case InventoryUIEvent.ActionType.Add:
-                addItem(inventoryUIEvent.item, inventoryUIEvent.itemGuid);
+                addItem(inventoryUIEvent.item, inventoryUIEvent.discount, inventoryUIEvent.itemGuid);
                 break;
             case InventoryUIEvent.ActionType.Remove:
                 removeItem(inventoryUIEvent.itemGuid);
@@ -37,11 +37,11 @@ public class InventoryUIHandler : MonoBehaviour {
         }
     }
 
-    private void addItem(Item item, Guid itemGuid) {
+    private void addItem(Item item, float discount, Guid itemGuid) {
         // add item to first empty slot
         foreach (ItemUI itemUI in itemUIs) {
             if (!itemUI.HasItem) {
-                itemUI.SetItem(item, itemGuid);
+                itemUI.SetItem(item, discount, itemGuid);
                 break;
             }
         }

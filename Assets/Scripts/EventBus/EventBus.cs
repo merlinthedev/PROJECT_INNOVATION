@@ -121,6 +121,7 @@ public class InventoryUIEvent : Event {
     public Item item { get; set; }
     public ActionType actionType { get; set; }
     public Guid itemGuid { get; set; }
+    public float discount { get; set; }
 
     public enum ActionType {
         Add,
