@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1721088990}
   m_LocalRotation: {x: 0.13052596, y: 0.000000029802322, z: 0.0000000037252903, w: 0.99144495}
-  m_LocalPosition: {x: 0, y: 1.26, z: -0.94}
+  m_LocalPosition: {x: -0.099, y: 1.037, z: -0.941}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -57,8 +57,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5073113415654187644}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.18, y: 1.2577, z: 2.13}
+  m_LocalRotation: {x: -0, y: 0.70710576, z: -0, w: 0.70710784}
+  m_LocalPosition: {x: 0.991881, y: 1.2577, z: 2.3760192}
   m_LocalScale: {x: 0.95581, y: 1.0117999, z: 0.95581}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -66,7 +66,7 @@ Transform:
   - {fileID: 5463477412735040444}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!54 &5073113415654187642
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -93,10 +93,10 @@ CapsuleCollider:
   m_Material: {fileID: 13400000, guid: 64949c08bc46d2d4188936e52db82085, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.59601456
-  m_Height: 1.2666937
+  m_Radius: 0.55262464
+  m_Height: 1.43065
   m_Direction: 1
-  m_Center: {x: 0.03028892, y: 0.095046215, z: 0.22710484}
+  m_Center: {x: -0.006687025, y: 0.09504621, z: 0.3071211}
 --- !u!114 &1612820887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,22 +159,22 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: da6665d5ede7bf046be0617fba99186e,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da6665d5ede7bf046be0617fba99186e,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da6665d5ede7bf046be0617fba99186e,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da6665d5ede7bf046be0617fba99186e,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da6665d5ede7bf046be0617fba99186e,
         type: 3}
@@ -184,18 +184,33 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: da6665d5ede7bf046be0617fba99186e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da6665d5ede7bf046be0617fba99186e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5070614064305046288, guid: da6665d5ede7bf046be0617fba99186e,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ddcc16ffd9ccc10438aacc781bee5abf, type: 2}
+    - target: {fileID: -2887161303888600814, guid: da6665d5ede7bf046be0617fba99186e,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d647bd875eafec149b95ccae42293959, type: 2}
     - target: {fileID: 919132149155446097, guid: da6665d5ede7bf046be0617fba99186e,
         type: 3}
       propertyPath: m_Name
       value: ShoppingCart
       objectReference: {fileID: 0}
+    - target: {fileID: 3660410528127614292, guid: da6665d5ede7bf046be0617fba99186e,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1f3801253058c48429a32098ebd09fd6, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da6665d5ede7bf046be0617fba99186e, type: 3}
 --- !u!4 &5463477412735040444 stripped
