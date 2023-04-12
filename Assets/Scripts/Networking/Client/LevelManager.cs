@@ -28,7 +28,7 @@ public class LevelManager : MonoBehaviour {
     }
 
     private void onItemsDiscarded(ItemsDiscardedEvent itemsDiscardedEvent) {
-        if (itemsDiscardedEvent.source != GameClient.getInstance().GetGuid()) {
+        if (itemsDiscardedEvent.source != GameClient.getInstance().GetGuid() || itemsDiscardedEvent.discardedItems.Count == 0) {
             return;
         }
 

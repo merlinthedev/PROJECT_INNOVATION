@@ -40,23 +40,22 @@ public class Player : AGuidListener {
         ItemsDiscardedEvent itemsDiscardedEvent = new ItemsDiscardedEvent();
         itemsDiscardedEvent.source = key;
 
-        foreach (var item in items) {
-            if(item.PaidFor) continue;
+        for (int i = items.Count - 1; i > 0; i--) {
+            if (items[i].PaidFor) continue;
 
             // drop them back into the world
-            item.transform.SetParent(null);
+            items[i].transform.SetParent(null);
             // make sure to set the transform to next to the player but not to the point where we pick it up
-            item.transform.position = item.Storezone.transform.position + new UnityEngine.Vector3(0f, 1f, 0f);
-            item.gameObject.SetActive(true);
+            items[i].transform.position = items[i].Storezone.transform.position + new UnityEngine.Vector3(0f, 1f, 0f);
+            items[i].gameObject.SetActive(true);
 
-            itemsDiscardedEvent.discardedItems.Add(item.GetComponent<NetworkTransform>().key);
+            itemsDiscardedEvent.discardedItems.Add(items[i].GetComponent<NetworkTransform>().key);
 
-            items.Remove(item);
+            items.Remove(items[i]);
         }
 
         // items.Clear();
-
-        NetworkEventBus.Raise(itemsDiscardedEvent);
+        if (itemsDiscardedEvent.discardedItems.Count > 0) NetworkEventBus.Raise(itemsDiscardedEvent);
     }
 
     public IEnumerator ResetSafeToLeaveFlag() {
