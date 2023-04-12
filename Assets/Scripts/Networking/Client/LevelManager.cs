@@ -122,7 +122,8 @@ public class LevelManager : MonoBehaviour {
         EventBus<InventoryUIEvent>.Raise(new InventoryUIEvent {
             item = interactableConfiguration.interactables[itemPickedUpEvent.itemInteractableID].serverPrefab as Item,
             actionType = InventoryUIEvent.ActionType.Add,
-            itemGuid = itemPickedUpEvent.itemGuid
+            itemGuid = itemPickedUpEvent.itemGuid,
+            discount = itemPickedUpEvent.discount
         });
 
     }
