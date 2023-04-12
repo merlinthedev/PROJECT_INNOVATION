@@ -44,7 +44,7 @@ public class GameClient : MonoBehaviour {
         }
         try {
             InputPacket inputPacket = clientCartController.GetInputPacket();
-            inputPacket.powerUpPressed = PowerUpButton.isPressed;
+            inputPacket.powerUpPressed = PowerUpButton.isPressed || Input.GetKey(KeyCode.Space);
             tcpMessageChannel.SendMessage(inputPacket);
         } catch (Exception e) {
             Debug.LogError("Error while sending input data: " + e.Message);
