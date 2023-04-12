@@ -38,7 +38,7 @@ public class InventoryUIHandler : MonoBehaviour {
 
         // visualize the item in the UI inventory, if there is one already, add it next to it
         var itemRectTransform = item.GetComponent<RectTransform>();
-        itemRectTransform.anchoredPosition = new Vector2(-300 + (items.Count * 100), 0);
+        itemRectTransform.anchoredPosition = new Vector2(-200 + (items.Count * 100), 0);
 
         // for the new one, get the InventoryItemUIHandler and set the discount only for the new item
         var itemUIHandler = item.GetComponentInChildren<InventoryItemUIHandler>();
