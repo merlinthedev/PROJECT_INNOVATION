@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using System;
 
 public class Player : AGuidListener {
 
@@ -154,4 +155,10 @@ public class Player : AGuidListener {
         }
     }
 
+    public void ApplyCoupon(float discountMultiplier) {
+        //find the highest tier item that is not paid for and apply the multiplier to its discount
+        Item item = items.Where(x => !x.PaidFor).OrderByDescending(x => x.ItemStats.Tier).FirstOrDefault();
+        if (item != null)
+            item.discount *= discountMultiplier;
+    }
 }

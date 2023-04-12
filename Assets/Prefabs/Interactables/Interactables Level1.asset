@@ -28,3 +28,8 @@ MonoBehaviour:
       type: 3}
     clientPrefab: {fileID: 4992692690347235289, guid: c2654f4e5476a164cb21e7d7bc134f89,
       type: 3}
+  - itemName: CouponPowerUp
+    serverPrefab: {fileID: 5261633374574975899, guid: 97f666ad700d7b0459ce49739122d4fa,
+      type: 3}
+    clientPrefab: {fileID: 811761908316363763, guid: d08e766db07b14f4685d596d70c301db,
+      type: 3}
