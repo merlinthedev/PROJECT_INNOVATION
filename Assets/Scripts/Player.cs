@@ -40,9 +40,8 @@ public class Player : AGuidListener {
         ItemsDiscardedEvent itemsDiscardedEvent = new ItemsDiscardedEvent();
         itemsDiscardedEvent.source = key;
 
-        for (int i = items.Count - 1; i > 0; i--) {
+        for (int i = items.Count - 1; i >= 0; i--) {
             if (items[i].PaidFor) continue;
-
             // drop them back into the world
             items[i].transform.SetParent(null);
             // make sure to set the transform to next to the player but not to the point where we pick it up
