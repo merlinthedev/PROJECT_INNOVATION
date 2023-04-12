@@ -34,12 +34,11 @@ public class LevelManager : MonoBehaviour {
 
         if(itemsDiscardedEvent.discardedItems.Count == 1) {
             EventBus<InventoryUIEvent>.Raise(new InventoryUIEvent {
-                item = Item.Items.TryGetValue(itemsDiscardedEvent.discardedItems[0], out Item item) ? item : null,
+                itemGuid = itemsDiscardedEvent.discardedItems[0],
                 actionType = InventoryUIEvent.ActionType.Remove
             });
         } else {
             EventBus<InventoryUIEvent>.Raise(new InventoryUIEvent {
-                item = null,
                 actionType = InventoryUIEvent.ActionType.Clear,
             });
         }

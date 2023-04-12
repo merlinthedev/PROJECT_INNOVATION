@@ -29,8 +29,6 @@ public class InventoryUIHandler : MonoBehaviour {
                 break;
         }
 
-
-
     }
 
     private void clearInventory() {
