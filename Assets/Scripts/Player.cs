@@ -77,9 +77,6 @@ public class Player : AGuidListener {
         items.Clear();
 
         NetworkEventBus.Raise(itemDroppedOffEvent);
-
-        // destroy networktransform 
-        NetworkTransform.Transforms.Remove(Key);
     }
 
     #endregion

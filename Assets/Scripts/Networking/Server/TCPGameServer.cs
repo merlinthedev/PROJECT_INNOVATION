@@ -101,7 +101,7 @@ namespace server {
 
                 var instantiated = Instantiate(playerServerPrefab, new Vector3(35, 4, 16), Quaternion.identity);
                 var nt = instantiated.GetComponent<NetworkTransform>();
-                nt.key = newClientGuid;
+                nt.SetKey(newClientGuid);
                 nt.Initialize();
 
 
@@ -220,7 +220,7 @@ namespace server {
 
                     Destroy(NetworkTransform.Transforms[brokenClient].gameObject);
                     NetworkTransform.Transforms.Remove(brokenClient);
-                } catch (Exception e) { }
+                } catch (Exception e) { Debug.LogError(e); }
             }
 
             EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));
