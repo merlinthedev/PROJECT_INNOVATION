@@ -1,19 +1,30 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class ItemUI : MonoBehaviour {
     [SerializeField] private Image defaultImage;
     [SerializeField] private TMP_Text discountText;
 
-    public System.Guid Key { get; set; }
+    public bool HasItem = false;
+    public Guid ItemGuid { get; private set; }
 
-    public void SetItem(Item item) {
+    public void Start() {
+        RemoveItem();
+    }
+
+    public void SetItem(Item item, Guid itemGuid) {
+        if (item == null) {
+            Debug.LogError("Item is null");
+            return;
+        }
         defaultImage.sprite = item.ItemStats.ItemSprite;
         defaultImage.enabled = true;
         discountText.text = item.discount.ToString();
 
-        Key = item.key;
+        HasItem = true;
+        ItemGuid = itemGuid;
     }
 
     public void RemoveItem() {
@@ -21,7 +32,8 @@ public class ItemUI : MonoBehaviour {
         defaultImage.enabled = false;
         discountText.text = "";
 
-        Key = System.Guid.Empty;
+        HasItem = false;
+        ItemGuid = Guid.Empty;
     }
 
 }

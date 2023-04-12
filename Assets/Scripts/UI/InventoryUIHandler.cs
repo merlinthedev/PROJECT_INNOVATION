@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 
 public class InventoryUIHandler : MonoBehaviour {
 
-    private List<ItemUI> itemUIs = new List<ItemUI>();
+    public List<ItemUI> itemUIs = new List<ItemUI>();
 
     private void OnEnable() {
         EventBus<InventoryUIEvent>.Subscribe(onInventoryUpdatedEvent);
@@ -18,10 +19,10 @@ public class InventoryUIHandler : MonoBehaviour {
     private void onInventoryUpdatedEvent(InventoryUIEvent inventoryUIEvent) {
         switch (inventoryUIEvent.actionType) {
             case InventoryUIEvent.ActionType.Add:
-                addItem(inventoryUIEvent.item);
+                addItem(inventoryUIEvent.item, inventoryUIEvent.itemGuid);
                 break;
             case InventoryUIEvent.ActionType.Remove:
-                removeItem(inventoryUIEvent.item);
+                removeItem(inventoryUIEvent.itemGuid);
                 break;
             case InventoryUIEvent.ActionType.Clear:
                 clearInventory();
@@ -38,25 +39,19 @@ public class InventoryUIHandler : MonoBehaviour {
         }
     }
 
-    private void addItem(Item item) {
+    private void addItem(Item item, Guid itemGuid) {
         // add item to first empty slot
-
-        if (itemUIs.Count == 2) {
-            Debug.LogError("Inventory is full");
-            return;
-        }
-
         foreach (ItemUI itemUI in itemUIs) {
-            if (itemUI.Key == System.Guid.Empty) {
-                itemUI.SetItem(item);
+            if (!itemUI.HasItem) {
+                itemUI.SetItem(item, itemGuid);
                 break;
             }
         }
     }
 
-    private void removeItem(Item item) {
+    private void removeItem(Guid itemGuid) {
         foreach (ItemUI itemUI in itemUIs) {
-            if (itemUI.Key == item.key) {
+            if (itemUI.HasItem && itemUI.ItemGuid == itemGuid) {
                 itemUI.RemoveItem();
                 break;
             }

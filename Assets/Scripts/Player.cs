@@ -128,6 +128,7 @@ public class Player : AGuidListener {
 
             ItemPickedUpEvent itemPickedUpEvent = new ItemPickedUpEvent();
             itemPickedUpEvent.itemGuid = item.GetComponent<NetworkTransform>().key;
+            itemPickedUpEvent.itemInteractableID = item.InteractableID;
             itemPickedUpEvent.source = key;
             itemPickedUpEvent.shouldClear = false;
             itemPickedUpEvent.discount = item.discount;

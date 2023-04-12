@@ -121,8 +121,9 @@ public class LevelManager : MonoBehaviour {
         }
         // inform the UI when we picked it up
         EventBus<InventoryUIEvent>.Raise(new InventoryUIEvent {
-            item = Item.Items.TryGetValue(itemPickedUpEvent.itemGuid, out Item item) ? item : null,
-            actionType = InventoryUIEvent.ActionType.Add
+            item = interactableConfiguration.interactables[itemPickedUpEvent.itemInteractableID].serverPrefab as Item,
+            actionType = InventoryUIEvent.ActionType.Add,
+            itemGuid = itemPickedUpEvent.itemGuid
         });
 
     }

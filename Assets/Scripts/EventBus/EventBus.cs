@@ -120,6 +120,7 @@ public class OnStateEnter : Event {
 public class InventoryUIEvent : Event {
     public Item item { get; set; }
     public ActionType actionType { get; set; }
+    public Guid itemGuid { get; set; }
 
     public enum ActionType {
         Add,
@@ -192,12 +193,14 @@ public class ItemSpawnedEvent : NetworkEvent {
 
 public class ItemPickedUpEvent : NetworkEvent {
     public Guid itemGuid { get; set; }
+    public int itemInteractableID { get; set; }
     public bool shouldClear { get; set; }
     public float discount;
 
     public override void Serialize(Packet packet) {
         packet.Write(source);
         packet.Write(itemGuid);
+        packet.Write(itemInteractableID);
         packet.Write(shouldClear);
         packet.Write(discount);
     }
@@ -205,6 +208,7 @@ public class ItemPickedUpEvent : NetworkEvent {
     public override void Deserialize(Packet packet) {
         source = packet.ReadGuid();
         itemGuid = packet.ReadGuid();
+        itemInteractableID = packet.ReadInt();
         shouldClear = packet.ReadBool();
         discount = packet.ReadFloat();
     }

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Tier: 0
   ItemName: TestItemONE
-  ItemSprite: {fileID: 0}
+  ItemSprite: {fileID: 21300000, guid: 7c5e3b874e014e6469e6fe8ff89683e9, type: 3}
   GameObject: {fileID: 6189425348438312989, guid: 451bbe73a68951647b5ffc2dcbebf7e5,
     type: 3}
   Weight: 1
