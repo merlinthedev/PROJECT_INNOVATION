@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AssetPath: Assets/Materials/Mall (Zone 2) Textures/Wall Bakery.sbsar
   OutputPath: Assets/Materials/Mall (Zone 2) Textures/Wall Bakery_graph_0
-  RawData: {fileID: 0}
+  RawData: {fileID: -244192453324840774, guid: 5e893d274808e0d43a49318d2b2490e3, type: 3}
   Name: graph_0
   IsRoot: 1
   FlagedForDelete: 0
@@ -32,7 +32,7 @@ MonoBehaviour:
       Index: 0
       Type: 8
       Channel: baseColor
-    OutputTexture: {fileID: 0}
+    OutputTexture: {fileID: 2800000, guid: 483d0c9ba09242544baeb94fe1e7b65a, type: 3}
     sRGB: 1
     IsVirtual: 0
     IsAlphaAssignable: 1
@@ -48,7 +48,7 @@ MonoBehaviour:
       Index: 1
       Type: 8
       Channel: normal
-    OutputTexture: {fileID: 0}
+    OutputTexture: {fileID: 2800000, guid: 5a720fe536f35b04489d881e24c09684, type: 3}
     sRGB: 0
     IsVirtual: 0
     IsAlphaAssignable: 0
@@ -80,7 +80,7 @@ MonoBehaviour:
       Index: 3
       Type: 8
       Channel: metallic
-    OutputTexture: {fileID: 0}
+    OutputTexture: {fileID: 2800000, guid: 913db6b736346ca4e8b79b2df01b331f, type: 3}
     sRGB: 0
     IsVirtual: 0
     IsAlphaAssignable: 1
@@ -96,7 +96,7 @@ MonoBehaviour:
       Index: 4
       Type: 8
       Channel: height
-    OutputTexture: {fileID: 0}
+    OutputTexture: {fileID: 2800000, guid: 91265b66216a3124d9e37041d9287949, type: 3}
     sRGB: 1
     IsVirtual: 0
     IsAlphaAssignable: 1
@@ -112,7 +112,7 @@ MonoBehaviour:
       Index: 5
       Type: 8
       Channel: ambientOcclusion
-    OutputTexture: {fileID: 0}
+    OutputTexture: {fileID: 2800000, guid: ac3b699e595ed354e982d5da5266822e, type: 3}
     sRGB: 0
     IsVirtual: 0
     IsAlphaAssignable: 1
@@ -129,11 +129,10 @@ MonoBehaviour:
   IsRuntimeOnly: 0
   GenerateAllOutputs: 0
   GenerateAllMipmaps: 1
-  OutputMaterial: {fileID: 0}
+  OutputMaterial: {fileID: 2100000, guid: 6eaa3f0015e68c54c8e91ffafb674af6, type: 2}
   DefaultPreset: " <sbspreset pkgurl=\"pkg://Wall_Bakery\" label=\"\" >\n  <presetinput
-    identifier=\"$outputsize\" uid=\"1566869990\" type=\"8\" value=\"10,10\" />\n
-    </sbspreset>\n"
-  MaterialShader: 
+    identifier=\"$outputsize\" uid=\"1566869990\" type=\"8\" value=\"10,10\" />\n</sbspreset>\n"
+  MaterialShader: Universal Render Pipeline/Lit
   RenderTextures: 0
   OutputRemaped: 0
   references:
