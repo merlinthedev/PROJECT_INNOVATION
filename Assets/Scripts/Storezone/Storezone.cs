@@ -52,6 +52,8 @@ public class Storezone : MonoBehaviour {
             if (player != null) {
                 if (!player.IsSafeToLeave) {
                     player.DiscardItems();
+                } else {
+                    player.FlagSafeItems();
                 }
             }
         }

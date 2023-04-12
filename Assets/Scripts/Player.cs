@@ -40,6 +40,8 @@ public class Player : AGuidListener {
         itemsDiscardedEvent.source = Key;
 
         foreach (var item in items) {
+            if(item.PaidFor) continue;
+
             // drop them back into the world
             item.transform.SetParent(null);
             // make sure to set the transform to next to the player but not to the point where we pick it up
@@ -47,9 +49,11 @@ public class Player : AGuidListener {
             item.gameObject.SetActive(true);
 
             itemsDiscardedEvent.discardedItems.Add(item.GetComponent<NetworkTransform>().key);
+
+            items.Remove(item);
         }
 
-        items.Clear();
+        // items.Clear();
 
         NetworkEventBus.Raise(itemsDiscardedEvent);
     }
@@ -57,6 +61,12 @@ public class Player : AGuidListener {
     public IEnumerator ResetSafeToLeaveFlag() {
         yield return new WaitForSeconds(2f);
         IsSafeToLeave = false;
+    }
+
+    public void FlagSafeItems() {
+        foreach (var item in items) {
+            item.PaidFor = true;
+        }
     }
 
     public void DropOffItems() {

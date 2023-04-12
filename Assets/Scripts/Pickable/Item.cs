@@ -10,11 +10,13 @@ public class Item : AInteractable {
 
     public ItemStats ItemStats;
     public int Weight { get { return ItemStats.Weight; } }
-    
+
     // Value between 0 and 1 (0 = 0%, 1 = 100%)
     public float discount = 0.1f;
 
     private float initialY;
+    public bool PaidFor = false;
+
     protected override void OnPickUp() {
 
     }
