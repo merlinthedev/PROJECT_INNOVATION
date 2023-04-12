@@ -31,9 +31,11 @@ public class PowerupUIHandler : MonoBehaviour {
 
     public void SetPowerUp(PowerUp powerUp) {
         powerupSpriteTarget.sprite = powerUp.PowerUpSprite;
+        powerupSpriteTarget.enabled = true;
     }
 
     public void RemovePowerUp() {
         powerupSpriteTarget.sprite = null;
+        powerupSpriteTarget.enabled = false;
     }
 }
