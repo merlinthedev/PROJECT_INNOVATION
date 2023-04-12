@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 1a1b6b1bcbdf0f24480e1c40cb530e44
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: dda12f74ff9116a42b23482252b2c482, type: 3}
+  _instancesCopy:
+  - {fileID: 11400000, guid: 04422a130e415064cbb1853df19dc017, type: 2}
+  _fileAsset: {instanceID: 0}
+  _assetPath: Assets/Materials/Mall (Zone 2) Textures/Tile Floor(2).sbsar
