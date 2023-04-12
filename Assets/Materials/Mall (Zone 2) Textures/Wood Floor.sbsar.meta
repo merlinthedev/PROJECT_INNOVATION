@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 42c2c0695c3e4c54ebb2bd4ebc511fae
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: dda12f74ff9116a42b23482252b2c482, type: 3}
+  _instancesCopy:
+  - {fileID: 11400000, guid: d11892c4cfe155946b28d97cacfe6193, type: 2}
+  _fileAsset: {instanceID: 0}
+  _assetPath: Assets/Materials/Mall (Zone 2) Textures/Wood Floor.sbsar

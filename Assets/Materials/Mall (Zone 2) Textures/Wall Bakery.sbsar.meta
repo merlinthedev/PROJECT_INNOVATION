@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 5e893d274808e0d43a49318d2b2490e3
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: dda12f74ff9116a42b23482252b2c482, type: 3}
+  _instancesCopy:
+  - {fileID: 11400000, guid: 2930a9b19e8578542bfbc19cedeea28a, type: 2}
+  _fileAsset: {instanceID: 0}
+  _assetPath: Assets/Materials/Mall (Zone 2) Textures/Wall Bakery.sbsar
