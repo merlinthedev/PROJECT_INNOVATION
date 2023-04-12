@@ -53,6 +53,8 @@ namespace server {
             //we allow for a lot of incoming connections, so we can handle them
             //and tell them whether we will accept them or not instead of bluntly declining them
             listener = new TcpListener(IPAddress.Any, serverPort);
+            listener.Server.NoDelay = true; // Q: What does this do? A: Disable Nagle's algorithm - no this on the other side too
+
             listener.Start(50);
 
             NetworkEventBus.SubscribeAll(OnNetworkEvent);
