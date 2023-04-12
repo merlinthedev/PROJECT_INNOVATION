@@ -5,5 +5,5 @@ using UnityEngine;
 
 public abstract class AGuidListener : MonoBehaviour {
     public AGuidSource guidSource;
-    public Guid Key => guidSource.Key;
+    public Guid key => guidSource.key;
 }

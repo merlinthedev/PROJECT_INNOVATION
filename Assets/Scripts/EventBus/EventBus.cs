@@ -118,9 +118,16 @@ public class OnStateEnter : Event {
 }
 
 public class InventoryUIEvent : Event {
-    public bool shouldClear { get; set; }
-    public float discount { get; set; }
+    public Item item { get; set; }
+    public ActionType actionType { get; set; }
+
+    public enum ActionType {
+        Add,
+        Remove,
+        Clear
+    }
 }
+
 
 public class PowerUpUIEvent : Event {
     public int PowerUpID { get; set; }
@@ -223,7 +230,7 @@ public class ItemsDroppedOffEvent : NetworkEvent {
 }
 
 public class ItemsDiscardedEvent : NetworkEvent {
-    public List<Guid> discardedItems { get; set; } = new List<Guid>();
+    public List<System.Guid> discardedItems { get; set; } = new List<System.Guid>();
     public override void Serialize(Packet packet) {
         packet.Write(source);
         packet.Write(discardedItems.Count);

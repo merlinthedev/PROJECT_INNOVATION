@@ -1,10 +1,10 @@
-using System.Numerics;
+using System;
 using UnityEngine;
 using System.Collections.Generic;
 
 public class Item : AInteractable {
 
-    public static List<Item> Items = new List<Item>();
+    public static Dictionary<Guid, Item> Items = new Dictionary<Guid, Item>();
 
     public Storezone Storezone;
 

@@ -1,17 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 
 public class InventoryUIHandler : MonoBehaviour {
 
-    private List<GameObject> items = new List<GameObject>();
-
-    [SerializeField] private GameObject itemPrefab;
-    [SerializeField] private RectTransform childTransform;
-    [SerializeField] private Texture2D itemTexture;
-
+    private List<ItemUI> itemUIs = new List<ItemUI>();
 
     private void OnEnable() {
         EventBus<InventoryUIEvent>.Subscribe(onInventoryUpdatedEvent);
@@ -23,28 +16,51 @@ public class InventoryUIHandler : MonoBehaviour {
 
 
     private void onInventoryUpdatedEvent(InventoryUIEvent inventoryUIEvent) {
-        if (inventoryUIEvent.shouldClear) {
-            foreach (var existingItem in items) {
-                Destroy(existingItem);
-            }
-            items.Clear();
+        switch (inventoryUIEvent.actionType) {
+            case InventoryUIEvent.ActionType.Add:
+                addItem(inventoryUIEvent.item);
+                break;
+            case InventoryUIEvent.ActionType.Remove:
+                removeItem(inventoryUIEvent.item);
+                break;
+            case InventoryUIEvent.ActionType.Clear:
+                clearInventory();
+                break;
+        }
 
+
+
+    }
+
+    private void clearInventory() {
+        foreach (ItemUI itemUI in itemUIs) {
+            itemUI.RemoveItem();
+        }
+    }
+
+    private void addItem(Item item) {
+        // add item to first empty slot
+
+        if (itemUIs.Count == 2) {
+            Debug.LogError("Inventory is full");
             return;
         }
 
-        var item = Instantiate(itemPrefab, childTransform);
-        item.GetComponent<Image>().sprite = Sprite.Create(itemTexture, new Rect(0, 0, itemTexture.width, itemTexture.height), Vector2.zero);
-        items.Add(item);
+        foreach (ItemUI itemUI in itemUIs) {
+            if (itemUI.Key == System.Guid.Empty) {
+                itemUI.SetItem(item);
+                break;
+            }
+        }
+    }
 
-        // visualize the item in the UI inventory, if there is one already, add it next to it
-        var itemRectTransform = item.GetComponent<RectTransform>();
-        itemRectTransform.anchoredPosition = new Vector2(-200 + (items.Count * 100), 0);
-
-        // for the new one, get the InventoryItemUIHandler and set the discount only for the new item
-        var itemUIHandler = item.GetComponentInChildren<InventoryItemUIHandler>();
-        itemUIHandler.SetDiscount(inventoryUIEvent.discount);
-
-
+    private void removeItem(Item item) {
+        foreach (ItemUI itemUI in itemUIs) {
+            if (itemUI.Key == item.key) {
+                itemUI.RemoveItem();
+                break;
+            }
+        }
     }
 
 }

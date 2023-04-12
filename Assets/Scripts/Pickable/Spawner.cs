@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
+using System.Linq;
 
 public class Spawner : AGuidSource {
     [SerializeField] private InteractableConfiguration interactables;
@@ -48,12 +48,12 @@ public class Spawner : AGuidSource {
             itemComponent.discount = Storezone.StoreDiscount;
 
 
-            Item.Items.Add(interactable as Item);
+            Item.Items.Add(networkTransform.key, interactable as Item);
 
             NetworkEventBus.Raise(new ItemSpawnedEvent {
                 source = key,
                 itemID = prefabIndex,
-                itemGuid = interactable.GetComponent<NetworkTransform>().Key,
+                itemGuid = interactable.GetComponent<NetworkTransform>().key,
                 itemDiscount = Storezone.StoreDiscount
             });
         }
@@ -74,10 +74,11 @@ public class Spawner : AGuidSource {
         itemDiscountUpdateEvent.discount = Storezone.StoreDiscount;
 
 
-        var item = Item.Items.Find(x => x.spawner == this);
+        // var item = Item.Items.Find(x => x.spawner == this);
+        var item = Item.Items.Values.ToList().FirstOrDefault(x => x.spawner == this);
         if (item != null) {
             item.discount = Storezone.StoreDiscount;
-            itemDiscountUpdateEvent.influencedItems.Add(item.GetComponent<NetworkTransform>().Key);
+            itemDiscountUpdateEvent.influencedItems.Add(item.GetComponent<NetworkTransform>().key);
         }
 
         NetworkEventBus.Raise(itemDiscountUpdateEvent);

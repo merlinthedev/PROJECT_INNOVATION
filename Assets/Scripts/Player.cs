@@ -38,7 +38,7 @@ public class Player : AGuidListener {
 
     public void DiscardItems() {
         ItemsDiscardedEvent itemsDiscardedEvent = new ItemsDiscardedEvent();
-        itemsDiscardedEvent.source = Key;
+        itemsDiscardedEvent.source = key;
 
         foreach (var item in items) {
             if(item.PaidFor) continue;
@@ -72,7 +72,7 @@ public class Player : AGuidListener {
 
     public void DropOffItems() {
         ItemsDroppedOffEvent itemDroppedOffEvent = new ItemsDroppedOffEvent();
-        itemDroppedOffEvent.source = Key;
+        itemDroppedOffEvent.source = key;
 
         foreach (var item in items) {
             score += (item.discount > 0 ? ((float)item.ItemStats.Tier + 1) * (item.discount * 100) : ((float)item.ItemStats.Tier + 1));
@@ -81,7 +81,7 @@ public class Player : AGuidListener {
         }
 
         NetworkEventBus.Raise(new ScoreUpdatedEvent {
-            source = Key,
+            source = key,
             score = score,
         });
 
@@ -113,7 +113,7 @@ public class Player : AGuidListener {
             RemovePowerUp();
 
             PowerupUsedEvent powerUpUsedEvent = new PowerupUsedEvent();
-            powerUpUsedEvent.source = Key;
+            powerUpUsedEvent.source = key;
 
             NetworkEventBus.Raise(powerUpUsedEvent);
         }
@@ -128,7 +128,7 @@ public class Player : AGuidListener {
 
             ItemPickedUpEvent itemPickedUpEvent = new ItemPickedUpEvent();
             itemPickedUpEvent.itemGuid = item.GetComponent<NetworkTransform>().key;
-            itemPickedUpEvent.source = Key;
+            itemPickedUpEvent.source = key;
             itemPickedUpEvent.shouldClear = false;
             itemPickedUpEvent.discount = item.discount;
             NetworkEventBus.Raise(itemPickedUpEvent);
@@ -146,7 +146,7 @@ public class Player : AGuidListener {
 
             PowerUpPickedUpEvent powerUpPickedUpEvent = new PowerUpPickedUpEvent();
             powerUpPickedUpEvent.powerUpGuid = powerUp.GetComponent<NetworkTransform>().key;
-            powerUpPickedUpEvent.source = Key;
+            powerUpPickedUpEvent.source = key;
             powerUpPickedUpEvent.PowerUpID = powerUp.InteractableID;
             NetworkEventBus.Raise(powerUpPickedUpEvent);
 

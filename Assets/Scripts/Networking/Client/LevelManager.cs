@@ -32,11 +32,17 @@ public class LevelManager : MonoBehaviour {
             return;
         }
 
-        Debug.LogWarning("Items discarded event received in the level manager");
-        EventBus<InventoryUIEvent>.Raise(new InventoryUIEvent {
-            shouldClear = true,
-            discount = 0
-        });
+        if(itemsDiscardedEvent.discardedItems.Count == 1) {
+            EventBus<InventoryUIEvent>.Raise(new InventoryUIEvent {
+                item = Item.Items.TryGetValue(itemsDiscardedEvent.discardedItems[0], out Item item) ? item : null,
+                actionType = InventoryUIEvent.ActionType.Remove
+            });
+        } else {
+            EventBus<InventoryUIEvent>.Raise(new InventoryUIEvent {
+                item = null,
+                actionType = InventoryUIEvent.ActionType.Clear,
+            });
+        }
 
         foreach (var GUID in itemsDiscardedEvent.discardedItems) {
             var networkTransform = NetworkTransform.Transforms.TryGetValue(GUID, out NetworkTransform receivedNetworkTransform) ? receivedNetworkTransform : null;
@@ -65,8 +71,8 @@ public class LevelManager : MonoBehaviour {
 
         Debug.LogWarning("Item dropped off event received in the level manager");
         EventBus<InventoryUIEvent>.Raise(new InventoryUIEvent {
-            shouldClear = true,
-            discount = 0
+            item = null,
+            actionType = InventoryUIEvent.ActionType.Clear,
         });
 
         foreach (var GUID in itemDroppedOffEvent.droppedItems) {
@@ -115,8 +121,8 @@ public class LevelManager : MonoBehaviour {
         }
         // inform the UI when we picked it up
         EventBus<InventoryUIEvent>.Raise(new InventoryUIEvent {
-            shouldClear = itemPickedUpEvent.shouldClear,
-            discount = itemPickedUpEvent.discount,
+            item = Item.Items.TryGetValue(itemPickedUpEvent.itemGuid, out Item item) ? item : null,
+            actionType = InventoryUIEvent.ActionType.Add
         });
 
     }

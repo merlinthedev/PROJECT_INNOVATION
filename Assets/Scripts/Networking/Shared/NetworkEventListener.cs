@@ -28,7 +28,7 @@ public class NetworkEventListener : AGuidListener {
     }
 
     private void onEvent(NetworkEvent netEvent) {
-        if (!checkGuid || guidSource == null || netEvent.source == Key)
+        if (!checkGuid || guidSource == null || netEvent.source == key)
             onNetworkEvent.Invoke();
     }
 }
