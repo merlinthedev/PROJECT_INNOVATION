@@ -103,6 +103,8 @@ public class Player : AGuidListener {
 
             PowerupUsedEvent powerUpUsedEvent = new PowerupUsedEvent();
             powerUpUsedEvent.source = Key;
+
+            NetworkEventBus.Raise(powerUpUsedEvent);
         }
     }
 
