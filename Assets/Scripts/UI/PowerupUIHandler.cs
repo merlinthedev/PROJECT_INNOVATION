@@ -17,9 +17,13 @@ public class PowerupUIHandler : MonoBehaviour {
 
     void PowerUpEvent(PowerUpUIEvent powerUpUIEvent) {
         Debug.Log($"Item ID: {powerUpUIEvent.PowerUpID}");
-        PowerUp powerUp = interactableConfig.interactables[powerUpUIEvent.PowerUpID].serverPrefab as PowerUp;
-        if (powerUp != null) {
-            SetPowerUp(powerUp);
+        if (powerUpUIEvent.PowerUpID >= 0 && powerUpUIEvent.PowerUpID < interactableConfig.interactables.Length) {
+            PowerUp powerUp = interactableConfig.interactables[powerUpUIEvent.PowerUpID].serverPrefab as PowerUp;
+            if (powerUp != null) {
+                SetPowerUp(powerUp);
+            } else {
+                RemovePowerUp();
+            }
         } else {
             RemovePowerUp();
         }
