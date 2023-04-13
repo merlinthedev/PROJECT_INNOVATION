@@ -117,13 +117,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc00c6083d266ba41a4e027e8f95fb96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxSpeed: 18
-  BoostMultiplier: 2.5
+  MaxSpeed: 11.98
   Stickyness: 0.6
-  boosting: 0
-  Acceleration: 8
+  Acceleration: 8.89
   GroundedTime: 0.1
-  ConstantSteerSpeed: 120
+  ConstantSteerSpeed: 38.6
   DynamicSteerSpeed: 20
   MaxSteerSpeed: 360
   JumpForce: 5
@@ -143,8 +141,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1daa664133eb1aa4eaefc33dccc5cbf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemHolder: {fileID: 0}
+  guidSource: {fileID: 7166610911613750969}
+  IsSafeToLeave: 0
+  playerMinimapComponent: {fileID: 8748747727030165985, guid: c89793fbc8a49664e942e521c5fbc674,
+    type: 3}
+  movement: {fileID: 2275713438171957951}
+  itemHolder: {fileID: 2671685037222174040}
   capacity: 2
   items: []
   powerUpHolder: {fileID: 0}
   powerUp: {fileID: 0}
+--- !u!4 &2671685037222174040 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5073113415654187638, guid: 2d299ca8f2e0d9c40aa7fa3f629115b9,
+    type: 3}
+  m_PrefabInstance: {fileID: 7166610911074762542}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7166610911613750969 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1612820887, guid: 2d299ca8f2e0d9c40aa7fa3f629115b9,
+    type: 3}
+  m_PrefabInstance: {fileID: 7166610911074762542}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2671685037222174034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d46e453df7fb57242a660ac585a5b8cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - Item
   - PowerUp
+  - Minimap
   layers:
   - Default
   - TransparentFX

@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public abstract class AInteractable : MonoBehaviour {
+public abstract class AInteractable : AGuidListener {
+    public static List<AInteractable> interactables = new List<AInteractable>();
+    public int InteractableID { get; set; }
     public Spawner spawner { get; set; }
     public void PickUp() {
         OnPickUp();

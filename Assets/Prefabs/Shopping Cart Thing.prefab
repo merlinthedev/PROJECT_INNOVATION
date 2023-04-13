@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 1612820887}
   m_Layer: 0
   m_Name: Shopping Cart Thing
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,7 +110,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyString: dbc7776f-7d32-4494-9858-e3496b7fba3f
-  model: {fileID: 5073113415654187644}
   kinematic: 0
   smoothingType: 1
   smoothSpeed: 25

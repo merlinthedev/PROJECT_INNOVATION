@@ -14,6 +14,6 @@ public class FPSScript : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        fpsText.SetText("FPS: " + (1.0f / Time.deltaTime).ToString("0"));
+        fpsText.SetText($"FPS: {1 / Time.deltaTime:0}");
     }
 }
