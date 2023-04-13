@@ -143,6 +143,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guidSource: {fileID: 7166610911613750969}
   IsSafeToLeave: 0
+  playerMinimapComponent: {fileID: 8748747727030165985, guid: c89793fbc8a49664e942e521c5fbc674,
+    type: 3}
   movement: {fileID: 2275713438171957951}
   itemHolder: {fileID: 2671685037222174040}
   capacity: 2

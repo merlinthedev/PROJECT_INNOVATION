@@ -2,16 +2,33 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
-using System;
 
 public class Player : AGuidListener {
 
     private float score = 0f;
     public bool IsSafeToLeave = false;
 
-    private void Start() {
+    private void Awake() {
         this.itemHolder = this.gameObject.transform;
+
+        // find mask transform which is a child of server.TCPGameServer.Instance.worldToMinimapHelper.gameObject
+        var maskTransform = server.TCPGameServer.Instance.worldToMinimapHelper.gameObject.transform.Find("Mask");
+
+        // add ourselves to the minimap
+        var returned = Instantiate(server.TCPGameServer.Instance.playerMinimapPrefab, new Vector3(0, 0, 0), Quaternion.identity, maskTransform);
+
+        if (returned.GetComponent<PlayerMinimapComponent>() == null) {
+            Debug.LogError("PlayerMinimapComponent is null");
+            return;
+        }
+
+        playerMinimapComponent = returned.GetComponent<PlayerMinimapComponent>();
+
     }
+
+    #region UI
+    public PlayerMinimapComponent playerMinimapComponent { get; private set; }
+    #endregion
 
     #region Movement
     [SerializeField] private ShoppingCartMovement movement;

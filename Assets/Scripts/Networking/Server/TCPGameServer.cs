@@ -30,8 +30,11 @@ namespace server {
 
         private Dictionary<Guid, ClientGameInformation> clients = new Dictionary<Guid, ClientGameInformation>();
         private List<Guid> brokenClients = new List<Guid>();
-
         [SerializeField] private GameObject playerServerPrefab;
+        [SerializeField] private Vector3 spawnPosition;
+        public WorldToMinimapHelper worldToMinimapHelper { get; private set; }
+        public GameObject playerMinimapPrefab;
+
 
         /// <summary>
         /// Events since last sync
@@ -58,6 +61,8 @@ namespace server {
             listener.Start(50);
 
             NetworkEventBus.SubscribeAll(OnNetworkEvent);
+
+            worldToMinimapHelper = GameObject.FindGameObjectWithTag("Minimap").GetComponent<WorldToMinimapHelper>();
 
             // StartCoroutine(sendNetworkEvents());
         }
@@ -130,6 +135,12 @@ namespace server {
                 clientGameInformation.movementInputReceiver = instantiated.GetComponent<IMovementInputReceiver>();
                 clientGameInformation.player = instantiated.GetComponent<Player>();
 
+                if (instantiated.GetComponent<Player>() == null) {
+                    Debug.LogError("Player is null");
+                }
+
+                worldToMinimapHelper.AddPlayer(instantiated.GetComponent<Player>());
+
                 channel.SendMessage(connectEvent);
                 EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));
             }
@@ -177,7 +188,7 @@ namespace server {
             while (syncEvents.Count > 0) {
                 var networkEvent = syncEvents.Dequeue();
                 broadcastMessage(networkEvent);
-                Debug.Log("Sending event: " + networkEvent.GetType());
+                // Debug.Log("Sending event: " + networkEvent.GetType());
             }
         }
 
@@ -188,7 +199,7 @@ namespace server {
         private void handleInputPacket(InputPacket inputPacket, ClientGameInformation source) {
             source.movementInputReceiver.DoMove(inputPacket.move);
             source.movementInputReceiver.DoView(inputPacket.view);
-            if(inputPacket.powerUpPressed)
+            if (inputPacket.powerUpPressed)
                 source.player.UsePowerUp();
         }
 
