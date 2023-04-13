@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c6c3530351a90634886848cf6be4ec0b
+guid: be2f6b6407a3b814e8a45294049d6bed
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
@@ -7,28 +7,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: coconut
-    second: {fileID: 2100000, guid: 627e0115b6167e340a4be283a8af5452, type: 2}
+      name: Material.002
+    second: {fileID: 2100000, guid: a0f75da1947774b489a496e6f3dac979, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: palm leaf
-    second: {fileID: 2100000, guid: 034e0355f7cc3ad4799ca1bacf53ef2b, type: 2}
+      name: Material.003
+    second: {fileID: 2100000, guid: 7cbd75aed7f13d742915c936ba80af3f, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: palm trunk
-    second: {fileID: 2100000, guid: 042767fbdcee8cd47beee98175e34102, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: vase
-    second: {fileID: 2100000, guid: 2f79761e9430dce4191406f2d13ec3f5, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: vase red stripe
-    second: {fileID: 2100000, guid: 38d37cabdff543840bf990caad50c1d5, type: 2}
+      name: Material.004
+    second: {fileID: 2100000, guid: a713b5c007d96b149b59f1c7391eb6da, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
