@@ -21,7 +21,7 @@ public class ItemUI : MonoBehaviour {
         }
         defaultImage.sprite = item.ItemStats.ItemSprite;
         defaultImage.enabled = true;
-        discountText.text = discount.ToString();
+        discountText.text = makeTextPretty(discount);
 
         HasItem = true;
         ItemGuid = itemGuid;
@@ -34,6 +34,26 @@ public class ItemUI : MonoBehaviour {
 
         HasItem = false;
         ItemGuid = Guid.Empty;
+    }
+
+    private string makeTextPretty(float discount) {
+        discount *= 100;
+        discount = (float)Math.Round(discount, 0);
+
+        switch (discount) {
+            // when discount < 33
+            case float n when (n < 33):
+                discountText.color = Color.green;
+                return discount.ToString();
+            case float n when (n < 67):
+                discountText.color = Color.yellow;
+                return discount.ToString();
+            case float n when (n < 100):
+                discountText.color = Color.red;
+                return discount.ToString();
+            default:
+                return discount.ToString();
+        }
     }
 
 }
