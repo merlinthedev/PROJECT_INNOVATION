@@ -1564,6 +1564,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8347720560050468240}
+  - component: {fileID: 8884772326709977473}
   m_Layer: 0
   m_Name: CashRegister
   m_TagString: Untagged
@@ -1588,6 +1589,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 225, z: 0}
+--- !u!65 &8884772326709977473
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8688252043715424042}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.9023716, y: 2.5435033, z: 4.417611}
+  m_Center: {x: 0.17941733, y: 0.77175236, z: 0.009917375}
 --- !u!1 &8757195846102246743
 GameObject:
   m_ObjectHideFlags: 0
