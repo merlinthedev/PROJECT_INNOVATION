@@ -60,15 +60,17 @@ public class Player : AGuidListener {
 
         for (int i = items.Count - 1; i >= 0; i--) {
             if (items[i].PaidFor) continue;
-            // drop them back into the world
-            items[i].transform.SetParent(null);
-            // make sure to set the transform to next to the player but not to the point where we pick it up
-            items[i].transform.position = items[i].Storezone.transform.position + new UnityEngine.Vector3(0f, 1f, 0f);
-            items[i].gameObject.SetActive(true);
+            //// drop them back into the world
+            //items[i].transform.SetParent(null);
+            //// make sure to set the transform to next to the player but not to the point where we pick it up
+            //items[i].transform.position = items[i].Storezone.transform.position + new UnityEngine.Vector3(1f, 1f, 0f);
+            //items[i].gameObject.SetActive(true);
 
             itemsDiscardedEvent.discardedItems.Add(items[i].GetComponent<NetworkTransform>().key);
-
+            Destroy(items[i].gameObject);
             items.Remove(items[i]);
+
+
         }
 
         // items.Clear();
