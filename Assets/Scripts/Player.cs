@@ -28,6 +28,7 @@ public class Player : AGuidListener {
 
     #region UI
     public PlayerMinimapComponent playerMinimapComponent { get; private set; }
+    public UnityEngine.Color playerColor { get; set; }
     #endregion
 
     #region Movement

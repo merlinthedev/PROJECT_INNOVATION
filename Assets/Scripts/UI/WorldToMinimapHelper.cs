@@ -14,6 +14,8 @@ public class WorldToMinimapHelper : MonoBehaviour {
 
     public void AddPlayer(Player player) {
         if (!playerMinimapComponentMap.ContainsKey(player)) playerMinimapComponentMap.Add(player, player.playerMinimapComponent);
+
+        playerMinimapComponentMap[player].SetColor(player.playerColor);
     }
 
     public void RemovePlayer(Player player) {

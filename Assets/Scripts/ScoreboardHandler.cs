@@ -36,11 +36,11 @@ public class ScoreboardHandler : MonoBehaviour {
     }
 
     private void updateScoreboardUIHandler() {
-        List<string> parsedScores = new List<string>();
+        Dictionary<UnityEngine.Color, string> parsedScores = new Dictionary<UnityEngine.Color, string>();
         foreach (var player in scoreboardList) {
             // get the first 3 characters of the player key
             var key = player.key.ToString().Substring(0, 3);
-            parsedScores.Add(key + ": " + Mathf.RoundToInt(player.GetScore()).ToString());
+            parsedScores.Add(player.playerColor, key + ": " + Mathf.RoundToInt(player.GetScore()).ToString());
         }
 
         EventBus<ServerScoreboardUpdateEvent>.Raise(new ServerScoreboardUpdateEvent {

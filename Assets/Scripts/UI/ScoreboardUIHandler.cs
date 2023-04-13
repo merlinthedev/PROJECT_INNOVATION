@@ -29,7 +29,8 @@ public class ScoreboardUIHandler : MonoBehaviour {
 
         foreach (var score in serverScoreboardUpdateEvent.scores) {
             var entry = Instantiate(scoreboardEntryPrefab, scoreboardEntryHolder);
-            entry.GetComponent<TMP_Text>().SetText(score);
+            entry.GetComponent<TMP_Text>().SetText(score.Value);
+            entry.GetComponent<TMP_Text>().color = score.Key;
             entry.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -scoreboardEntries.Count * 30);
             scoreboardEntries.Add(entry);
         }

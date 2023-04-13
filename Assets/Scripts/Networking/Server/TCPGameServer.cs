@@ -22,6 +22,15 @@ namespace server {
 	 */
     class TCPGameServer : MonoBehaviour {
 
+        private UnityEngine.Color[] colors = new UnityEngine.Color[] {
+            UnityEngine.Color.red,
+            UnityEngine.Color.blue,
+            UnityEngine.Color.green,
+            UnityEngine.Color.yellow,
+            UnityEngine.Color.magenta,
+            UnityEngine.Color.cyan
+        };
+
         public static TCPGameServer Instance { get; private set; }
 
         [SerializeField] private int serverPort = 55555;    //the port we listen on
@@ -58,14 +67,14 @@ namespace server {
             listener = new TcpListener(IPAddress.Any, serverPort);
             listener.Server.NoDelay = true; // Q: What does this do? A: Disable Nagle's algorithm - no this on the other side too
 
-            listener.Start(50);
+            listener.Start(6);
 
             NetworkEventBus.SubscribeAll(OnNetworkEvent);
 
             worldToMinimapHelper = GameObject.FindGameObjectWithTag("Minimap").GetComponent<WorldToMinimapHelper>();
 
             EventBus<ServerScoreboardUpdateEvent>.Raise(new ServerScoreboardUpdateEvent {
-                scores = new List<string>()
+                scores = new Dictionary<UnityEngine.Color, string>()
             });
 
             // StartCoroutine(sendNetworkEvents());
@@ -139,17 +148,20 @@ namespace server {
                 clientGameInformation.movementInputReceiver = instantiated.GetComponent<IMovementInputReceiver>();
                 clientGameInformation.player = instantiated.GetComponent<Player>();
 
-                if (instantiated.GetComponent<Player>() == null) {
+                if (clientGameInformation.player == null) {
                     Debug.LogError("Player is null");
                 }
+                clientGameInformation.player.playerColor = colors[clients.Count - 1];
 
-                worldToMinimapHelper.AddPlayer(instantiated.GetComponent<Player>());
+                worldToMinimapHelper.AddPlayer(clientGameInformation.player);
 
                 if (ScoreboardHandler.Instance == null) {
                     Debug.LogError("ScoreboardHandler is null");
                 }
 
-                ScoreboardHandler.Instance.AddPlayer(instantiated.GetComponent<Player>());
+                ScoreboardHandler.Instance.AddPlayer(clientGameInformation.player);
+
+                Debug.Log("Player color: " + clientGameInformation.player.playerColor);
 
                 NetworkEventBus.Raise(new ScoreUpdatedEvent {
                     source = nt.key,

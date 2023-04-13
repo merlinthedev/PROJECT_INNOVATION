@@ -144,7 +144,8 @@ public class ScoreUIEvent : Event {
 }
 
 public class ServerScoreboardUpdateEvent : Event {
-    public List<string> scores { get; set; }
+    // public List<string> scores { get; set; }
+    public Dictionary<UnityEngine.Color, string> scores { get; set; } = new Dictionary<UnityEngine.Color, string>();
 }
 
 /*

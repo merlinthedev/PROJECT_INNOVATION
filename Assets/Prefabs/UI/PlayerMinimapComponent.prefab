@@ -90,3 +90,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMinimapImageTransform: {fileID: 8748747727030165986}
+  playerMinimapImage: {fileID: 8748747727030165987}
