@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -31,7 +32,7 @@ public class ShoppingCartMovement : MonoBehaviour, IMovementInputReceiver {
 
     #region private variables
 
-    private float movementControlDisabledTimer = 0;
+    private bool movementControlDisabled = false;
 
     private Vector2 viewValue = Vector2.zero;
     private Vector2 inputVelocity = Vector2.zero;
@@ -72,7 +73,7 @@ public class ShoppingCartMovement : MonoBehaviour, IMovementInputReceiver {
         #endregion
 
         #region movement
-        if (isOnGround) {
+        if (isOnGround && !movementControlDisabled) {
             float forwardInput = Mathf.Clamp(inputVelocity.y, -1, 1);
             float speedFactor = isBoosting ? MaxSpeed * boostMultiplier : MaxSpeed;
             speedFactor *= Stickyness;
@@ -116,5 +117,15 @@ public class ShoppingCartMovement : MonoBehaviour, IMovementInputReceiver {
         this.boostMultiplier = boostMultiplier;
         this.boostDuration = boostDuration;
         boostStartTime = Time.time;
+    }
+
+    public void Slip(float slipTime) {
+        StartCoroutine(DisableMovementControl(slipTime));
+    }
+
+    private IEnumerator DisableMovementControl(float time) {
+        movementControlDisabled = true;
+        yield return new WaitForSeconds(time);
+        movementControlDisabled = false;
     }
 }

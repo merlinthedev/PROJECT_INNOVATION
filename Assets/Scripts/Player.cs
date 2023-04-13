@@ -120,6 +120,7 @@ public class Player : AGuidListener {
     #endregion
 
     private void OnTriggerEnter(Collider other) {
+        //items
         if (other.gameObject.CompareTag("Item") && leftoverCapacity > 0) {
             Item item = other.gameObject.GetComponent<Item>();
             AddItem(item);
@@ -139,6 +140,7 @@ public class Player : AGuidListener {
             other.gameObject.SetActive(false);
         }
 
+        //powerups
         if (other.gameObject.CompareTag("PowerUp") && powerUp == null) {
             PowerUp powerUp = other.gameObject.GetComponent<PowerUp>();
             AddPowerUp(powerUp);
@@ -151,6 +153,12 @@ public class Player : AGuidListener {
 
             powerUp.PickUp();
             other.gameObject.SetActive(false);
+        }
+
+        //hazards
+        if (other.gameObject.CompareTag("Hazard")) {
+            Hazard hazard = other.gameObject.GetComponent<Hazard>();
+            hazard.Activate(this);
         }
     }
 
