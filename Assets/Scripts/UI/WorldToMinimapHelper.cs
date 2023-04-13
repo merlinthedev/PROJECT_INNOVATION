@@ -15,4 +15,12 @@ public class WorldToMinimapHelper : MonoBehaviour {
     public void AddPlayer(Player player) {
         if (!playerMinimapComponentMap.ContainsKey(player)) playerMinimapComponentMap.Add(player, player.playerMinimapComponent);
     }
+
+    public void RemovePlayer(Player player) {
+        playerMinimapComponentMap[player].PrepareForRemoval();
+
+        if (playerMinimapComponentMap.ContainsKey(player)) playerMinimapComponentMap.Remove(player);
+
+
+    }
 }
