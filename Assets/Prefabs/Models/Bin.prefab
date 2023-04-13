@@ -578,6 +578,7 @@ GameObject:
   - component: {fileID: 5785311464984810733}
   - component: {fileID: 6139912647538973966}
   - component: {fileID: 2390198875937895792}
+  - component: {fileID: 3189414554967697846}
   m_Layer: 0
   m_Name: Bin
   m_TagString: Untagged
@@ -772,6 +773,20 @@ MonoBehaviour:
   - {fileID: 6757717169234922089}
   - {fileID: 4495139456397196587}
   - {fileID: 1294810706103860967}
+--- !u!136 &3189414554967697846
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4398995425733356483}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.010989595
+  m_Height: 0.034124196
+  m_Direction: 2
+  m_Center: {x: -0.00029659428, y: 0.0012860467, z: 0.0034516628}
 --- !u!1 &4740731150295860615
 GameObject:
   m_ObjectHideFlags: 0

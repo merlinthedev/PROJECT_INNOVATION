@@ -974,6 +974,7 @@ GameObject:
   - component: {fileID: 95814577258397388}
   - component: {fileID: 621798985895653623}
   - component: {fileID: 6932600371897341147}
+  - component: {fileID: 6101852389974351070}
   m_Layer: 0
   m_Name: Low car (Red)
   m_TagString: Untagged
@@ -1119,6 +1120,19 @@ MonoBehaviour:
   - {fileID: 3289939585404670368}
   - {fileID: 1688236342501212457}
   - {fileID: 125244876162422368}
+--- !u!65 &6101852389974351070
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8765173693561267053}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.2528534, y: 1.3865913, z: 3.880189}
+  m_Center: {x: 0.016777635, y: 0.7110588, z: 0.17564392}
 --- !u!1 &8809720808883014452
 GameObject:
   m_ObjectHideFlags: 0

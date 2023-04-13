@@ -805,6 +805,7 @@ GameObject:
   - component: {fileID: 2077152065798929281}
   - component: {fileID: 4195961812542799758}
   - component: {fileID: 6640129542870546798}
+  - component: {fileID: 2462208812373215603}
   m_Layer: 0
   m_Name: Medium car (Lavender)
   m_TagString: Untagged
@@ -950,6 +951,19 @@ MonoBehaviour:
   - {fileID: 430889545410535730}
   - {fileID: 1432444204143590654}
   - {fileID: 263433169593308390}
+--- !u!65 &2462208812373215603
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4714071367595904952}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.2124176, y: 1.8008852, z: 3.5513139}
+  m_Center: {x: 0.001404047, y: 0.9444585, z: 0.17232275}
 --- !u!1 &5273635698460880288
 GameObject:
   m_ObjectHideFlags: 0

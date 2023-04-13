@@ -427,6 +427,7 @@ GameObject:
   - component: {fileID: 7723645834121142662}
   - component: {fileID: 7644440694828737049}
   - component: {fileID: 5282654750473082099}
+  - component: {fileID: 2380882599143229526}
   m_Layer: 0
   m_Name: Medium car (Mint)
   m_TagString: Untagged
@@ -572,6 +573,19 @@ MonoBehaviour:
   - {fileID: 5475892807701651263}
   - {fileID: 6765960073076802291}
   - {fileID: 5594442356022160107}
+--- !u!65 &2380882599143229526
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112154166602985909}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.1882706, y: 1.6394984, z: 3.4664555}
+  m_Center: {x: -0.043643355, y: 0.82498664, z: 0.10523343}
 --- !u!1 &2170931116567037422
 GameObject:
   m_ObjectHideFlags: 0

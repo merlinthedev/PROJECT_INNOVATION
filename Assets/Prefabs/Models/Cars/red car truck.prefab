@@ -95,6 +95,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3215300377256055149}
+  - component: {fileID: 5922388004581176750}
   m_Layer: 0
   m_Name: red car truck
   m_TagString: Untagged
@@ -126,6 +127,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 150, z: 0}
+--- !u!65 &5922388004581176750
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2870158577454451671}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.342203, y: 1.722808, z: 4.4143605}
+  m_Center: {x: 0.012721451, y: 0.9003161, z: 0.09056521}
 --- !u!1 &3307514207811649192
 GameObject:
   m_ObjectHideFlags: 0
