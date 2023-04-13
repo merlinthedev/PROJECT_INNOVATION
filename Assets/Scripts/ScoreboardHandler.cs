@@ -54,10 +54,14 @@ public class ScoreboardHandler : MonoBehaviour {
 
     public void AddPlayer(Player player) {
         scoreboardList.Add(player);
+        sortScoreList();
+        updateScoreboardUIHandler();
     }
 
     public void RemovePlayer(Player player) {
         scoreboardList.Remove(player);
+        sortScoreList();
+        updateScoreboardUIHandler();
     }
 
 

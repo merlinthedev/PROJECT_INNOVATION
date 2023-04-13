@@ -243,12 +243,11 @@ namespace server {
             foreach (var brokenClient in brokenClients) {
                 try {
                     worldToMinimapHelper.RemovePlayer(clients[brokenClient].player);
-
+                    ScoreboardHandler.Instance.RemovePlayer(clients[brokenClient].player);
 
                     clients[brokenClient].tcpMessageChannel.Close();
                     clients.Remove(brokenClient);
                     broadcastMessage(new PlayerDisconnectEvent() { guid = brokenClient });
-
 
                     Destroy(NetworkTransform.Transforms[brokenClient].gameObject);
                     NetworkTransform.Transforms.Remove(brokenClient);
