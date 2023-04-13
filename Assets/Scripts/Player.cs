@@ -177,4 +177,17 @@ public class Player : AGuidListener {
         if (item != null)
             item.discount *= discountMultiplier;
     }
+
+
+    /*
+    * Getters and Setters
+    */
+
+    public float GetScore() {
+        return this.score;
+    }
+
+    public void SetScore(float score) {
+        this.score = score;
+    }
 }

@@ -64,6 +64,10 @@ namespace server {
 
             worldToMinimapHelper = GameObject.FindGameObjectWithTag("Minimap").GetComponent<WorldToMinimapHelper>();
 
+            EventBus<ServerScoreboardUpdateEvent>.Raise(new ServerScoreboardUpdateEvent {
+                scores = new List<string>()
+            });
+
             // StartCoroutine(sendNetworkEvents());
         }
 
@@ -92,7 +96,7 @@ namespace server {
                 Log.LogInfo("Accepting new client...", this, ConsoleColor.White);
                 TcpClient client = listener.AcceptTcpClient();
                 client.Client.NoDelay = true; // Disable Nagle's algorithm - no this on the other side too
-                //and wrap the client in an easier to use communication channel
+                                              //and wrap the client in an easier to use communication channel
                 TcpMessageChannel channel = new TcpMessageChannel(client);
 
                 Guid newClientGuid = Guid.NewGuid();
@@ -140,6 +144,17 @@ namespace server {
                 }
 
                 worldToMinimapHelper.AddPlayer(instantiated.GetComponent<Player>());
+
+                if (ScoreboardHandler.Instance == null) {
+                    Debug.LogError("ScoreboardHandler is null");
+                }
+
+                ScoreboardHandler.Instance.AddPlayer(instantiated.GetComponent<Player>());
+
+                NetworkEventBus.Raise(new ScoreUpdatedEvent {
+                    source = nt.key,
+                    score = 0
+                });
 
                 channel.SendMessage(connectEvent);
                 EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));
@@ -274,7 +289,7 @@ namespace server {
         }
 
         private void OnNetworkEvent(NetworkEvent newEvent) {
-            Debug.Log("Got event: " + newEvent.GetType());
+            // Debug.Log("Got event: " + newEvent.GetType());
             syncEvents.Enqueue(newEvent);
         }
 

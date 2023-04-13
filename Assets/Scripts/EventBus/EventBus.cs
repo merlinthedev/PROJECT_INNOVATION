@@ -143,6 +143,10 @@ public class ScoreUIEvent : Event {
     }
 }
 
+public class ServerScoreboardUpdateEvent : Event {
+    public List<string> scores { get; set; }
+}
+
 /*
     ==================================
     ======== NETWORK EVENTS ==========
