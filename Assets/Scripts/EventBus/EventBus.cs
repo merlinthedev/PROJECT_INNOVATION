@@ -50,6 +50,13 @@ public class NetworkEventBus {
         onEventRaised[typeof(T)] -= (e) => handler((T)e);
     }
 
+    public static void UnsubscribeFromType(Type eventType, Action<NetworkEvent> handler) {
+        if (!onEventRaised.ContainsKey(eventType)) {
+            return;
+        }
+        onEventRaised[eventType] -= handler;
+    }
+
     public static void UnsubscribeAll(System.Action<NetworkEvent> handler) {
         onAnyRaised -= handler;
     }
@@ -111,11 +118,21 @@ public class OnStateEnter : Event {
 }
 
 public class InventoryUIEvent : Event {
-    public int inventorySize { get; private set; }
+    public Item item { get; set; }
+    public ActionType actionType { get; set; }
+    public Guid itemGuid { get; set; }
+    public float discount { get; set; }
 
-    public InventoryUIEvent(int inventorySize) {
-        this.inventorySize = inventorySize;
+    public enum ActionType {
+        Add,
+        Remove,
+        Clear
     }
+}
+
+
+public class PowerUpUIEvent : Event {
+    public int PowerUpID { get; set; }
 }
 
 public class ScoreUIEvent : Event {
@@ -124,6 +141,11 @@ public class ScoreUIEvent : Event {
     public ScoreUIEvent(float score) {
         this.score = score;
     }
+}
+
+public class ServerScoreboardUpdateEvent : Event {
+    // public List<string> scores { get; set; }
+    public Dictionary<UnityEngine.Color, string> scores { get; set; } = new Dictionary<UnityEngine.Color, string>();
 }
 
 /*
@@ -153,41 +175,152 @@ public class JumpEvent : NetworkEvent {
     }
 }
 
+#region items
+
 public class ItemSpawnedEvent : NetworkEvent {
     public int itemID { get; set; }
     public Guid itemGuid { get; set; }
+    public float itemDiscount { get; set; }
 
     public override void Serialize(Packet packet) {
         packet.Write(source);
         packet.Write(itemID);
         packet.Write(itemGuid);
+        packet.Write(itemDiscount);
     }
 
     public override void Deserialize(Packet packet) {
         source = packet.ReadGuid();
         itemID = packet.ReadInt();
         itemGuid = packet.ReadGuid();
+        itemDiscount = packet.ReadFloat();
     }
 }
 
 public class ItemPickedUpEvent : NetworkEvent {
     public Guid itemGuid { get; set; }
-    public int inventorySize;
+    public int itemInteractableID { get; set; }
+    public bool shouldClear { get; set; }
+    public float discount;
 
     public override void Serialize(Packet packet) {
         packet.Write(source);
         packet.Write(itemGuid);
-        packet.Write(inventorySize);
+        packet.Write(itemInteractableID);
+        packet.Write(shouldClear);
+        packet.Write(discount);
     }
 
     public override void Deserialize(Packet packet) {
         source = packet.ReadGuid();
         itemGuid = packet.ReadGuid();
-        inventorySize = packet.ReadInt();
+        itemInteractableID = packet.ReadInt();
+        shouldClear = packet.ReadBool();
+        discount = packet.ReadFloat();
     }
 }
 
-public class ItemDroppedOffEvent : NetworkEvent {
+public class ItemsDroppedOffEvent : NetworkEvent {
+    public List<Guid> droppedItems { get; set; } = new List<Guid>();
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+        packet.Write(droppedItems.Count);
+        foreach (Guid itemGuid in droppedItems) {
+            packet.Write(itemGuid);
+        }
+    }
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
+        int count = packet.ReadInt();
+        for (int i = 0; i < count; i++) {
+            droppedItems.Add(packet.ReadGuid());
+        }
+    }
+}
+
+public class ItemsDiscardedEvent : NetworkEvent {
+    public List<System.Guid> discardedItems { get; set; } = new List<System.Guid>();
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+        packet.Write(discardedItems.Count);
+        foreach (Guid itemGuid in discardedItems) {
+            packet.Write(itemGuid);
+        }
+    }
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
+        int count = packet.ReadInt();
+        for (int i = 0; i < count; i++) {
+            discardedItems.Add(packet.ReadGuid());
+        }
+    }
+}
+
+public class ItemDiscountUpdateEvent : NetworkEvent {
+    public float discount { get; set; }
+    public List<Guid> influencedItems { get; set; } = new List<Guid>();
+
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+        packet.Write(discount);
+        packet.Write(influencedItems.Count);
+        foreach (Guid itemGuid in influencedItems) {
+            packet.Write(itemGuid);
+        }
+    }
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
+        discount = packet.ReadFloat();
+        int count = packet.ReadInt();
+        for (int i = 0; i < count; i++) {
+            influencedItems.Add(packet.ReadGuid());
+        }
+    }
+}
+
+#endregion
+
+
+#region powerups
+
+public class PowerupSpawnedEvent : NetworkEvent {
+    public int powerupID { get; set; }
+    public Guid powerupGuid { get; set; }
+
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+        packet.Write(powerupID);
+        packet.Write(powerupGuid);
+    }
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
+        powerupID = packet.ReadInt();
+        powerupGuid = packet.ReadGuid();
+    }
+}
+
+public class PowerUpPickedUpEvent : NetworkEvent {
+    public Guid powerUpGuid { get; set; }
+    public int PowerUpID { get; set; }
+
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+        packet.Write(powerUpGuid);
+        packet.Write(PowerUpID);
+    }
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
+        powerUpGuid = packet.ReadGuid();
+        PowerUpID = packet.ReadInt();
+    }
+}
+
+public class PowerupUsedEvent : NetworkEvent {
     public override void Serialize(Packet packet) {
         packet.Write(source);
     }
@@ -196,6 +329,9 @@ public class ItemDroppedOffEvent : NetworkEvent {
         source = packet.ReadGuid();
     }
 }
+
+#endregion
+
 
 public class ScoreUpdatedEvent : NetworkEvent {
     public float score { get; set; }
@@ -210,4 +346,3 @@ public class ScoreUpdatedEvent : NetworkEvent {
         score = packet.ReadFloat();
     }
 }
-

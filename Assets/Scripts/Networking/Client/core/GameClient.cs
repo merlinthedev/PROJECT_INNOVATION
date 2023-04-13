@@ -1,6 +1,7 @@
 using UnityEngine;
 using Cinemachine;
 using System;
+using System.Linq;
 using shared;
 
 public class GameClient : MonoBehaviour {
@@ -14,6 +15,7 @@ public class GameClient : MonoBehaviour {
     private static GameClient instance;
     private Guid guid;
     [SerializeField] private ClientCartController clientCartController;
+    [SerializeField] private ButtonPressed PowerUpButton;
 
     private void Awake() {
         if (instance != null) {
@@ -42,7 +44,7 @@ public class GameClient : MonoBehaviour {
         }
         try {
             InputPacket inputPacket = clientCartController.GetInputPacket();
-
+            inputPacket.powerUpPressed = PowerUpButton.isPressed || Input.GetKey(KeyCode.Space);
             tcpMessageChannel.SendMessage(inputPacket);
         } catch (Exception e) {
             Debug.LogError("Error while sending input data: " + e.Message);
@@ -93,19 +95,34 @@ public class GameClient : MonoBehaviour {
     }
 
     private void handleExistingItemsPacket(ExistingItemsPacket existingItemsPacket) {
-        existingItemsPacket.existingItems.ForEach(transformPacket => {
-            var newItem = Instantiate(itemPrefab, transformPacket.Position(), transformPacket.Rotation());
-            newItem.key = transformPacket.guid;
+        // existingItemsPacket.existingItems.ForEach(transformPacket => {
+        //     var newItem = Instantiate(itemPrefab, transformPacket.Position(), transformPacket.Rotation());
+        //     newItem.key = transformPacket.guid;
+        //     newItem.kinematic = true;
+        //     newItem.Initialize();
+        // });
+
+        ItemDiscountUpdateEvent itemDiscountUpdateEvent = new ItemDiscountUpdateEvent();
+        itemDiscountUpdateEvent.influencedItems = new System.Collections.Generic.List<System.Guid>();
+        itemDiscountUpdateEvent.discount = 0.1f;
+
+        foreach (var kvp in existingItemsPacket.existingItemMap) {
+            var newItem = Instantiate(itemPrefab, kvp.Value.Position(), kvp.Value.Rotation());
+            newItem.key = kvp.Key;
             newItem.kinematic = true;
             newItem.Initialize();
 
-        });
+            itemDiscountUpdateEvent.influencedItems.Add(kvp.Key);
+
+        }
+
+        NetworkEventBus.Raise(itemDiscountUpdateEvent);
     }
 
     private void handleNetworkEvent(NetworkEvent networkEvent) {
-        Debug.LogWarning("Received a network event with type: " + networkEvent.GetType());
+        // Debug.LogWarning("Received a network event with type: " + networkEvent.GetType());
         NetworkEventBus.Raise(networkEvent);
-        Debug.LogWarning("Raised a network event with type: " + networkEvent.GetType());
+        // Debug.LogWarning("Raised a network event with type: " + networkEvent.GetType());
     }
 
     private void handlePlayerDisconnectEvent(PlayerDisconnectEvent playerDisconnectEvent) {
@@ -115,6 +132,7 @@ public class GameClient : MonoBehaviour {
             Destroy(transform.gameObject);
         } else {
             Debug.LogWarning("Received a disconnect event for a client that is not in our dictionary. How did this happen? :O");
+            Debug.LogWarning("GUID: " + playerDisconnectEvent.guid);
         }
     }
 
@@ -138,6 +156,7 @@ public class GameClient : MonoBehaviour {
             transform.UpdateTransform(transformPacket);
         } else {
             Debug.LogWarning("Received a transform packet for a client that is not in our dictionary. How did this happen? :O");
+            Debug.LogWarning("GUID: " + transformPacket.guid);
             //for now, we instantiate a new transform at that position
 
             var newClient = Instantiate(playerPrefab, transformPacket.Position(), transformPacket.Rotation());

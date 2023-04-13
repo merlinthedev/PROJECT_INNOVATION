@@ -19,12 +19,11 @@ public class ShoppingCartController : MonoBehaviour {
 
     //jumping with effects :tm:
     [SerializeField] private float jumpForce = 5f;
-    private ParticleSystem jumpParticles;
     private bool isGrounded = true;
     private bool isJumping = false;
 
     void Start() {
-        jumpParticles = transform.Find("jumpParticles").GetComponent<ParticleSystem>();
+        
     }
     private void Awake() {
         movementInputReceiver = GetComponent<IMovementInputReceiver>();
@@ -70,8 +69,5 @@ public class ShoppingCartController : MonoBehaviour {
         if (collision.gameObject.CompareTag("Ground")) {
             isGrounded = true;
         }
-    }
-    private void OnParticleSystemStopped() {
-        isJumping = false;
     }
 }

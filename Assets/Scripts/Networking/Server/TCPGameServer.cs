@@ -21,14 +21,29 @@ namespace server {
 	 * - only 1 game can be played at a time
 	 */
     class TCPGameServer : MonoBehaviour {
+
+        private UnityEngine.Color[] colors = new UnityEngine.Color[] {
+            UnityEngine.Color.red,
+            UnityEngine.Color.blue,
+            UnityEngine.Color.green,
+            UnityEngine.Color.yellow,
+            UnityEngine.Color.magenta,
+            UnityEngine.Color.cyan
+        };
+
+        public static TCPGameServer Instance { get; private set; }
+
         [SerializeField] private int serverPort = 55555;    //the port we listen on
 
         private TcpListener listener;
 
         private Dictionary<Guid, ClientGameInformation> clients = new Dictionary<Guid, ClientGameInformation>();
         private List<Guid> brokenClients = new List<Guid>();
-
         [SerializeField] private GameObject playerServerPrefab;
+        [SerializeField] private Vector3 spawnPosition;
+        public WorldToMinimapHelper worldToMinimapHelper { get; private set; }
+        public GameObject playerMinimapPrefab;
+
 
         /// <summary>
         /// Events since last sync
@@ -36,15 +51,31 @@ namespace server {
         private Queue<NetworkEvent> syncEvents = new Queue<NetworkEvent>();
 
         private void Awake() {
+            if (Instance != null) {
+                Debug.LogWarning("There is already an existing GameManager present. Aborting instantiation.");
+                Destroy(gameObject);
+                return;
+            }
+
+            Instance = this;
+
             Log.LogInfo("Starting server on port " + serverPort, this, ConsoleColor.Gray);
 
             //start listening for incoming connections (with max 50 in the queue)
             //we allow for a lot of incoming connections, so we can handle them
             //and tell them whether we will accept them or not instead of bluntly declining them
             listener = new TcpListener(IPAddress.Any, serverPort);
-            listener.Start(50);
+            listener.Server.NoDelay = true; // Q: What does this do? A: Disable Nagle's algorithm - no this on the other side too
+
+            listener.Start(6);
 
             NetworkEventBus.SubscribeAll(OnNetworkEvent);
+
+            worldToMinimapHelper = GameObject.FindGameObjectWithTag("Minimap").GetComponent<WorldToMinimapHelper>();
+
+            EventBus<ServerScoreboardUpdateEvent>.Raise(new ServerScoreboardUpdateEvent {
+                scores = new Dictionary<UnityEngine.Color, string>()
+            });
 
             // StartCoroutine(sendNetworkEvents());
         }
@@ -74,7 +105,7 @@ namespace server {
                 Log.LogInfo("Accepting new client...", this, ConsoleColor.White);
                 TcpClient client = listener.AcceptTcpClient();
                 client.Client.NoDelay = true; // Disable Nagle's algorithm - no this on the other side too
-                //and wrap the client in an easier to use communication channel
+                                              //and wrap the client in an easier to use communication channel
                 TcpMessageChannel channel = new TcpMessageChannel(client);
 
                 Guid newClientGuid = Guid.NewGuid();
@@ -90,7 +121,7 @@ namespace server {
 
                 var instantiated = Instantiate(playerServerPrefab, new Vector3(35, 4, 16), Quaternion.identity);
                 var nt = instantiated.GetComponent<NetworkTransform>();
-                nt.key = newClientGuid;
+                nt.SetKey(newClientGuid);
                 nt.Initialize();
 
 
@@ -98,12 +129,14 @@ namespace server {
                 List<NetworkTransform> networkTransforms = new List<NetworkTransform>();
 
                 // send items before other NetworkTransforms
-                foreach (var item in Item.Items) {
-                    existingItemsPacket.existingItems.Add(item.GetComponent<NetworkTransform>().GetPacket());
+                foreach (var item in Item.Items.Values) {
+                    // existingItemsPacket.existingItems.Add(item.GetComponent<NetworkTransform>().GetPacket());
                     networkTransforms.Add(item.GetComponent<NetworkTransform>());
+                    existingItemsPacket.existingItemMap.Add(item.GetComponent<NetworkTransform>().key, item.GetComponent<NetworkTransform>().GetPacket());
                 }
 
                 channel.SendMessage(existingItemsPacket);
+
 
                 foreach (var networkTransform in NetworkTransform.Transforms.Values.ToList()) {
                     if (networkTransforms.Contains(networkTransform)) {
@@ -113,6 +146,27 @@ namespace server {
                 }
 
                 clientGameInformation.movementInputReceiver = instantiated.GetComponent<IMovementInputReceiver>();
+                clientGameInformation.player = instantiated.GetComponent<Player>();
+
+                if (clientGameInformation.player == null) {
+                    Debug.LogError("Player is null");
+                }
+                clientGameInformation.player.playerColor = colors[clients.Count - 1];
+
+                worldToMinimapHelper.AddPlayer(clientGameInformation.player);
+
+                if (ScoreboardHandler.Instance == null) {
+                    Debug.LogError("ScoreboardHandler is null");
+                }
+
+                ScoreboardHandler.Instance.AddPlayer(clientGameInformation.player);
+
+                // Debug.Log("Player color: " + clientGameInformation.player.playerColor);
+
+                NetworkEventBus.Raise(new ScoreUpdatedEvent {
+                    source = nt.key,
+                    score = 0
+                });
 
                 channel.SendMessage(connectEvent);
                 EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));
@@ -161,7 +215,7 @@ namespace server {
             while (syncEvents.Count > 0) {
                 var networkEvent = syncEvents.Dequeue();
                 broadcastMessage(networkEvent);
-                Debug.Log("Sending event: " + networkEvent.GetType());
+                // Debug.Log("Sending event: " + networkEvent.GetType());
             }
         }
 
@@ -172,6 +226,8 @@ namespace server {
         private void handleInputPacket(InputPacket inputPacket, ClientGameInformation source) {
             source.movementInputReceiver.DoMove(inputPacket.move);
             source.movementInputReceiver.DoView(inputPacket.view);
+            if (inputPacket.powerUpPressed)
+                source.player.UsePowerUp();
         }
 
         private void handleDisconnectEvent(DisconnectEvent disconnectEvent) {
@@ -188,7 +244,6 @@ namespace server {
         /// Method to get rid of faulty clients
         /// </summary>
         private void cleanupFaultyClients() {
-
             foreach (var client in clients) {
                 if (client.Value.tcpMessageChannel.HasErrors()) {
                     brokenClients.Add(client.Key);
@@ -198,12 +253,17 @@ namespace server {
             if (brokenClients.Count == 0) return;
 
             foreach (var brokenClient in brokenClients) {
-                clients[brokenClient].tcpMessageChannel.Close();
-                clients.Remove(brokenClient);
-                broadcastMessage(new PlayerDisconnectEvent() { guid = brokenClient });
+                try {
+                    worldToMinimapHelper.RemovePlayer(clients[brokenClient].player);
+                    ScoreboardHandler.Instance.RemovePlayer(clients[brokenClient].player);
 
-                Destroy(NetworkTransform.Transforms[brokenClient].gameObject);
-                NetworkTransform.Transforms.Remove(brokenClient);
+                    clients[brokenClient].tcpMessageChannel.Close();
+                    clients.Remove(brokenClient);
+                    broadcastMessage(new PlayerDisconnectEvent() { guid = brokenClient });
+
+                    Destroy(NetworkTransform.Transforms[brokenClient].gameObject);
+                    NetworkTransform.Transforms.Remove(brokenClient);
+                } catch (Exception e) { Debug.LogError(e); }
             }
 
             EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));
@@ -240,7 +300,7 @@ namespace server {
         }
 
         private void OnNetworkEvent(NetworkEvent newEvent) {
-            Debug.Log("Got event: " + newEvent.GetType());
+            // Debug.Log("Got event: " + newEvent.GetType());
             syncEvents.Enqueue(newEvent);
         }
 

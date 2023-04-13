@@ -1,13 +1,43 @@
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class Player : AGuidListener {
 
     private float score = 0f;
+    public bool IsSafeToLeave = false;
+
+    private void Awake() {
+        this.itemHolder = this.gameObject.transform;
+
+        // find mask transform which is a child of server.TCPGameServer.Instance.worldToMinimapHelper.gameObject
+        var maskTransform = server.TCPGameServer.Instance.worldToMinimapHelper.gameObject.transform.Find("Mask");
+
+        // add ourselves to the minimap
+        var returned = Instantiate(server.TCPGameServer.Instance.playerMinimapPrefab, new Vector3(0, 0, 0), Quaternion.identity, maskTransform);
+
+        if (returned.GetComponent<PlayerMinimapComponent>() == null) {
+            Debug.LogError("PlayerMinimapComponent is null");
+            return;
+        }
+
+        playerMinimapComponent = returned.GetComponent<PlayerMinimapComponent>();
+
+    }
+
+    #region UI
+    public PlayerMinimapComponent playerMinimapComponent { get; private set; }
+    public UnityEngine.Color playerColor { get; set; }
+    #endregion
+
+    #region Movement
+    [SerializeField] private ShoppingCartMovement movement;
+    public ShoppingCartMovement Movement { get => movement; }
+    #endregion
 
     #region Items
-    [SerializeField] Transform itemHolder;
+    [SerializeField] private Transform itemHolder;
     [SerializeField] private int capacity = 2;
     [SerializeField] private List<Item> items = new List<Item>();
     //current capacity we have
@@ -24,23 +54,56 @@ public class Player : MonoBehaviour {
         items.Remove(item);
     }
 
-    public void DropOffItems() {
-        foreach (var item in items) {
-            score += (item.itemStats.discount > 0 ? ((float)item.itemStats.Tier + 1) * (item.itemStats.discount * 100) : ((float)item.itemStats.Tier + 1));
+    public void DiscardItems() {
+        ItemsDiscardedEvent itemsDiscardedEvent = new ItemsDiscardedEvent();
+        itemsDiscardedEvent.source = key;
 
+        for (int i = items.Count - 1; i >= 0; i--) {
+            if (items[i].PaidFor) continue;
+            // drop them back into the world
+            items[i].transform.SetParent(null);
+            // make sure to set the transform to next to the player but not to the point where we pick it up
+            items[i].transform.position = items[i].Storezone.transform.position + new UnityEngine.Vector3(0f, 1f, 0f);
+            items[i].gameObject.SetActive(true);
+
+            itemsDiscardedEvent.discardedItems.Add(items[i].GetComponent<NetworkTransform>().key);
+
+            items.Remove(items[i]);
+        }
+
+        // items.Clear();
+        if (itemsDiscardedEvent.discardedItems.Count > 0) NetworkEventBus.Raise(itemsDiscardedEvent);
+    }
+
+    public IEnumerator ResetSafeToLeaveFlag() {
+        yield return new WaitForSeconds(2f);
+        IsSafeToLeave = false;
+    }
+
+    public void FlagSafeItems() {
+        foreach (var item in items) {
+            item.PaidFor = true;
+        }
+    }
+
+    public void DropOffItems() {
+        ItemsDroppedOffEvent itemDroppedOffEvent = new ItemsDroppedOffEvent();
+        itemDroppedOffEvent.source = key;
+
+        foreach (var item in items) {
+            score += (item.discount > 0 ? ((float)item.ItemStats.Tier + 1) * (item.discount * 100) : ((float)item.ItemStats.Tier + 1));
+            itemDroppedOffEvent.droppedItems.Add(item.GetComponent<NetworkTransform>().key);
             Destroy(item.gameObject);
         }
 
         NetworkEventBus.Raise(new ScoreUpdatedEvent {
-            source = GetComponent<NetworkTransform>().Key,
+            source = key,
             score = score,
         });
 
         items.Clear();
 
-        NetworkEventBus.Raise(new ItemDroppedOffEvent {
-            source = GetComponent<NetworkTransform>().Key,
-        });
+        NetworkEventBus.Raise(itemDroppedOffEvent);
     }
 
     #endregion
@@ -60,6 +123,18 @@ public class Player : MonoBehaviour {
         powerUp = null;
     }
 
+    public void UsePowerUp() {
+        if (powerUp != null) {
+            powerUp.Use(this);
+            RemovePowerUp();
+
+            PowerupUsedEvent powerUpUsedEvent = new PowerupUsedEvent();
+            powerUpUsedEvent.source = key;
+
+            NetworkEventBus.Raise(powerUpUsedEvent);
+        }
+    }
+
     #endregion
 
     private void OnTriggerEnter(Collider other) {
@@ -69,12 +144,14 @@ public class Player : MonoBehaviour {
 
             ItemPickedUpEvent itemPickedUpEvent = new ItemPickedUpEvent();
             itemPickedUpEvent.itemGuid = item.GetComponent<NetworkTransform>().key;
-            itemPickedUpEvent.source = GetComponent<NetworkTransform>().Key;
-            itemPickedUpEvent.inventorySize = items.Count;
+            itemPickedUpEvent.itemInteractableID = item.InteractableID;
+            itemPickedUpEvent.source = key;
+            itemPickedUpEvent.shouldClear = false;
+            itemPickedUpEvent.discount = item.discount;
             NetworkEventBus.Raise(itemPickedUpEvent);
 
             item.PickUp();
-            NetworkTransform.Transforms.Remove(item.GetComponent<NetworkTransform>().key);
+            // NetworkTransform.Transforms.Remove(item.GetComponent<NetworkTransform>().key);
 
             Debug.Log("Item picked up");
             other.gameObject.SetActive(false);
@@ -83,6 +160,35 @@ public class Player : MonoBehaviour {
         if (other.gameObject.CompareTag("PowerUp") && powerUp == null) {
             PowerUp powerUp = other.gameObject.GetComponent<PowerUp>();
             AddPowerUp(powerUp);
+
+            PowerUpPickedUpEvent powerUpPickedUpEvent = new PowerUpPickedUpEvent();
+            powerUpPickedUpEvent.powerUpGuid = powerUp.GetComponent<NetworkTransform>().key;
+            powerUpPickedUpEvent.source = key;
+            powerUpPickedUpEvent.PowerUpID = powerUp.InteractableID;
+            NetworkEventBus.Raise(powerUpPickedUpEvent);
+
+            powerUp.PickUp();
+            other.gameObject.SetActive(false);
         }
+    }
+
+    public void ApplyCoupon(float discountMultiplier) {
+        //find the highest tier item that is not paid for and apply the multiplier to its discount
+        Item item = items.Where(x => !x.PaidFor).OrderByDescending(x => x.ItemStats.Tier).FirstOrDefault();
+        if (item != null)
+            item.discount *= discountMultiplier;
+    }
+
+
+    /*
+    * Getters and Setters
+    */
+
+    public float GetScore() {
+        return this.score;
+    }
+
+    public void SetScore(float score) {
+        this.score = score;
     }
 }

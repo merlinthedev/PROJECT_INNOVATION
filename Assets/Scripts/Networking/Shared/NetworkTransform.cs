@@ -6,9 +6,6 @@ using UnityEngine;
 
 public class NetworkTransform : AGuidSource {
 
-    // In case we receive a packet before we know of it (i.e. it's not in the dictionary yet), instantiate it with this model
-    public GameObject model;
-
     public static readonly Dictionary<Guid, NetworkTransform> Transforms = new Dictionary<Guid, NetworkTransform>();
     public static readonly HashSet<NetworkTransform> UpdatedTransforms = new HashSet<NetworkTransform>();
 
@@ -37,6 +34,9 @@ public class NetworkTransform : AGuidSource {
     }
 
     public void Initialize() {
+        targetPosition = transform.position;
+        targetRotation = transform.rotation;
+
         UpdateTransformPacket();
         kinematic = !NetworkManager.IsServer;
         initialized = true;

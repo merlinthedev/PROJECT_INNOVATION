@@ -1,17 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using System;
 
 
 public class InventoryUIHandler : MonoBehaviour {
 
-    private List<GameObject> items = new List<GameObject>();
-
-    [SerializeField] private GameObject itemPrefab;
-    [SerializeField] private RectTransform childTransform;
-    [SerializeField] private Texture2D itemTexture;
-
+    public List<ItemUI> itemUIs = new List<ItemUI>();
 
     private void OnEnable() {
         EventBus<InventoryUIEvent>.Subscribe(onInventoryUpdatedEvent);
@@ -23,22 +17,42 @@ public class InventoryUIHandler : MonoBehaviour {
 
 
     private void onInventoryUpdatedEvent(InventoryUIEvent inventoryUIEvent) {
-        Debug.Log("Populating inventory UI");
-        foreach (var item in items) {
-            Destroy(item);
+        switch (inventoryUIEvent.actionType) {
+            case InventoryUIEvent.ActionType.Add:
+                addItem(inventoryUIEvent.item, inventoryUIEvent.discount, inventoryUIEvent.itemGuid);
+                break;
+            case InventoryUIEvent.ActionType.Remove:
+                removeItem(inventoryUIEvent.itemGuid);
+                break;
+            case InventoryUIEvent.ActionType.Clear:
+                clearInventory();
+                break;
         }
 
-        items.Clear();
+    }
 
-        Debug.Log("Inventory size: " + inventoryUIEvent.inventorySize);
-        for (int i = 0; i < inventoryUIEvent.inventorySize; i++) {
-            // create a new image object with the item sprite
-            var newItem = Instantiate(itemPrefab, childTransform);
-            Debug.Log("Instantiated where did it go ?XD");
-            newItem.GetComponent<Image>().sprite = Sprite.Create(itemTexture, new Rect(0, 0, itemTexture.width, itemTexture.height), Vector2.zero);
-            newItem.GetComponent<RectTransform>().anchoredPosition = new Vector2(50 * (i + 1), 0);
-            items.Add(newItem);
-            // do we need to instantiate?
+    private void clearInventory() {
+        foreach (ItemUI itemUI in itemUIs) {
+            itemUI.RemoveItem();
+        }
+    }
+
+    private void addItem(Item item, float discount, Guid itemGuid) {
+        // add item to first empty slot
+        foreach (ItemUI itemUI in itemUIs) {
+            if (!itemUI.HasItem) {
+                itemUI.SetItem(item, discount, itemGuid);
+                break;
+            }
+        }
+    }
+
+    private void removeItem(Guid itemGuid) {
+        foreach (ItemUI itemUI in itemUIs) {
+            if (itemUI.HasItem && itemUI.ItemGuid == itemGuid) {
+                itemUI.RemoveItem();
+                break;
+            }
         }
     }
 
