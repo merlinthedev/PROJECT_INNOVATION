@@ -28,7 +28,7 @@ public class ScoreboardHandler : MonoBehaviour {
         var updatedPlayer = scoreboardList.Find(player => player.key == scoreUpdatedEvent.source);
         if (updatedPlayer == null) return;
 
-        Debug.Log("Score updated for player " + updatedPlayer.key + " to " + scoreUpdatedEvent.score);
+        // Debug.Log("Score updated for player " + updatedPlayer.key + " to " + scoreUpdatedEvent.score);
         updatedPlayer.SetScore(scoreUpdatedEvent.score);
 
         sortScoreList();

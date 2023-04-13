@@ -161,7 +161,7 @@ namespace server {
 
                 ScoreboardHandler.Instance.AddPlayer(clientGameInformation.player);
 
-                Debug.Log("Player color: " + clientGameInformation.player.playerColor);
+                // Debug.Log("Player color: " + clientGameInformation.player.playerColor);
 
                 NetworkEventBus.Raise(new ScoreUpdatedEvent {
                     source = nt.key,

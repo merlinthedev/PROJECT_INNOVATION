@@ -17,10 +17,10 @@ public class ScoreboardUIHandler : MonoBehaviour {
     private void onServerScoreboardUpdate(ServerScoreboardUpdateEvent serverScoreboardUpdateEvent) {
 
         // print list to console
-        Debug.Log("Scoreboard:");
-        foreach (var score in serverScoreboardUpdateEvent.scores) {
-            Debug.Log(score);
-        }
+        // Debug.Log("Scoreboard:");
+        // foreach (var score in serverScoreboardUpdateEvent.scores) {
+        //     Debug.Log(score);
+        // }
 
         scoreboardEntries.Clear();
         foreach (Transform child in scoreboardEntryHolder) {
