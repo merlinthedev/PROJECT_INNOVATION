@@ -58,7 +58,7 @@ public class ShoppingCartController : MonoBehaviour {
 
         if (brakeButton.isPressed || Input.GetKey(KeyCode.S)) {
             // movementInput -= brakeSpeed;
-            movementInput -= gasSpeed;
+            movementInput -= brakeSpeed;
         }
 
         movementInputReceiver.DoMove(new Vector2(0, movementInput));
