@@ -231,7 +231,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guidSource: {fileID: 6189425348438312984}
   PowerUpSprite: {fileID: 0}
-  hazardPrefab: {fileID: 0}
+  hazardPrefab: {fileID: 711745007743407201, guid: 53716977dee92c4419ac0efff38cd9a6,
+    type: 3}
   hazardOffset: {x: 0, y: 0, z: 1.65}
 --- !u!1 &7448099500844952357
 GameObject:
