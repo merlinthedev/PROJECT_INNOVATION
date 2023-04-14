@@ -175,6 +175,23 @@ public class JumpEvent : NetworkEvent {
     }
 }
 
+public class InteractableSpawnedEvent : NetworkEvent {
+    public int InteractableID { get; set; }
+    public Guid InteractableGuid { get; set; }
+
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+        packet.Write(InteractableID);
+        packet.Write(InteractableGuid);
+    }
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
+        InteractableID = packet.ReadInt();
+        InteractableGuid = packet.ReadGuid();
+    }
+}
+
 #region items
 
 public class ItemSpawnedEvent : NetworkEvent {

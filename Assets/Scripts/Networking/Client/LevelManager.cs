@@ -6,6 +6,7 @@ public class LevelManager : MonoBehaviour {
     private void OnEnable() {
         // NetworkEventBus.Subscribe<TestNetworkEvent>(onTestNetworkEventClient);
         NetworkEventBus.Subscribe<ItemSpawnedEvent>(onItemSpawned);
+        NetworkEventBus.Subscribe<InteractableSpawnedEvent>(onInteractableSpawned);
         NetworkEventBus.Subscribe<ItemPickedUpEvent>(onItemPickedUp);
         NetworkEventBus.Subscribe<ItemsDroppedOffEvent>(onItemDroppedOff);
         NetworkEventBus.Subscribe<ScoreUpdatedEvent>(onScoreUpdated);
@@ -19,6 +20,7 @@ public class LevelManager : MonoBehaviour {
     private void OnDisable() {
         // NetworkEventBus.Unsubscribe<TestNetworkEvent>(onTestNetworkEventClient);
         NetworkEventBus.Unsubscribe<ItemSpawnedEvent>(onItemSpawned);
+        NetworkEventBus.Unsubscribe<InteractableSpawnedEvent>(onInteractableSpawned);
         NetworkEventBus.Unsubscribe<ItemPickedUpEvent>(onItemPickedUp);
         NetworkEventBus.Unsubscribe<ItemsDroppedOffEvent>(onItemDroppedOff);
         NetworkEventBus.Unsubscribe<ScoreUpdatedEvent>(onScoreUpdated);
@@ -104,6 +106,14 @@ public class LevelManager : MonoBehaviour {
             Debug.LogWarning("No UI component found on the item prefab");
         }
     }
+    
+    private void onInteractableSpawned(InteractableSpawnedEvent interactableSpawnedEvent) {
+        Debug.LogWarning("Item spawned event received");
+        var itemPrefab = interactableConfiguration.interactables[interactableSpawnedEvent.InteractableID].clientPrefab;
+        var item = Instantiate(itemPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        item.SetKey(interactableSpawnedEvent.InteractableGuid);
+        item.Initialize();
+    }
 
     private void onItemPickedUp(ItemPickedUpEvent itemPickedUpEvent) {
         //disable item that is picked up
@@ -157,4 +167,5 @@ public class LevelManager : MonoBehaviour {
             PowerUpID = -1
         });
     }
+
 }

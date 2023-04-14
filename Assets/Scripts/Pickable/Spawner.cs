@@ -41,6 +41,12 @@ public class Spawner : AGuidSource {
 
         AInteractable.interactables.Add(interactable);
 
+        NetworkEventBus.Raise(new InteractableSpawnedEvent {
+            source = key,
+            InteractableID = prefabIndex,
+            InteractableGuid = interactable.GetComponent<NetworkTransform>().key
+        });
+        
         if (interactable is Item) {
             var itemComponent = interactable.GetComponent<Item>();
 
@@ -50,11 +56,11 @@ public class Spawner : AGuidSource {
 
             Item.Items.Add(networkTransform.key, interactable as Item);
 
-            NetworkEventBus.Raise(new ItemSpawnedEvent {
+
+            NetworkEventBus.Raise(new ItemDiscountUpdateEvent {
                 source = key,
-                itemID = prefabIndex,
-                itemGuid = interactable.GetComponent<NetworkTransform>().key,
-                itemDiscount = Storezone.StoreDiscount
+                discount = Storezone.StoreDiscount,
+                influencedItems = new System.Collections.Generic.List<System.Guid> { interactable.GetComponent<NetworkTransform>().key }
             });
         }
 
