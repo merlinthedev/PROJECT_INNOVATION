@@ -121,7 +121,7 @@ MonoBehaviour:
   Stickyness: 0.3
   Acceleration: 8.89
   GroundedTime: 0.1
-  ConstantSteerSpeed: 38.6
+  ConstantSteerSpeed: 40
   DynamicSteerSpeed: 20
   MaxSteerSpeed: 360
   JumpForce: 5
