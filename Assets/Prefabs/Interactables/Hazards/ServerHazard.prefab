@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 711745007743407201}
   m_Layer: 0
   m_Name: ServerHazard
-  m_TagString: PowerUp
+  m_TagString: Hazard
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -12,5 +12,7 @@ public class HazardPowerup : PowerUp
 
     protected override void OnUse(Player player) {
         var hazard = Instantiate(hazardPrefab, player.transform.position + (player.transform.rotation * hazardOffset), Quaternion.identity);
+        hazard.GetComponent<NetworkTransform>().NewKey();
+        hazard.GetComponent<NetworkTransform>().Initialize();
     }
 }
