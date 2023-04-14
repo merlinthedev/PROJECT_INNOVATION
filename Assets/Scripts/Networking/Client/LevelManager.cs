@@ -13,6 +13,7 @@ public class LevelManager : MonoBehaviour {
         NetworkEventBus.Subscribe<ItemsDiscardedEvent>(onItemsDiscarded);
         NetworkEventBus.Subscribe<PowerUpPickedUpEvent>(onPowerUpPickup);
         NetworkEventBus.Subscribe<PowerupUsedEvent>(onPowerUpUsed);
+        NetworkEventBus.Subscribe<NetworkTransformDestroyedEvent>(onNetworkTransformDestroyed);
 
         Debug.LogWarning("Level manager subscribed to events");
     }
@@ -27,6 +28,7 @@ public class LevelManager : MonoBehaviour {
         NetworkEventBus.Unsubscribe<ItemsDiscardedEvent>(onItemsDiscarded);
         NetworkEventBus.Unsubscribe<PowerUpPickedUpEvent>(onPowerUpPickup);
         NetworkEventBus.Unsubscribe<PowerupUsedEvent>(onPowerUpUsed);
+        NetworkEventBus.Unsubscribe<NetworkTransformDestroyedEvent>(onNetworkTransformDestroyed);
     }
 
     private void onItemsDiscarded(ItemsDiscardedEvent itemsDiscardedEvent) {
@@ -166,6 +168,14 @@ public class LevelManager : MonoBehaviour {
         EventBus<PowerUpUIEvent>.Raise(new PowerUpUIEvent {
             PowerUpID = -1
         });
+    }
+
+    private void onNetworkTransformDestroyed(NetworkTransformDestroyedEvent networkTransformDestroyedEvent) {
+        if (NetworkTransform.Transforms.TryGetValue(networkTransformDestroyedEvent.destroyedTransformGuid, out NetworkTransform networkTransform)) {
+            Destroy(networkTransform.gameObject);
+        } else {
+            Debug.LogWarning("Network transform not found, cannot destroy the item");
+        }
     }
 
 }

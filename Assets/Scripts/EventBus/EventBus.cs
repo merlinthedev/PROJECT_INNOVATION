@@ -363,3 +363,17 @@ public class ScoreUpdatedEvent : NetworkEvent {
         score = packet.ReadFloat();
     }
 }
+
+public class NetworkTransformDestroyedEvent : NetworkEvent {
+    public Guid destroyedTransformGuid { get; set; }
+
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+        packet.Write(destroyedTransformGuid);
+    }
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
+        destroyedTransformGuid = packet.ReadGuid();
+    }
+}
