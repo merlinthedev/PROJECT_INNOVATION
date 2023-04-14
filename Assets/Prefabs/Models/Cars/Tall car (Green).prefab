@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5113058420256601292}
   - component: {fileID: 8018430811228632008}
   - component: {fileID: 9002888322426721647}
+  - component: {fileID: 6478452927690747455}
   m_Layer: 0
   m_Name: Tall car (Green)
   m_TagString: Untagged
@@ -157,6 +158,19 @@ MonoBehaviour:
   - {fileID: 872107312742079217}
   - {fileID: 314200149678411789}
   - {fileID: 400571475403187586}
+--- !u!65 &6478452927690747455
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 285549492773623537}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.2656174, y: 1.838123, z: 2.8539252}
+  m_Center: {x: -0.07038474, y: 0.9620556, z: 0.16082847}
 --- !u!1 &749774678944432661
 GameObject:
   m_ObjectHideFlags: 0

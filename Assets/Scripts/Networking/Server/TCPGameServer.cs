@@ -22,6 +22,15 @@ namespace server {
 	 */
     class TCPGameServer : MonoBehaviour {
 
+        private UnityEngine.Color[] colors = new UnityEngine.Color[] {
+            UnityEngine.Color.red,
+            UnityEngine.Color.blue,
+            UnityEngine.Color.green,
+            UnityEngine.Color.yellow,
+            UnityEngine.Color.magenta,
+            UnityEngine.Color.cyan
+        };
+
         public static TCPGameServer Instance { get; private set; }
 
         [SerializeField] private int serverPort = 55555;    //the port we listen on
@@ -30,8 +39,11 @@ namespace server {
 
         private Dictionary<Guid, ClientGameInformation> clients = new Dictionary<Guid, ClientGameInformation>();
         private List<Guid> brokenClients = new List<Guid>();
-
         [SerializeField] private GameObject playerServerPrefab;
+        [SerializeField] private Vector3 spawnPosition;
+        public WorldToMinimapHelper worldToMinimapHelper { get; private set; }
+        public GameObject playerMinimapPrefab;
+
 
         /// <summary>
         /// Events since last sync
@@ -55,9 +67,15 @@ namespace server {
             listener = new TcpListener(IPAddress.Any, serverPort);
             listener.Server.NoDelay = true; // Q: What does this do? A: Disable Nagle's algorithm - no this on the other side too
 
-            listener.Start(50);
+            listener.Start(6);
 
             NetworkEventBus.SubscribeAll(OnNetworkEvent);
+
+            worldToMinimapHelper = GameObject.FindGameObjectWithTag("Minimap").GetComponent<WorldToMinimapHelper>();
+
+            EventBus<ServerScoreboardUpdateEvent>.Raise(new ServerScoreboardUpdateEvent {
+                scores = new Dictionary<UnityEngine.Color, string>()
+            });
 
             // StartCoroutine(sendNetworkEvents());
         }
@@ -87,7 +105,7 @@ namespace server {
                 Log.LogInfo("Accepting new client...", this, ConsoleColor.White);
                 TcpClient client = listener.AcceptTcpClient();
                 client.Client.NoDelay = true; // Disable Nagle's algorithm - no this on the other side too
-                //and wrap the client in an easier to use communication channel
+                                              //and wrap the client in an easier to use communication channel
                 TcpMessageChannel channel = new TcpMessageChannel(client);
 
                 Guid newClientGuid = Guid.NewGuid();
@@ -129,6 +147,26 @@ namespace server {
 
                 clientGameInformation.movementInputReceiver = instantiated.GetComponent<IMovementInputReceiver>();
                 clientGameInformation.player = instantiated.GetComponent<Player>();
+
+                if (clientGameInformation.player == null) {
+                    Debug.LogError("Player is null");
+                }
+                clientGameInformation.player.playerColor = colors[clients.Count - 1];
+
+                worldToMinimapHelper.AddPlayer(clientGameInformation.player);
+
+                if (ScoreboardHandler.Instance == null) {
+                    Debug.LogError("ScoreboardHandler is null");
+                }
+
+                ScoreboardHandler.Instance.AddPlayer(clientGameInformation.player);
+
+                // Debug.Log("Player color: " + clientGameInformation.player.playerColor);
+
+                NetworkEventBus.Raise(new ScoreUpdatedEvent {
+                    source = nt.key,
+                    score = 0
+                });
 
                 channel.SendMessage(connectEvent);
                 EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));
@@ -177,7 +215,7 @@ namespace server {
             while (syncEvents.Count > 0) {
                 var networkEvent = syncEvents.Dequeue();
                 broadcastMessage(networkEvent);
-                Debug.Log("Sending event: " + networkEvent.GetType());
+                // Debug.Log("Sending event: " + networkEvent.GetType());
             }
         }
 
@@ -188,7 +226,7 @@ namespace server {
         private void handleInputPacket(InputPacket inputPacket, ClientGameInformation source) {
             source.movementInputReceiver.DoMove(inputPacket.move);
             source.movementInputReceiver.DoView(inputPacket.view);
-            if(inputPacket.powerUpPressed)
+            if (inputPacket.powerUpPressed)
                 source.player.UsePowerUp();
         }
 
@@ -216,6 +254,9 @@ namespace server {
 
             foreach (var brokenClient in brokenClients) {
                 try {
+                    worldToMinimapHelper.RemovePlayer(clients[brokenClient].player);
+                    ScoreboardHandler.Instance.RemovePlayer(clients[brokenClient].player);
+
                     clients[brokenClient].tcpMessageChannel.Close();
                     clients.Remove(brokenClient);
                     broadcastMessage(new PlayerDisconnectEvent() { guid = brokenClient });
@@ -259,7 +300,7 @@ namespace server {
         }
 
         private void OnNetworkEvent(NetworkEvent newEvent) {
-            Debug.Log("Got event: " + newEvent.GetType());
+            // Debug.Log("Got event: " + newEvent.GetType());
             syncEvents.Enqueue(newEvent);
         }
 

@@ -15,6 +15,8 @@ public class NetworkManager : MonoBehaviour {
             startClient();
         }
 
+        Physics.gravity = new Vector3(0, -9.81f * 2, 0);
+
     }
 
     private void startServer() {

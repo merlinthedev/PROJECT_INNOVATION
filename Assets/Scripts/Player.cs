@@ -2,16 +2,34 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
-using System;
 
 public class Player : AGuidListener {
 
     private float score = 0f;
     public bool IsSafeToLeave = false;
 
-    private void Start() {
+    private void Awake() {
         this.itemHolder = this.gameObject.transform;
+
+        // find mask transform which is a child of server.TCPGameServer.Instance.worldToMinimapHelper.gameObject
+        var maskTransform = server.TCPGameServer.Instance.worldToMinimapHelper.gameObject.transform.Find("Mask");
+
+        // add ourselves to the minimap
+        var returned = Instantiate(server.TCPGameServer.Instance.playerMinimapPrefab, new Vector3(0, 0, 0), Quaternion.identity, maskTransform);
+
+        if (returned.GetComponent<PlayerMinimapComponent>() == null) {
+            Debug.LogError("PlayerMinimapComponent is null");
+            return;
+        }
+
+        playerMinimapComponent = returned.GetComponent<PlayerMinimapComponent>();
+
     }
+
+    #region UI
+    public PlayerMinimapComponent playerMinimapComponent { get; private set; }
+    public UnityEngine.Color playerColor { get; set; }
+    #endregion
 
     #region Movement
     [SerializeField] private ShoppingCartMovement movement;
@@ -42,15 +60,17 @@ public class Player : AGuidListener {
 
         for (int i = items.Count - 1; i >= 0; i--) {
             if (items[i].PaidFor) continue;
-            // drop them back into the world
-            items[i].transform.SetParent(null);
-            // make sure to set the transform to next to the player but not to the point where we pick it up
-            items[i].transform.position = items[i].Storezone.transform.position + new UnityEngine.Vector3(0f, 1f, 0f);
-            items[i].gameObject.SetActive(true);
+            //// drop them back into the world
+            //items[i].transform.SetParent(null);
+            //// make sure to set the transform to next to the player but not to the point where we pick it up
+            //items[i].transform.position = items[i].Storezone.transform.position + new UnityEngine.Vector3(1f, 1f, 0f);
+            //items[i].gameObject.SetActive(true);
 
             itemsDiscardedEvent.discardedItems.Add(items[i].GetComponent<NetworkTransform>().key);
-
+            Destroy(items[i].gameObject);
             items.Remove(items[i]);
+
+
         }
 
         // items.Clear();
@@ -167,5 +187,18 @@ public class Player : AGuidListener {
         Item item = items.Where(x => !x.PaidFor).OrderByDescending(x => x.ItemStats.Tier).FirstOrDefault();
         if (item != null)
             item.discount *= discountMultiplier;
+    }
+
+
+    /*
+    * Getters and Setters
+    */
+
+    public float GetScore() {
+        return this.score;
+    }
+
+    public void SetScore(float score) {
+        this.score = score;
     }
 }

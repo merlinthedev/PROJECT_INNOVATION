@@ -66,6 +66,8 @@ public class ShoppingCartMovement : MonoBehaviour, IMovementInputReceiver {
             ray.origin = transform.position;
             ray.direction = Vector3.down;
             bool groundHit = Physics.Raycast(ray, out hit, 1.2f);
+            // visualize the raycast
+            Debug.DrawRay(ray.origin, ray.direction * 1.2f, Color.red);
             if (groundHit) {
                 lastGroundTime = Time.time;
             }
@@ -82,7 +84,31 @@ public class ShoppingCartMovement : MonoBehaviour, IMovementInputReceiver {
             force -= rb.velocity * Stickyness;
             force *= Acceleration;
 
+
+            Ray collisionRay = new Ray();
+            RaycastHit collisionHit;
+            if (rb != null) {
+                collisionRay.origin = transform.position;
+                collisionRay.direction = Vector3.forward;
+                bool collisionHitGround = Physics.Raycast(collisionRay, out collisionHit, 1.2f);
+                // visualize the raycast
+                Debug.DrawRay(collisionRay.origin, collisionRay.direction * 1.2f, Color.yellow);
+                if (collisionHitGround) {
+                    if (collisionHit.collider.tag == "Player") {
+                        // bounce off the player
+                        var playerObject = collisionHit.collider.gameObject;
+                        var otherMover = playerObject.GetComponent<IMovementInputReceiver>();
+
+                        DoBouce(force);
+                        otherMover.DoBouce(force);
+
+                        Debug.Log("BOUCE BOUCE BOUCE BITCH");
+                    }
+                }
+            }
+
             rb.AddForce(force, ForceMode.Force);
+
         }
         #endregion
 
@@ -94,6 +120,10 @@ public class ShoppingCartMovement : MonoBehaviour, IMovementInputReceiver {
         #endregion
 
         #region misc
+        // Q: Is it possible to check if we collided with an object with a specific tag?
+        // A: Yes, you can use the tag property of the collider you hit.
+        //    For example, if you hit a collider with the tag "Player", you can do this:
+
         #endregion
     }
 
@@ -103,6 +133,14 @@ public class ShoppingCartMovement : MonoBehaviour, IMovementInputReceiver {
 
     public void DoView(Vector2 newViewValue) {
         viewValue = newViewValue;
+    }
+
+    public void DoBouce(Vector3 force) {
+        // Create a vector 3 that moves the player up and backwards
+        // Add force to the rigidbody
+        // rb.AddForce(Vector3.up * 10f, ForceMode.Impulse);
+
+        rb.AddForce((Vector3.up + -force) * 10f, ForceMode.Impulse);
     }
 
     public void DoJump() {

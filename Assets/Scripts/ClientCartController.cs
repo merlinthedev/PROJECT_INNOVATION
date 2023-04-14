@@ -12,13 +12,17 @@ public class ClientCartController : MonoBehaviour, IMovementInputReceiver {
     public void DoMove(Vector2 inputVel) {
         move = inputVel;
     }
-    
+
     public void DoView(Vector2 viewValue) {
         view = viewValue;
     }
 
     public void DoJump() {
         jump = true;
+    }
+
+    public void DoBouce(Vector3 force) {
+        throw new System.NotImplementedException();
     }
     public InputPacket GetInputPacket() {
         InputPacket inputPacket = new InputPacket();

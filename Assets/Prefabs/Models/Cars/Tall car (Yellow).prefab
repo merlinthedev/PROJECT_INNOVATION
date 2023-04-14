@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2745802718598591693}
   - component: {fileID: 7848655326344528098}
   - component: {fileID: 2322961392287578821}
+  - component: {fileID: 1758041543382908406}
   m_Layer: 0
   m_Name: Tall car (Yellow)
   m_TagString: Untagged
@@ -157,6 +158,19 @@ MonoBehaviour:
   - {fileID: 306884217724420969}
   - {fileID: 865920606117595541}
   - {fileID: 997266707723582490}
+--- !u!65 &1758041543382908406
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841720866842660713}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.2656174, y: 1.838123, z: 2.8539252}
+  m_Center: {x: -0.07038474, y: 0.9620556, z: 0.16082847}
 --- !u!1 &1298541342998450524
 GameObject:
   m_ObjectHideFlags: 0
