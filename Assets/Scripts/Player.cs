@@ -67,6 +67,7 @@ public class Player : AGuidListener {
             //items[i].gameObject.SetActive(true);
 
             itemsDiscardedEvent.discardedItems.Add(items[i].GetComponent<NetworkTransform>().key);
+            Item.Items.Remove(items[i].GetComponent<NetworkTransform>().key);
             Destroy(items[i].gameObject);
             items.Remove(items[i]);
 

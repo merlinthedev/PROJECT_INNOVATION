@@ -130,6 +130,9 @@ namespace server {
 
                 // send items before other NetworkTransforms
                 foreach (var item in Item.Items.Values) {
+                    if (item == null) {
+                        continue;
+                    }
                     // existingItemsPacket.existingItems.Add(item.GetComponent<NetworkTransform>().GetPacket());
                     networkTransforms.Add(item.GetComponent<NetworkTransform>());
                     existingItemsPacket.existingItemMap.Add(item.GetComponent<NetworkTransform>().key, item.GetComponent<NetworkTransform>().GetPacket());

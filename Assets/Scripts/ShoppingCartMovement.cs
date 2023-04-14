@@ -98,8 +98,8 @@ public class ShoppingCartMovement : MonoBehaviour, IMovementInputReceiver {
                         var playerObject = collisionHit.collider.gameObject;
                         var otherMover = playerObject.GetComponent<IMovementInputReceiver>();
 
-                        DoBouce(force);
-                        otherMover.DoBouce(force);
+                        // DoBouce(force);
+                        // otherMover.DoBouce(force);
 
                         Debug.Log("BOUCE BOUCE BOUCE BITCH");
                     }
