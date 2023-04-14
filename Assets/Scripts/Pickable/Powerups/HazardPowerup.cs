@@ -15,7 +15,7 @@ public class HazardPowerup : PowerUp
         var hazard = Instantiate(hazardPrefab, player.transform.position + (player.transform.rotation * hazardOffset), Quaternion.identity);
         hazard.GetComponent<NetworkTransform>().NewKey();
         hazard.GetComponent<NetworkTransform>().Initialize();
-        int prefabIndex = interactableConfig.GetPrefabIndex(hazard);
+        int prefabIndex = interactableConfig.GetPrefabIndex(hazardPrefab);
         hazard.InteractableID = prefabIndex;
 
         NetworkEventBus.Raise(new InteractableSpawnedEvent {
