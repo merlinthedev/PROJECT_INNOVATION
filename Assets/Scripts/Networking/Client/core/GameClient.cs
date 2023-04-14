@@ -6,9 +6,21 @@ using shared;
 
 public class GameClient : MonoBehaviour {
 
+    private System.Collections.Generic.List<UnityEngine.Color> colors = new System.Collections.Generic.List<UnityEngine.Color> {
+        UnityEngine.Color.red,
+        UnityEngine.Color.blue,
+        UnityEngine.Color.green,
+        UnityEngine.Color.yellow,
+        UnityEngine.Color.magenta,
+        UnityEngine.Color.cyan,
+    };
+
+
     [SerializeField] private NetworkTransform playerPrefab;
     [SerializeField] private NetworkTransform itemPrefab;
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
+
+    [SerializeField] private GameObject beaconPrefab;
 
     private TcpMessageChannel tcpMessageChannel;
 
@@ -184,7 +196,7 @@ public class GameClient : MonoBehaviour {
             newInteractable.Initialize();
             handleTransformPacket(interactable.transformPacket);
         }
-        
+
         foreach (var pack in connectEvent.objectTransforms) {
             handleTransformPacket(pack);
         }
@@ -194,6 +206,14 @@ public class GameClient : MonoBehaviour {
         virtualCamera.LookAt = playerCameraPivot;
 
         Debug.Log("Received a connect event with guid: " + guid);
+
+        // instantiate a new cube at the player position
+        var beaconCube = Instantiate(beaconPrefab, NetworkTransform.Transforms[guid].transform.position, Quaternion.identity);
+        var color = colors[connectEvent.colorID];
+
+        color.a = 0.7f;
+
+        beaconCube.GetComponent<Renderer>().material.color = color;
     }
 
 

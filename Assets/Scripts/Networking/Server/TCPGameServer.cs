@@ -9,27 +9,29 @@ using UnityEngine;
 namespace server {
 
     /**
-	 * Basic TCPGameServer that runs our game.
-	 * 
-	 * Server is made up out of different rooms that can hold different members.
-	 * Each member is identified by a TcpMessageChannel, which can also be used for communication.
-	 * In this setup each client is only member of ONE room, but you could change that of course.
-	 * 
-	 * Each room is responsible for cleaning up faulty clients (since it might involve gameplay, status changes etc).
-	 * 
-	 * As you can see this setup is limited/lacking:
-	 * - only 1 game can be played at a time
-	 */
+     * Basic TCPGameServer that runs our game.
+     * 
+     * Server is made up out of different rooms that can hold different members.
+     * Each member is identified by a TcpMessageChannel, which can also be used for communication.
+     * In this setup each client is only member of ONE room, but you could change that of course.
+     * 
+     * Each room is responsible for cleaning up faulty clients (since it might involve gameplay, status changes etc).
+     * 
+     * As you can see this setup is limited/lacking:
+     * - only 1 game can be played at a time
+     */
     class TCPGameServer : MonoBehaviour {
 
-        private UnityEngine.Color[] colors = new UnityEngine.Color[] {
-            UnityEngine.Color.red,
-            UnityEngine.Color.blue,
-            UnityEngine.Color.green,
-            UnityEngine.Color.yellow,
-            UnityEngine.Color.magenta,
-            UnityEngine.Color.cyan
+        private Dictionary<UnityEngine.Color, UnityEngine.Vector3> spawnInformation = new Dictionary<UnityEngine.Color, UnityEngine.Vector3> {
+            { UnityEngine.Color.red, new UnityEngine.Vector3(18, 4, 5) },
+            { UnityEngine.Color.blue, new UnityEngine.Vector3(-2, 4, 49) },
+            { UnityEngine.Color.green, new UnityEngine.Vector3(-2.6f, 4, -2.6f) },
+            { UnityEngine.Color.yellow, new UnityEngine.Vector3(36, 4, 37) },
+            { UnityEngine.Color.magenta, new UnityEngine.Vector3(19, 4, 44) },
+            { UnityEngine.Color.cyan, new UnityEngine.Vector3(36, 4, 10) }
         };
+
+
 
         public static TCPGameServer Instance { get; private set; }
 
@@ -105,7 +107,7 @@ namespace server {
                 Log.LogInfo("Accepting new client...", this, ConsoleColor.White);
                 TcpClient client = listener.AcceptTcpClient();
                 client.Client.NoDelay = true; // Disable Nagle's algorithm - no this on the other side too
-                                              //and wrap the client in an easier to use communication channel
+                //wrap the client in an easier to use communication channel
                 TcpMessageChannel channel = new TcpMessageChannel(client);
 
                 Guid newClientGuid = Guid.NewGuid();
@@ -119,7 +121,7 @@ namespace server {
 
 
 
-                var instantiated = Instantiate(playerServerPrefab, new Vector3(35, 4, 16), Quaternion.identity);
+                var instantiated = Instantiate(playerServerPrefab, spawnInformation.ElementAt(clients.Count - 1).Value, Quaternion.identity);
                 var nt = instantiated.GetComponent<NetworkTransform>();
                 nt.SetKey(newClientGuid);
                 nt.Initialize();
@@ -163,7 +165,10 @@ namespace server {
                 if (clientGameInformation.player == null) {
                     Debug.LogError("Player is null");
                 }
-                clientGameInformation.player.playerColor = colors[clients.Count - 1];
+                // get the color of the player from the dictionary with the index of clients.count
+                clientGameInformation.player.playerColor = spawnInformation.ElementAt(clients.Count - 1).Key;
+
+                connectEvent.colorID = clients.Count - 1;
 
                 worldToMinimapHelper.AddPlayer(clientGameInformation.player);
 

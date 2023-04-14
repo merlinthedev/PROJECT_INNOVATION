@@ -5952,6 +5952,8 @@ MonoBehaviour:
   itemPrefab: {fileID: 3814849650973993924, guid: 71f2a2437fbbe7240a422aee6260658f,
     type: 3}
   virtualCamera: {fileID: 1615410097}
+  beaconPrefab: {fileID: 8936738493287858366, guid: cea0f24363459664da303034936b9fda,
+    type: 3}
   clientCartController: {fileID: 1675620812}
   PowerUpButton: {fileID: 359202174}
   interactableConfiguration: {fileID: 11400000, guid: 221dbdbe210ff3e409e8fd0932eaa88d,

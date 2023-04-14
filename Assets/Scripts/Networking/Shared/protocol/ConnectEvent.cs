@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 public class ConnectEvent : shared.ISerializable {
     public System.Guid guid { get; set; }
+    public int colorID { get; set; }
 
     public class InteractablePacket : shared.ISerializable {
         public System.Guid guid { get; set; }
@@ -34,6 +35,8 @@ public class ConnectEvent : shared.ISerializable {
         foreach (var transformPacket in objectTransforms) {
             packet.Write(transformPacket);
         }
+
+        packet.Write(colorID);
     }
 
     public void Deserialize(shared.Packet packet) {
@@ -46,6 +49,8 @@ public class ConnectEvent : shared.ISerializable {
         for (int i = 0; i < count; i++) {
             objectTransforms.Add(packet.Read<TransformPacket>());
         }
+
+        colorID = packet.ReadInt();
 
     }
 
