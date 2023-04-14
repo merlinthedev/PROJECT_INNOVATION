@@ -229,6 +229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41c5280842b9e5d42b955b19549684db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  guidSource: {fileID: 6189425348438312984}
   PowerUpSprite: {fileID: 21300000, guid: f09eae8c0ea04254b90c5386a034a225, type: 3}
   discountMultiplier: 0.9
 --- !u!1 &7448099500844952357

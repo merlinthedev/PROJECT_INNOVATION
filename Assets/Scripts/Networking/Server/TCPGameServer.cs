@@ -128,6 +128,15 @@ namespace server {
                 ExistingItemsPacket existingItemsPacket = new ExistingItemsPacket();
                 List<NetworkTransform> networkTransforms = new List<NetworkTransform>();
 
+                //add interactables to the list
+                foreach (var interactable in AInteractable.interactables) {
+                    connectEvent.interactables.Add(new ConnectEvent.InteractablePacket {
+                        guid = interactable.GetComponent<NetworkTransform>().key,
+                        interactableID = interactable.InteractableID,
+                        transformPacket = interactable.GetComponent<NetworkTransform>().GetPacket()
+                    });
+                }
+
                 // send items before other NetworkTransforms
                 foreach (var item in Item.Items.Values) {
                     if (item == null) {
@@ -138,7 +147,7 @@ namespace server {
                     existingItemsPacket.existingItemMap.Add(item.GetComponent<NetworkTransform>().key, item.GetComponent<NetworkTransform>().GetPacket());
                 }
 
-                channel.SendMessage(existingItemsPacket);
+                //channel.SendMessage(existingItemsPacket);
 
 
                 foreach (var networkTransform in NetworkTransform.Transforms.Values.ToList()) {

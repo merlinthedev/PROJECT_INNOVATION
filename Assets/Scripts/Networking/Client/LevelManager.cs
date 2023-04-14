@@ -6,12 +6,14 @@ public class LevelManager : MonoBehaviour {
     private void OnEnable() {
         // NetworkEventBus.Subscribe<TestNetworkEvent>(onTestNetworkEventClient);
         NetworkEventBus.Subscribe<ItemSpawnedEvent>(onItemSpawned);
+        NetworkEventBus.Subscribe<InteractableSpawnedEvent>(onInteractableSpawned);
         NetworkEventBus.Subscribe<ItemPickedUpEvent>(onItemPickedUp);
         NetworkEventBus.Subscribe<ItemsDroppedOffEvent>(onItemDroppedOff);
         NetworkEventBus.Subscribe<ScoreUpdatedEvent>(onScoreUpdated);
         NetworkEventBus.Subscribe<ItemsDiscardedEvent>(onItemsDiscarded);
         NetworkEventBus.Subscribe<PowerUpPickedUpEvent>(onPowerUpPickup);
         NetworkEventBus.Subscribe<PowerupUsedEvent>(onPowerUpUsed);
+        NetworkEventBus.Subscribe<NetworkTransformDestroyedEvent>(onNetworkTransformDestroyed);
 
         Debug.LogWarning("Level manager subscribed to events");
     }
@@ -19,12 +21,14 @@ public class LevelManager : MonoBehaviour {
     private void OnDisable() {
         // NetworkEventBus.Unsubscribe<TestNetworkEvent>(onTestNetworkEventClient);
         NetworkEventBus.Unsubscribe<ItemSpawnedEvent>(onItemSpawned);
+        NetworkEventBus.Unsubscribe<InteractableSpawnedEvent>(onInteractableSpawned);
         NetworkEventBus.Unsubscribe<ItemPickedUpEvent>(onItemPickedUp);
         NetworkEventBus.Unsubscribe<ItemsDroppedOffEvent>(onItemDroppedOff);
         NetworkEventBus.Unsubscribe<ScoreUpdatedEvent>(onScoreUpdated);
         NetworkEventBus.Unsubscribe<ItemsDiscardedEvent>(onItemsDiscarded);
         NetworkEventBus.Unsubscribe<PowerUpPickedUpEvent>(onPowerUpPickup);
         NetworkEventBus.Unsubscribe<PowerupUsedEvent>(onPowerUpUsed);
+        NetworkEventBus.Unsubscribe<NetworkTransformDestroyedEvent>(onNetworkTransformDestroyed);
     }
 
     private void onItemsDiscarded(ItemsDiscardedEvent itemsDiscardedEvent) {
@@ -104,6 +108,14 @@ public class LevelManager : MonoBehaviour {
             Debug.LogWarning("No UI component found on the item prefab");
         }
     }
+    
+    private void onInteractableSpawned(InteractableSpawnedEvent interactableSpawnedEvent) {
+        Debug.LogWarning("Item spawned event received");
+        var itemPrefab = interactableConfiguration.interactables[interactableSpawnedEvent.InteractableID].clientPrefab;
+        var item = Instantiate(itemPrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        item.SetKey(interactableSpawnedEvent.InteractableGuid);
+        item.Initialize();
+    }
 
     private void onItemPickedUp(ItemPickedUpEvent itemPickedUpEvent) {
         //disable item that is picked up
@@ -157,4 +169,13 @@ public class LevelManager : MonoBehaviour {
             PowerUpID = -1
         });
     }
+
+    private void onNetworkTransformDestroyed(NetworkTransformDestroyedEvent networkTransformDestroyedEvent) {
+        if (NetworkTransform.Transforms.TryGetValue(networkTransformDestroyedEvent.destroyedTransformGuid, out NetworkTransform networkTransform)) {
+            Destroy(networkTransform.gameObject);
+        } else {
+            Debug.LogWarning("Network transform not found, cannot destroy the item");
+        }
+    }
+
 }

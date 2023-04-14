@@ -63,3 +63,13 @@ MonoBehaviour:
       type: 3}
     clientPrefab: {fileID: 3814849650973993924, guid: 71f2a2437fbbe7240a422aee6260658f,
       type: 3}
+  - itemName: HazardPowerup
+    serverPrefab: {fileID: 1827606186302082778, guid: 77e20c7d1ed429d4b9355aa084c5f2ce,
+      type: 3}
+    clientPrefab: {fileID: 8186229668893070786, guid: 1dd8d7367f545fa41ad8a4713ad5e1d6,
+      type: 3}
+  - itemName: Hazard
+    serverPrefab: {fileID: 711745007743407201, guid: 53716977dee92c4419ac0efff38cd9a6,
+      type: 3}
+    clientPrefab: {fileID: 2835944256379962339, guid: ded4fa3f92c5a894491c40560f88c768,
+      type: 3}

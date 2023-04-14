@@ -16,5 +16,8 @@ public abstract class AInteractable : AGuidListener {
     }
     
     protected abstract void OnPickUp();
-    
+
+    private void OnDestroy() {
+        interactables.Remove(this);
+    }
 }
