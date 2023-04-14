@@ -6,9 +6,12 @@ using UnityEngine.UI;
 public class PowerupUIHandler : MonoBehaviour {
     [SerializeField] private Image powerupSpriteTarget;
     [SerializeField] private InteractableConfiguration interactableConfig;
+    [SerializeField] private Sprite powerupPlaceholder;
 
     private void OnEnable() {
         EventBus<PowerUpUIEvent>.Subscribe(PowerUpEvent);
+        powerupSpriteTarget.enabled = true;
+        RemovePowerUp();
     }
 
     private void OnDisable() {
@@ -35,7 +38,8 @@ public class PowerupUIHandler : MonoBehaviour {
     }
 
     public void RemovePowerUp() {
-        powerupSpriteTarget.sprite = null;
-        powerupSpriteTarget.enabled = false;
+        Debug.Log("removepowerup");
+        powerupSpriteTarget.sprite = powerupPlaceholder;
+        //powerupSpriteTarget.enabled = false;
     }
 }
