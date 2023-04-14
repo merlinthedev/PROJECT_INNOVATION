@@ -94,10 +94,12 @@ public class NetworkTransform : AGuidSource {
     private void OnDestroy() {
         Transforms.Remove(key);
 
-        NetworkEventBus.Raise(new NetworkTransformDestroyedEvent {
-            source = key,
-            destroyedTransformGuid = key
-        });
+        if (!kinematic) {
+            NetworkEventBus.Raise(new NetworkTransformDestroyedEvent {
+                source = key,
+                destroyedTransformGuid = key
+            });
+        }
     }
 
     public enum SmoothingType {
