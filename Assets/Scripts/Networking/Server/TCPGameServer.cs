@@ -144,7 +144,7 @@ namespace server {
                     existingItemsPacket.existingItemMap.Add(item.GetComponent<NetworkTransform>().key, item.GetComponent<NetworkTransform>().GetPacket());
                 }
 
-                channel.SendMessage(existingItemsPacket);
+                //channel.SendMessage(existingItemsPacket);
 
 
                 foreach (var networkTransform in NetworkTransform.Transforms.Values.ToList()) {
