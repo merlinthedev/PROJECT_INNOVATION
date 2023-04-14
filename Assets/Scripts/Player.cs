@@ -187,6 +187,12 @@ public class Player : AGuidListener {
         Item item = items.Where(x => !x.PaidFor).OrderByDescending(x => x.ItemStats.Tier).FirstOrDefault();
         if (item != null)
             item.discount *= discountMultiplier;
+
+        ItemDiscountUpdateEvent itemDiscountUpdateEvent = new ItemDiscountUpdateEvent();
+        itemDiscountUpdateEvent.source = key;
+        itemDiscountUpdateEvent.influencedItems = new List<System.Guid>{ item.GetComponent<NetworkTransform>().key};
+        itemDiscountUpdateEvent.discount = item.discount;
+        NetworkEventBus.Raise(itemDiscountUpdateEvent);
     }
 
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 public class ConnectEvent : shared.ISerializable {
     public System.Guid guid { get; set; }
 
+    public List<InteractableSpawnedEvent> interactables = new List<InteractableSpawnedEvent>();
     public List<TransformPacket> objectTransforms = new List<TransformPacket>();
 
     public void Serialize(shared.Packet packet) {

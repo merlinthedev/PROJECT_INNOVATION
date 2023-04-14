@@ -128,6 +128,14 @@ namespace server {
                 ExistingItemsPacket existingItemsPacket = new ExistingItemsPacket();
                 List<NetworkTransform> networkTransforms = new List<NetworkTransform>();
 
+                //add interactables to the list
+                foreach (var interactable in AInteractable.interactables) {
+                    connectEvent.interactables.Add(new InteractableSpawnedEvent {
+                        InteractableID = interactable.InteractableID,
+                        InteractableGuid = interactable.key,
+                    }
+                }
+
                 // send items before other NetworkTransforms
                 foreach (var item in Item.Items.Values) {
                     // existingItemsPacket.existingItems.Add(item.GetComponent<NetworkTransform>().GetPacket());
