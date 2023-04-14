@@ -119,9 +119,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxSpeed: 10
   Stickyness: 0.4
-  Acceleration: 8.89
+  Acceleration: 9
   GroundedTime: 0.1
-  ConstantSteerSpeed: 38.6
+  ConstantSteerSpeed: 40
   DynamicSteerSpeed: 20
   MaxSteerSpeed: 360
   JumpForce: 5
