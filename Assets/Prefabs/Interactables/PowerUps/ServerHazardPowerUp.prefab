@@ -114,9 +114,9 @@ GameObject:
   - component: {fileID: 6189425348438312987}
   - component: {fileID: 6189425348438312984}
   - component: {fileID: 3505908396530445220}
-  - component: {fileID: 3701257547284835253}
+  - component: {fileID: 1827606186302082778}
   m_Layer: 0
-  m_Name: ServerSpeedPowerUp
+  m_Name: ServerHazardPowerUp
   m_TagString: PowerUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -217,7 +217,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3701257547284835253
+--- !u!114 &1827606186302082778
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -226,13 +226,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6189425348438312989}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f0138fc0484ef743988c64fed442b1e, type: 3}
+  m_Script: {fileID: 11500000, guid: 84b1b5d88b8fb1540a26471465a5771f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   guidSource: {fileID: 6189425348438312984}
-  PowerUpSprite: {fileID: 21300000, guid: 0c7dd2e8b14ffa6439828d5334a16f59, type: 3}
-  boostAmount: 2
-  boostDuration: 5
+  PowerUpSprite: {fileID: 0}
+  hazardPrefab: {fileID: 0}
+  hazardOffset: {x: 0, y: 0, z: 1.65}
 --- !u!1 &7448099500844952357
 GameObject:
   m_ObjectHideFlags: 0

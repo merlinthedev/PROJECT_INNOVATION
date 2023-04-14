@@ -130,10 +130,11 @@ namespace server {
 
                 //add interactables to the list
                 foreach (var interactable in AInteractable.interactables) {
-                    connectEvent.interactables.Add(new InteractableSpawnedEvent {
-                        InteractableID = interactable.InteractableID,
-                        InteractableGuid = interactable.key,
-                    }
+                    connectEvent.interactables.Add(new ConnectEvent.InteractablePacket {
+                        guid = interactable.GetComponent<NetworkTransform>().key,
+                        interactableID = interactable.InteractableID,
+                        transformPacket = interactable.GetComponent<NetworkTransform>().GetPacket()
+                    });
                 }
 
                 // send items before other NetworkTransforms
