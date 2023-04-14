@@ -67,6 +67,7 @@ public class Player : AGuidListener {
             //items[i].gameObject.SetActive(true);
 
             itemsDiscardedEvent.discardedItems.Add(items[i].GetComponent<NetworkTransform>().key);
+            Item.Items.Remove(items[i].GetComponent<NetworkTransform>().key);
             Destroy(items[i].gameObject);
             items.Remove(items[i]);
 
@@ -140,6 +141,7 @@ public class Player : AGuidListener {
     #endregion
 
     private void OnTriggerEnter(Collider other) {
+        //items
         if (other.gameObject.CompareTag("Item") && leftoverCapacity > 0) {
             Item item = other.gameObject.GetComponent<Item>();
             AddItem(item);
@@ -159,6 +161,7 @@ public class Player : AGuidListener {
             other.gameObject.SetActive(false);
         }
 
+        //powerups
         if (other.gameObject.CompareTag("PowerUp") && powerUp == null) {
             PowerUp powerUp = other.gameObject.GetComponent<PowerUp>();
             AddPowerUp(powerUp);
@@ -172,13 +175,26 @@ public class Player : AGuidListener {
             powerUp.PickUp();
             other.gameObject.SetActive(false);
         }
+
+        //hazards
+        if (other.gameObject.CompareTag("Hazard")) {
+            Hazard hazard = other.gameObject.GetComponent<Hazard>();
+            hazard.Activate(this);
+        }
     }
 
     public void ApplyCoupon(float discountMultiplier) {
         //find the highest tier item that is not paid for and apply the multiplier to its discount
         Item item = items.Where(x => !x.PaidFor).OrderByDescending(x => x.ItemStats.Tier).FirstOrDefault();
-        if (item != null)
-            item.discount *= discountMultiplier;
+        if (item == null) return;
+
+
+        item.discount *= discountMultiplier;
+        ItemDiscountUpdateEvent itemDiscountUpdateEvent = new ItemDiscountUpdateEvent();
+        itemDiscountUpdateEvent.source = key;
+        itemDiscountUpdateEvent.influencedItems = new List<System.Guid> { item.GetComponent<NetworkTransform>().key };
+        itemDiscountUpdateEvent.discount = item.discount;
+        NetworkEventBus.Raise(itemDiscountUpdateEvent);
     }
 
 

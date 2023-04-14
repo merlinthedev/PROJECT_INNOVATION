@@ -9,7 +9,7 @@ OcclusionCullingSettings:
     smallestHole: 0.25
     backfaceThreshold: 100
   m_SceneGUID: 6e2bc04188a4e044c967449378e127da
-  m_OcclusionCullingData: {fileID: 36300000, guid: 82d87f1d2a10f13479ebe00045c29d86,
+  m_OcclusionCullingData: {fileID: 36300000, guid: d763094e85b607649af3fef82545b083,
     type: 2}
 --- !u!104 &2
 RenderSettings:
@@ -284,7 +284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37403ca4c59a95841ba9a3149c22f3a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isServer: 0
+  isServer: 1
   serverMenuSceneName: ServerMenuScene
   clientSceneName: ClientScene
   levelName: MVP

@@ -17,6 +17,8 @@ public class GameClient : MonoBehaviour {
     [SerializeField] private ClientCartController clientCartController;
     [SerializeField] private ButtonPressed PowerUpButton;
 
+    [SerializeField] private InteractableConfiguration interactableConfiguration;
+
     private void Awake() {
         if (instance != null) {
             Debug.LogError("There is already an exisiting GameClient present. Aborting instantiation.");
@@ -174,6 +176,15 @@ public class GameClient : MonoBehaviour {
 
     private void handleConnectEvent(ConnectEvent connectEvent) {
         guid = connectEvent.guid;
+
+        foreach (var interactable in connectEvent.interactables) {
+            var newInteractable = Instantiate(interactableConfiguration.interactables[interactable.interactableID].clientPrefab);
+            newInteractable.key = interactable.guid;
+            newInteractable.kinematic = true;
+            newInteractable.Initialize();
+            handleTransformPacket(interactable.transformPacket);
+        }
+        
         foreach (var pack in connectEvent.objectTransforms) {
             handleTransformPacket(pack);
         }

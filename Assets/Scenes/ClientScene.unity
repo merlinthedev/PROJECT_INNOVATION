@@ -5876,6 +5876,8 @@ MonoBehaviour:
   virtualCamera: {fileID: 1615410097}
   clientCartController: {fileID: 1675620812}
   PowerUpButton: {fileID: 359202174}
+  interactableConfiguration: {fileID: 11400000, guid: 221dbdbe210ff3e409e8fd0932eaa88d,
+    type: 2}
 --- !u!114 &1675620812
 MonoBehaviour:
   m_ObjectHideFlags: 0
