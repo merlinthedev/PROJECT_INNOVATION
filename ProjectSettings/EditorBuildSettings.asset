@@ -19,7 +19,7 @@ EditorBuildSettings:
     guid: 21e6daba598335242b305aec1741351f
   - enabled: 1
     path: Assets/Scenes/MVP.unity
-    guid: fa280f9eb91cdad4b839d6e983ee9936
+    guid: afcec8a18ab58cb418084056c09979bd
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 73bfa3820634a984699e56f044cca423,
       type: 2}
