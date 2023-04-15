@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Storezone : MonoBehaviour {
     [Tooltip("The discount that the player gets when they enter the storezone, should be a number between 0 and 1")]
+
+    [SerializeField] private StoreDiscountDisplay storezoneDisplay;
+
     [SerializeField] private float storeDiscount = 0.1f;
     [SerializeField] private float storeDiscountChangeInterval = 60f;
     [SerializeField] private Collider storezoneCollider;
@@ -28,6 +31,8 @@ public class Storezone : MonoBehaviour {
         }
 
         StartCoroutine(changeDiscount());
+
+        //storezoneMap = GameObject.
     }
 
     private IEnumerator changeDiscount() {
@@ -37,7 +42,7 @@ public class Storezone : MonoBehaviour {
             foreach (var spawner in Spawners) {
                 spawner.UpdateItemStats();
             }
-
+            storezoneDisplay.UpdateColor(storeDiscount);
             yield return new WaitForSeconds(storeDiscountChangeInterval);
         }
     }
