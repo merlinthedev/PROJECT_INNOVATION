@@ -6,7 +6,7 @@ public class DoorProximityListener : MonoBehaviour {
     private void OnTriggerEnter(Collider other) {
         if (other.CompareTag("Player")) {
             // rotate door
-            hinge.transform.rotation = Quaternion.Euler(0, 30, 0);
+            hinge.useMotor = true;
         }
     }
 
