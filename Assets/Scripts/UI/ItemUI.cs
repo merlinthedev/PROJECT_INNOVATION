@@ -7,6 +7,8 @@ public class ItemUI : MonoBehaviour {
     [SerializeField] private Image defaultImage;
     [SerializeField] private TMP_Text discountText;
 
+    public Sprite emptySprite;
+
     public bool HasItem = false;
     public Guid ItemGuid { get; private set; }
 
@@ -28,8 +30,8 @@ public class ItemUI : MonoBehaviour {
     }
 
     public void RemoveItem() {
-        defaultImage.sprite = null;
-        defaultImage.enabled = false;
+        defaultImage.sprite = emptySprite;
+        defaultImage.enabled = true;
         discountText.text = "";
 
         HasItem = false;
