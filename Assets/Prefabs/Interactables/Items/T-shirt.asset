@@ -15,6 +15,7 @@ MonoBehaviour:
   Tier: 0
   ItemName: T-shirt
   ItemSprite: {fileID: 21300000, guid: 16b15e1c4cbdd4c41841244080c9bf9a, type: 3}
+  ItemSpritePaid: {fileID: 21300000, guid: 64d13852efc64f245b9df2c0867773ef, type: 3}
   GameObject: {fileID: 919132149155446097, guid: 09bd5d610193ee84eb4d30ddd0b2c00e,
     type: 3}
   Weight: 1

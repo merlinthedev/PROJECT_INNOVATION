@@ -15,6 +15,7 @@ MonoBehaviour:
   Tier: 0
   ItemName: Donut
   ItemSprite: {fileID: 21300000, guid: cccac8ee81e19584194edd8c73376a9b, type: 3}
+  ItemSpritePaid: {fileID: 21300000, guid: 0990cb42a3650f0428b1100e7dff8fa7, type: 3}
   GameObject: {fileID: 919132149155446097, guid: 044b6d3ba88ea7449aec29dc8c1081b9,
     type: 3}
   Weight: 1

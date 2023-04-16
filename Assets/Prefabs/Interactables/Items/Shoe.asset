@@ -15,6 +15,7 @@ MonoBehaviour:
   Tier: 0
   ItemName: Shoe
   ItemSprite: {fileID: 21300000, guid: 44e4e921d3e301d42a5a28750a835b66, type: 3}
+  ItemSpritePaid: {fileID: 21300000, guid: bcc03ae8b4a86054197ed91deeea805f, type: 3}
   GameObject: {fileID: 919132149155446097, guid: 93f4933ff56aa524897b94ee412d2bb5,
     type: 3}
   Weight: 1

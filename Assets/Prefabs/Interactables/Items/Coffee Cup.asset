@@ -15,6 +15,7 @@ MonoBehaviour:
   Tier: 0
   ItemName: Coffee
   ItemSprite: {fileID: 21300000, guid: 3c43f90a7dbcefc47bea7acb7a760222, type: 3}
+  ItemSpritePaid: {fileID: 21300000, guid: 95258bbdfe433c740b934312def01a56, type: 3}
   GameObject: {fileID: 919132149155446097, guid: e1e7d9bb170aaeb4bb0ddfeac891eaca,
     type: 3}
   Weight: 1
