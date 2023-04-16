@@ -186,6 +186,9 @@ public class GameClient : MonoBehaviour {
         }
     }
 
+
+    private Transform playerCameraPivot;
+
     private void handleConnectEvent(ConnectEvent connectEvent) {
         guid = connectEvent.guid;
 
@@ -201,9 +204,8 @@ public class GameClient : MonoBehaviour {
             handleTransformPacket(pack);
         }
 
-        var playerCameraPivot = NetworkTransform.Transforms[guid].transform.GetChild(0);
-        virtualCamera.Follow = playerCameraPivot;
-        virtualCamera.LookAt = playerCameraPivot;
+        playerCameraPivot = NetworkTransform.Transforms[guid].transform.GetChild(0);
+        
 
         Debug.Log("Received a connect event with guid: " + guid);
 
@@ -215,6 +217,11 @@ public class GameClient : MonoBehaviour {
 
         beaconCube.GetComponent<Renderer>().material.color = color;
 
+    }
+
+    public void DirtyCameraFix() {
+        virtualCamera.Follow = playerCameraPivot;
+        virtualCamera.LookAt = playerCameraPivot;
     }
 
 

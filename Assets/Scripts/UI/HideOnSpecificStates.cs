@@ -15,7 +15,7 @@ public class HideOnSpecificStates : MonoBehaviour {
     }
 
     private void Start() {
-        Debug.Log("HideOnSpecificStates.Start() called, state to check: " + GameManager.Instance.GetCurrentStateString());
+        // Debug.Log("HideOnSpecificStates.Start() called, state to check: " + GameManager.Instance.GetCurrentStateString());
         if (statesToHideOn.Contains(GameManager.Instance.GetCurrentStateString())) {
             goBackButton.SetActive(false);
         } else {
@@ -24,12 +24,12 @@ public class HideOnSpecificStates : MonoBehaviour {
     }
 
     private void onStateEnter(OnStateEnter onStateEnterEvent) {
-        Debug.Log("HideOnSpecificStates.onStateEnter() called, state to check: " + onStateEnterEvent.stateToEnter);
+        // Debug.Log("HideOnSpecificStates.onStateEnter() called, state to check: " + onStateEnterEvent.stateToEnter);
         if (statesToHideOn.Contains(onStateEnterEvent.stateToEnter)) {
-            Debug.Log("HideOnSpecificStates.onStateEnter() called, state to check: " + onStateEnterEvent.stateToEnter + " is in statesToHideOn list, setting gameobject to inactive");
+            // Debug.Log("HideOnSpecificStates.onStateEnter() called, state to check: " + onStateEnterEvent.stateToEnter + " is in statesToHideOn list, setting gameobject to inactive");
             goBackButton.SetActive(false);
         } else {
-            Debug.Log("HideOnSpecificStates.onStateEnter() called, state to check: " + onStateEnterEvent.stateToEnter + " is NOT in statesToHideOn list, setting gameobject to active");
+            // Debug.Log("HideOnSpecificStates.onStateEnter() called, state to check: " + onStateEnterEvent.stateToEnter + " is NOT in statesToHideOn list, setting gameobject to active");
             goBackButton.SetActive(true);
         }
     }

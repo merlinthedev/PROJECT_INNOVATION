@@ -9,6 +9,7 @@ TagManager:
   - PowerUp
   - Minimap
   - Hazard
+  - Beacon
   layers:
   - Default
   - TransparentFX

@@ -42,7 +42,7 @@ public class ServerPickView : MonoBehaviour {
         connectButton.onClick.AddListener(() => {
             try {
                 OnServerConnectRequest?.Invoke(inputIp, inputPort);
-                GameManager.Instance.SetState("Game");
+                GameManager.Instance.SetState("PreGame");
             } catch (Exception e) {
                 Debug.LogError(e);
             }

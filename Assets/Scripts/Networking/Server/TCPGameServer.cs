@@ -183,6 +183,8 @@ namespace server {
 
                 channel.SendMessage(connectEvent);
                 EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));
+
+                Debug.Log("New client connected with guid " + newClientGuid + ", total clients: " + clients.Count);
             }
         }
 
@@ -278,6 +280,8 @@ namespace server {
                     NetworkTransform.Transforms.Remove(brokenClient);
                 } catch (Exception e) { Debug.LogError(e); }
             }
+
+            Debug.Log("Removed " + brokenClients.Count + " faulty clients, total clients: " + clients.Count);
 
             EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));
         }
