@@ -23,12 +23,12 @@ namespace server {
     class TCPGameServer : MonoBehaviour {
 
         private Dictionary<UnityEngine.Color, UnityEngine.Vector3> spawnInformation = new Dictionary<UnityEngine.Color, UnityEngine.Vector3> {
-            { UnityEngine.Color.red, new UnityEngine.Vector3(18, 4, 5) },
-            { UnityEngine.Color.blue, new UnityEngine.Vector3(-2, 4, 49) },
-            { UnityEngine.Color.green, new UnityEngine.Vector3(-2.6f, 4, -2.6f) },
-            { UnityEngine.Color.yellow, new UnityEngine.Vector3(36, 4, 37) },
-            { UnityEngine.Color.magenta, new UnityEngine.Vector3(19, 4, 44) },
-            { UnityEngine.Color.cyan, new UnityEngine.Vector3(36, 4, 10) }
+            { UnityEngine.Color.red, new UnityEngine.Vector3(16.46f, 2, 4.78f) },
+            { UnityEngine.Color.blue, new UnityEngine.Vector3(-1.78f, 2, 44) },
+            { UnityEngine.Color.green, new UnityEngine.Vector3(-2.46f, 2, -2.43f) },
+            { UnityEngine.Color.yellow, new UnityEngine.Vector3(32.5f, 2, 32.5f) },
+            { UnityEngine.Color.magenta, new UnityEngine.Vector3(16.8f, 2, 38.72f) },
+            { UnityEngine.Color.cyan, new UnityEngine.Vector3(32.25f, 2, 8.52f) }
         };
 
 

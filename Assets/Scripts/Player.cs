@@ -40,6 +40,7 @@ public class Player : AGuidListener {
     [SerializeField] private Transform itemHolder;
     [SerializeField] private int capacity = 2;
     [SerializeField] private List<Item> items = new List<Item>();
+    public DropoffZone dropoffZone = null;
     //current capacity we have
     public int leftoverCapacity { get { return capacity - items.Sum(x => x.Weight); } }
 

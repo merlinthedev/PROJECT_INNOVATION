@@ -214,6 +214,7 @@ public class GameClient : MonoBehaviour {
         color.a = 0.7f;
 
         beaconCube.GetComponent<Renderer>().material.color = color;
+
     }
 
 
