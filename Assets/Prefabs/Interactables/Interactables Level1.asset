@@ -34,34 +34,34 @@ MonoBehaviour:
     clientPrefab: {fileID: 811761908316363763, guid: d08e766db07b14f4685d596d70c301db,
       type: 3}
   - itemName: Book
-    serverPrefab: {fileID: 7828621726318768829, guid: 451bbe73a68951647b5ffc2dcbebf7e5,
+    serverPrefab: {fileID: 4557176384473989366, guid: e5f73aa66c48a9c47bbafc3394102b94,
       type: 3}
-    clientPrefab: {fileID: 3814849650973993924, guid: 71f2a2437fbbe7240a422aee6260658f,
+    clientPrefab: {fileID: 468321250084354643, guid: e5f73aa66c48a9c47bbafc3394102b94,
       type: 3}
   - itemName: Bread
-    serverPrefab: {fileID: 7828621726318768829, guid: 451bbe73a68951647b5ffc2dcbebf7e5,
+    serverPrefab: {fileID: 4446721910697837347, guid: 358ae982c0def874a8ae1cbf44c63c2a,
       type: 3}
-    clientPrefab: {fileID: 3814849650973993924, guid: 71f2a2437fbbe7240a422aee6260658f,
+    clientPrefab: {fileID: 357040495240886662, guid: 358ae982c0def874a8ae1cbf44c63c2a,
       type: 3}
   - itemName: Coffee Cup
-    serverPrefab: {fileID: 7828621726318768829, guid: 451bbe73a68951647b5ffc2dcbebf7e5,
+    serverPrefab: {fileID: 3644746082625381951, guid: 9386ffecabde5b14f9764271594a7901,
       type: 3}
-    clientPrefab: {fileID: 3814849650973993924, guid: 71f2a2437fbbe7240a422aee6260658f,
+    clientPrefab: {fileID: 852628612144536730, guid: 9386ffecabde5b14f9764271594a7901,
       type: 3}
   - itemName: Donut
-    serverPrefab: {fileID: 7828621726318768829, guid: 451bbe73a68951647b5ffc2dcbebf7e5,
+    serverPrefab: {fileID: 3659392038306216527, guid: 5888076160052df49a7c9559ccedf84c,
       type: 3}
-    clientPrefab: {fileID: 3814849650973993924, guid: 71f2a2437fbbe7240a422aee6260658f,
+    clientPrefab: {fileID: 831298820304666858, guid: 5888076160052df49a7c9559ccedf84c,
       type: 3}
   - itemName: Shoe
-    serverPrefab: {fileID: 7828621726318768829, guid: 451bbe73a68951647b5ffc2dcbebf7e5,
+    serverPrefab: {fileID: 1248468824680252467, guid: 828cb3b6276963d4fb23a380f8bfc198,
       type: 3}
-    clientPrefab: {fileID: 3814849650973993924, guid: 71f2a2437fbbe7240a422aee6260658f,
+    clientPrefab: {fileID: 2887629507129458326, guid: 828cb3b6276963d4fb23a380f8bfc198,
       type: 3}
   - itemName: T-shirt
-    serverPrefab: {fileID: 7828621726318768829, guid: 451bbe73a68951647b5ffc2dcbebf7e5,
+    serverPrefab: {fileID: 1763078359111474417, guid: 76865d076a9bd3648b99d7d917a58d42,
       type: 3}
-    clientPrefab: {fileID: 3814849650973993924, guid: 71f2a2437fbbe7240a422aee6260658f,
+    clientPrefab: {fileID: 2393150940750341716, guid: 76865d076a9bd3648b99d7d917a58d42,
       type: 3}
   - itemName: HazardPowerup
     serverPrefab: {fileID: 1827606186302082778, guid: 77e20c7d1ed429d4b9355aa084c5f2ce,
@@ -77,4 +77,9 @@ MonoBehaviour:
     serverPrefab: {fileID: 711745007743407201, guid: 53716977dee92c4419ac0efff38cd9a6,
       type: 3}
     clientPrefab: {fileID: 2835944256379962339, guid: ded4fa3f92c5a894491c40560f88c768,
+      type: 3}
+  - itemName: Teddy
+    serverPrefab: {fileID: 500837824406638043, guid: dc47c858178092146acb80855ef6bf73,
+      type: 3}
+    clientPrefab: {fileID: 4589956566798710654, guid: dc47c858178092146acb80855ef6bf73,
       type: 3}

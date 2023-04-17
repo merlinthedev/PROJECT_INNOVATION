@@ -15,6 +15,7 @@ MonoBehaviour:
   Tier: 0
   ItemName: Book
   ItemSprite: {fileID: 21300000, guid: a6291f7d224a0ca4c9e06e123936ba9d, type: 3}
+  ItemSpritePaid: {fileID: 21300000, guid: 9e52b17830c188b4f992624ae2bd2347, type: 3}
   GameObject: {fileID: 919132149155446097, guid: 9dbe46ba39054404f8d59b36d8e7df19,
     type: 3}
   Weight: 1

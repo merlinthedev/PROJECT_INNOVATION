@@ -8,6 +8,7 @@ public class ItemStats : ScriptableObject {
     public Spawner.Tier Tier; 
     public string ItemName;
     public Sprite ItemSprite;
+    public Sprite ItemSpritePaid;
     public GameObject GameObject;
     public int Weight = 1;
 
