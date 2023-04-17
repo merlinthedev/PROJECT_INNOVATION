@@ -129,6 +129,7 @@ GameObject:
   - component: {fileID: 2646842956627536884}
   - component: {fileID: 8934505498616944306}
   - component: {fileID: 1984343930916160502}
+  - component: {fileID: 2630709056318033525}
   m_Layer: 0
   m_Name: bush medium
   m_TagString: Untagged
@@ -320,6 +321,20 @@ MonoBehaviour:
   - {fileID: 2481274300442344893}
   - {fileID: 3234740859285571304}
   - {fileID: 9014449521474452073}
+--- !u!136 &2630709056318033525
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2770882873077408322}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.014053241
+  m_Height: 0.031053487
+  m_Direction: 1
+  m_Center: {x: 0.00006216094, y: 0.0006973261, z: -0.010473979}
 --- !u!1 &3505370091278025300
 GameObject:
   m_ObjectHideFlags: 0
