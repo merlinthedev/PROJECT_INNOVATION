@@ -119,7 +119,9 @@ namespace server {
                 ConnectEvent connectEvent = new ConnectEvent();
                 connectEvent.guid = newClientGuid;
 
-
+                foreach (var x in clients.Keys) {
+                    connectEvent.playerGuids.Add(x);
+                }
 
                 var instantiated = Instantiate(playerServerPrefab, spawnInformation.ElementAt(clients.Count - 1).Value, Quaternion.identity);
                 var nt = instantiated.GetComponent<NetworkTransform>();
@@ -183,6 +185,12 @@ namespace server {
 
                 channel.SendMessage(connectEvent);
                 EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));
+
+                NetworkEventBus.Raise(new PlayerJoinedEvent {
+                    source = nt.key
+                });
+
+
 
                 Debug.Log("New client connected with guid " + newClientGuid + ", total clients: " + clients.Count);
             }

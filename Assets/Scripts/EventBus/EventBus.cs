@@ -143,6 +143,14 @@ public class ScoreUIEvent : Event {
     }
 }
 
+public class PregameUIListEvent : Event {
+    public List<Guid> names { get; set; } = new List<Guid>();
+}
+
+public class PlayerDisconnectEventUI : Event {
+    public Guid playerGuid { get; set; }
+}
+
 public class ServerScoreboardUpdateEvent : Event {
     // public List<string> scores { get; set; }
     public Dictionary<UnityEngine.Color, string> scores { get; set; } = new Dictionary<UnityEngine.Color, string>();
@@ -375,5 +383,15 @@ public class NetworkTransformDestroyedEvent : NetworkEvent {
     public override void Deserialize(Packet packet) {
         source = packet.ReadGuid();
         destroyedTransformGuid = packet.ReadGuid();
+    }
+}
+
+public class PlayerJoinedEvent : NetworkEvent { 
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+    }
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
     }
 }

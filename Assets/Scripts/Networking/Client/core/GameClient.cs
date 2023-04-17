@@ -143,7 +143,10 @@ public class GameClient : MonoBehaviour {
         NetworkTransform transform;
         NetworkTransform.Transforms.TryGetValue(playerDisconnectEvent.guid, out transform);
         if (transform != null) {
+            EventBus<PlayerDisconnectEventUI>.Raise(new PlayerDisconnectEventUI() { playerGuid = playerDisconnectEvent.guid });
             Destroy(transform.gameObject);
+
+
         } else {
             Debug.LogWarning("Received a disconnect event for a client that is not in our dictionary. How did this happen? :O");
             Debug.LogWarning("GUID: " + playerDisconnectEvent.guid);
@@ -179,6 +182,8 @@ public class GameClient : MonoBehaviour {
             newClient.Initialize();
 
 
+
+
             // var newObject = Instantiate(transform, transformPacket.Position(), transformPacket.Rotation());
             // newObject.key = transformPacket.guid;
             // newObject.kinematic = true;
@@ -188,6 +193,7 @@ public class GameClient : MonoBehaviour {
 
 
     private Transform playerCameraPivot;
+    private GameObject beaconCube;
 
     private void handleConnectEvent(ConnectEvent connectEvent) {
         guid = connectEvent.guid;
@@ -204,19 +210,28 @@ public class GameClient : MonoBehaviour {
             handleTransformPacket(pack);
         }
 
+        EventBus<PregameUIListEvent>.Raise(new PregameUIListEvent {
+            names = connectEvent.playerGuids
+        });
+
         playerCameraPivot = NetworkTransform.Transforms[guid].transform.GetChild(0);
-        
+
 
         Debug.Log("Received a connect event with guid: " + guid);
 
         // instantiate a new cube at the player position
-        var beaconCube = Instantiate(beaconPrefab, NetworkTransform.Transforms[guid].transform.position, Quaternion.identity);
+        beaconCube = Instantiate(beaconPrefab, NetworkTransform.Transforms[guid].transform.position, Quaternion.identity);
         var color = colors[connectEvent.colorID];
 
         color.a = 0.7f;
 
         beaconCube.GetComponent<Renderer>().material.color = color;
 
+
+    }
+
+    public void getRidOfCube() {
+        Destroy(beaconCube);
     }
 
     public void DirtyCameraFix() {

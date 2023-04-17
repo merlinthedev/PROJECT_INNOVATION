@@ -24,6 +24,7 @@ public class ConnectEvent : shared.ISerializable {
 
     public List<InteractablePacket> interactables = new List<InteractablePacket>();
     public List<TransformPacket> objectTransforms = new List<TransformPacket>();
+    public List<System.Guid> playerGuids = new List<System.Guid>();
 
     public void Serialize(shared.Packet packet) {
         packet.Write(guid);
@@ -34,6 +35,10 @@ public class ConnectEvent : shared.ISerializable {
         packet.Write(objectTransforms.Count);
         foreach (var transformPacket in objectTransforms) {
             packet.Write(transformPacket);
+        }
+        packet.Write(playerGuids.Count);
+        foreach (var playerGuid in playerGuids) {
+            packet.Write(playerGuid);
         }
 
         packet.Write(colorID);
@@ -48,6 +53,10 @@ public class ConnectEvent : shared.ISerializable {
         count = packet.ReadInt();
         for (int i = 0; i < count; i++) {
             objectTransforms.Add(packet.Read<TransformPacket>());
+        }
+        count = packet.ReadInt();
+        for (int i = 0; i < count; i++) {
+            playerGuids.Add(packet.ReadGuid());
         }
 
         colorID = packet.ReadInt();

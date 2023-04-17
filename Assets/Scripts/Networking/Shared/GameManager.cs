@@ -57,7 +57,6 @@ public class GameManager : MonoBehaviour {
     public void DisconnectPlayerFromLobby() {
         GameClient.getInstance().getTcpMessageChannel().Close();
 
-
         foreach(var x in NetworkTransform.Transforms) {
             Destroy(x.Value.gameObject);
         }
@@ -69,6 +68,8 @@ public class GameManager : MonoBehaviour {
             Destroy(player);
             Debug.Log("Destroyed player");
         }
+
+        GameClient.getInstance().getRidOfCube();
 
         UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync("MVP");
         UnityEngine.SceneManagement.SceneManager.LoadScene("MVP", UnityEngine.SceneManagement.LoadSceneMode.Additive);
