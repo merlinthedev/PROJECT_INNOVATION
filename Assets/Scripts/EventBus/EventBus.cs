@@ -386,7 +386,17 @@ public class NetworkTransformDestroyedEvent : NetworkEvent {
     }
 }
 
-public class PlayerJoinedEvent : NetworkEvent { 
+public class PlayerJoinedEvent : NetworkEvent {
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+    }
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
+    }
+}
+
+public class GameHostChangedEvent : NetworkEvent {
     public override void Serialize(Packet packet) {
         packet.Write(source);
     }

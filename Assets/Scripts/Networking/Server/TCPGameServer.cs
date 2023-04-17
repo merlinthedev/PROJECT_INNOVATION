@@ -31,8 +31,6 @@ namespace server {
             { UnityEngine.Color.cyan, new UnityEngine.Vector3(32.25f, 2, 8.52f) }
         };
 
-
-
         public static TCPGameServer Instance { get; private set; }
 
         [SerializeField] private int serverPort = 55555;    //the port we listen on
@@ -45,6 +43,8 @@ namespace server {
         [SerializeField] private Vector3 spawnPosition;
         public WorldToMinimapHelper worldToMinimapHelper { get; private set; }
         public GameObject playerMinimapPrefab;
+
+        public Guid gameHostGuid;
 
 
         /// <summary>
@@ -190,7 +190,12 @@ namespace server {
                     source = nt.key
                 });
 
-
+                if (clients.Count == 1) {
+                    gameHostGuid = newClientGuid;
+                    NetworkEventBus.Raise(new GameHostChangedEvent {
+                        source = gameHostGuid
+                    });
+                }
 
                 Debug.Log("New client connected with guid " + newClientGuid + ", total clients: " + clients.Count);
             }
@@ -290,6 +295,13 @@ namespace server {
             }
 
             Debug.Log("Removed " + brokenClients.Count + " faulty clients, total clients: " + clients.Count);
+
+            if (!clients.ContainsKey(gameHostGuid) && clients.Count > 0) {
+                gameHostGuid = clients.Keys.First();
+                NetworkEventBus.Raise(new GameHostChangedEvent {
+                    source = gameHostGuid
+                });
+            }
 
             EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));
         }

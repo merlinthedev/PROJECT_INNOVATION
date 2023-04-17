@@ -14,6 +14,7 @@ public class LevelManager : MonoBehaviour {
         NetworkEventBus.Subscribe<PowerUpPickedUpEvent>(onPowerUpPickup);
         NetworkEventBus.Subscribe<PowerupUsedEvent>(onPowerUpUsed);
         NetworkEventBus.Subscribe<NetworkTransformDestroyedEvent>(onNetworkTransformDestroyed);
+        NetworkEventBus.Subscribe<GameHostChangedEvent>(onGameHostChanged);
 
         Debug.LogWarning("Level manager subscribed to events");
     }
@@ -29,6 +30,15 @@ public class LevelManager : MonoBehaviour {
         NetworkEventBus.Unsubscribe<PowerUpPickedUpEvent>(onPowerUpPickup);
         NetworkEventBus.Unsubscribe<PowerupUsedEvent>(onPowerUpUsed);
         NetworkEventBus.Unsubscribe<NetworkTransformDestroyedEvent>(onNetworkTransformDestroyed);
+        NetworkEventBus.Unsubscribe<GameHostChangedEvent>(onGameHostChanged);
+    }
+
+    private void onGameHostChanged(GameHostChangedEvent e) {
+        GameClient.getInstance().gameHostGuid = e.source;
+
+        if(e.source == GameClient.getInstance().GetGuid()) {
+            // TODO: show the UI start button again
+        }
     }
 
     private void onItemsDiscarded(ItemsDiscardedEvent itemsDiscardedEvent) {
@@ -36,7 +46,7 @@ public class LevelManager : MonoBehaviour {
             return;
         }
 
-        if(itemsDiscardedEvent.discardedItems.Count == 1) {
+        if (itemsDiscardedEvent.discardedItems.Count == 1) {
             EventBus<InventoryUIEvent>.Raise(new InventoryUIEvent {
                 itemGuid = itemsDiscardedEvent.discardedItems[0],
                 actionType = InventoryUIEvent.ActionType.Remove
@@ -108,7 +118,7 @@ public class LevelManager : MonoBehaviour {
             Debug.LogWarning("No UI component found on the item prefab");
         }
     }
-    
+
     private void onInteractableSpawned(InteractableSpawnedEvent interactableSpawnedEvent) {
         Debug.LogWarning("Item spawned event received");
         var itemPrefab = interactableConfiguration.interactables[interactableSpawnedEvent.InteractableID].clientPrefab;

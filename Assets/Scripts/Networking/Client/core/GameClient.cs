@@ -31,6 +31,8 @@ public class GameClient : MonoBehaviour {
 
     [SerializeField] private InteractableConfiguration interactableConfiguration;
 
+    public Guid gameHostGuid;
+
     private void Awake() {
         if (instance != null) {
             Debug.LogError("There is already an exisiting GameClient present. Aborting instantiation.");

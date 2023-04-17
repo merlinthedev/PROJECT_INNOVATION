@@ -50,12 +50,15 @@ public class GameManager : MonoBehaviour {
     }
 
     public void StartGame() {
+        
+
         SetState("Game");
         GameClient.getInstance().DirtyCameraFix();
     }
 
     public void DisconnectPlayerFromLobby() {
         GameClient.getInstance().getTcpMessageChannel().Close();
+        GameClient.getInstance().gameHostGuid = Guid.Empty;
 
         foreach(var x in NetworkTransform.Transforms) {
             Destroy(x.Value.gameObject);
