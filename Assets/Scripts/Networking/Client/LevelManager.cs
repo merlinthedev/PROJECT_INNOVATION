@@ -16,6 +16,7 @@ public class LevelManager : MonoBehaviour {
         NetworkEventBus.Subscribe<NetworkTransformDestroyedEvent>(onNetworkTransformDestroyed);
         NetworkEventBus.Subscribe<GameHostChangedEvent>(onGameHostChanged);
         NetworkEventBus.Subscribe<StartGameEvent>(onStartGame);
+        NetworkEventBus.Subscribe<GameOverEvent>(onGameOver);
 
         Debug.LogWarning("Level manager subscribed to events");
     }
@@ -33,6 +34,11 @@ public class LevelManager : MonoBehaviour {
         NetworkEventBus.Unsubscribe<NetworkTransformDestroyedEvent>(onNetworkTransformDestroyed);
         NetworkEventBus.Unsubscribe<GameHostChangedEvent>(onGameHostChanged);
         NetworkEventBus.Unsubscribe<StartGameEvent>(onStartGame);
+        NetworkEventBus.Unsubscribe<GameOverEvent>(onGameOver);
+    }
+
+    private void onGameOver(GameOverEvent gameOverEvent) {
+        GameManager.Instance.SetState("GameOver");
     }
 
     private void onStartGame(StartGameEvent e) {

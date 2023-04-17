@@ -415,3 +415,16 @@ public class StartGameEvent : NetworkEvent {
         source = packet.ReadGuid();
     }
 }
+
+public class GameOverEvent : NetworkEvent {
+    public int score;
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+        packet.Write(score);
+    }
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
+        score = packet.ReadInt();
+    }
+}

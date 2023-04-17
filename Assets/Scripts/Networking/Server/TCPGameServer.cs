@@ -232,7 +232,9 @@ namespace server {
             NetworkEventBus.Raise(new StartGameEvent {
                 source = gameHostGuid
             });
+
         }
+
 
         private void sendTransformUpdates() {
             TransformListPacket transformList = new TransformListPacket();
