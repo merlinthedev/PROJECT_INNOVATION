@@ -214,17 +214,15 @@ public class Player : AGuidListener {
     }
 
     public void ApplyCoupon(float discountMultiplier) {
-        //find the highest tier item that is not paid for and apply the multiplier to its discount
-        Item item = items.Where(x => !x.PaidFor).OrderByDescending(x => x.ItemStats.Tier).FirstOrDefault();
-        if (item == null) return;
-
-
-        item.discount *= discountMultiplier;
-        ItemDiscountUpdateEvent itemDiscountUpdateEvent = new ItemDiscountUpdateEvent();
-        itemDiscountUpdateEvent.source = key;
-        itemDiscountUpdateEvent.influencedItems = new List<System.Guid> { item.GetComponent<NetworkTransform>().key };
-        itemDiscountUpdateEvent.discount = item.discount;
-        NetworkEventBus.Raise(itemDiscountUpdateEvent);
+        //apply discount to all items
+        foreach (var item in items) {
+            item.discount *= discountMultiplier;
+            ItemDiscountUpdateEvent itemDiscountUpdateEvent = new ItemDiscountUpdateEvent();
+            itemDiscountUpdateEvent.source = key;
+            itemDiscountUpdateEvent.influencedItems = new List<System.Guid> { item.GetComponent<NetworkTransform>().key };
+            itemDiscountUpdateEvent.discount = item.discount;
+            NetworkEventBus.Raise(itemDiscountUpdateEvent);
+        }
     }
 
 

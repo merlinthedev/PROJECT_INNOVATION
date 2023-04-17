@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CouponPowerup : PowerUp {
-    [Range(0f, 1f)]
+    [Range(1f, 2f)]
     [SerializeField] private float discountMultiplier = 0.9f;
     
     protected override void OnPickUp() {
