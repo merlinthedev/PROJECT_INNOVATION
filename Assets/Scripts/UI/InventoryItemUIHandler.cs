@@ -4,6 +4,8 @@ using UnityEngine;
 public class InventoryItemUIHandler : MonoBehaviour {
     [SerializeField] private TMP_Text discountText;
 
+    
+
     public void SetDiscount(float discount) {
         discount *= 100;
         // round to 0

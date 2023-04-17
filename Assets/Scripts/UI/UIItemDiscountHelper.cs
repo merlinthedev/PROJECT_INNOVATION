@@ -37,7 +37,7 @@ public class UIItemDiscountHelper : MonoBehaviour {
 
     private void onItemDiscountUpdateEvent(ItemDiscountUpdateEvent itemDiscountUpdateEvent) {
         if (!itemDiscountUpdateEvent.influencedItems.Contains(networkTransform.key)) {
-            // Debug.Log("CLIENT: This item is not influenced, key:" + networkTransform.Key);
+            //Debug.Log("CLIENT: This item is not influenced, key:" + networkTransform.key);
             return;
         }
 

@@ -328,6 +328,21 @@ public class ItemDiscountUpdateEvent : NetworkEvent {
     }
 }
 
+public class UIDiscountUpdateEvent : NetworkEvent {
+    public float newDiscount { get; set; }
+
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+        packet.Write(newDiscount);
+    }
+
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
+        newDiscount = packet.ReadFloat();
+    }
+}
+
 #endregion
 
 
