@@ -1804,10 +1804,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: HOST
+  m_text: HOSTff
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 49de404dd6d2d9442b847ac849976b59, type: 2}
-  m_sharedMaterial: {fileID: -5188322751609691132, guid: 49de404dd6d2d9442b847ac849976b59,
+  m_fontAsset: {fileID: 11400000, guid: 1edeb08ed9420a6419a98f76235af0c4, type: 2}
+  m_sharedMaterial: {fileID: 5770408158783588195, guid: 1edeb08ed9420a6419a98f76235af0c4,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
