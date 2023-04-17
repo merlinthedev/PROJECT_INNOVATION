@@ -217,11 +217,12 @@ public class Player : AGuidListener {
         //apply discount to all items
         foreach (var item in items) {
             item.discount *= discountMultiplier;
-            ItemDiscountUpdateEvent itemDiscountUpdateEvent = new ItemDiscountUpdateEvent();
-            itemDiscountUpdateEvent.source = key;
-            itemDiscountUpdateEvent.influencedItems = new List<System.Guid> { item.GetComponent<NetworkTransform>().key };
-            itemDiscountUpdateEvent.discount = item.discount;
-            NetworkEventBus.Raise(itemDiscountUpdateEvent);
+
+            UIDiscountUpdateEvent uiDiscountUpdateEvent = new UIDiscountUpdateEvent();
+            uiDiscountUpdateEvent.source = key;
+            uiDiscountUpdateEvent.itemGuid = item.key;
+            uiDiscountUpdateEvent.newDiscount = item.discount;
+            NetworkEventBus.Raise(uiDiscountUpdateEvent);
         }
     }
 

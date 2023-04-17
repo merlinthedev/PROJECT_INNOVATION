@@ -128,6 +128,7 @@ public class InventoryUIEvent : Event {
     public enum ActionType {
         Add,
         Remove,
+        DiscountEdit,
         Edit,
         Clear
     }
@@ -329,16 +330,20 @@ public class ItemDiscountUpdateEvent : NetworkEvent {
 }
 
 public class UIDiscountUpdateEvent : NetworkEvent {
+    public Guid itemGuid { get; set; }
     public float newDiscount { get; set; }
+
 
     public override void Serialize(Packet packet) {
         packet.Write(source);
+        packet.Write(itemGuid);
         packet.Write(newDiscount);
     }
 
 
     public override void Deserialize(Packet packet) {
         source = packet.ReadGuid();
+        itemGuid = packet.ReadGuid();
         newDiscount = packet.ReadFloat();
     }
 }

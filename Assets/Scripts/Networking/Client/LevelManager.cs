@@ -10,6 +10,7 @@ public class LevelManager : MonoBehaviour {
         NetworkEventBus.Subscribe<ItemPickedUpEvent>(onItemPickedUp);
         NetworkEventBus.Subscribe<ItemsDroppedOffEvent>(onItemDroppedOff);
         NetworkEventBus.Subscribe<ItemsPaidForEvent>(onItemsPaidFor);
+        NetworkEventBus.Subscribe<UIDiscountUpdateEvent>(onUIItemDiscount);
         NetworkEventBus.Subscribe<ScoreUpdatedEvent>(onScoreUpdated);
         NetworkEventBus.Subscribe<ItemsDiscardedEvent>(onItemsDiscarded);
         NetworkEventBus.Subscribe<PowerUpPickedUpEvent>(onPowerUpPickup);
@@ -37,6 +38,19 @@ public class LevelManager : MonoBehaviour {
         NetworkEventBus.Unsubscribe<GameHostChangedEvent>(onGameHostChanged);
         NetworkEventBus.Unsubscribe<StartGameEvent>(onStartGame);
         NetworkEventBus.Unsubscribe<GameOverEvent>(onGameOver);
+    }
+
+    private void onUIItemDiscount(UIDiscountUpdateEvent x) {
+
+        if (GameClient.getInstance().GetGuid() != x.source) {
+            return;
+        }
+
+        EventBus<InventoryUIEvent>.Raise(new InventoryUIEvent {
+            itemGuid = x.itemGuid,
+            discount = x.newDiscount,
+            actionType = InventoryUIEvent.ActionType.DiscountEdit,
+        });
     }
 
     private void onItemsPaidFor(ItemsPaidForEvent itemsPaidForEvent) {

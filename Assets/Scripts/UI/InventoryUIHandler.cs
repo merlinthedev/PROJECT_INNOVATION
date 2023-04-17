@@ -27,11 +27,22 @@ public class InventoryUIHandler : MonoBehaviour {
             case InventoryUIEvent.ActionType.Edit:
                 editItem(inventoryUIEvent.itemGuid, inventoryUIEvent.paidFor);
                 break;
+            case InventoryUIEvent.ActionType.DiscountEdit:
+                updateItemText(inventoryUIEvent.itemGuid, inventoryUIEvent.discount);
+                break;
             case InventoryUIEvent.ActionType.Clear:
                 clearInventory();
                 break;
         }
 
+    }
+
+    private void updateItemText(Guid itemGuid, float discount) {
+        foreach (ItemUI itemUI in itemUIs) {
+            if(itemUI.ItemGuid == itemGuid) {
+                itemUI.UpdateText(discount);
+            }
+        }
     }
 
     private void editItem(Guid itemGuid, bool paidFor) {
