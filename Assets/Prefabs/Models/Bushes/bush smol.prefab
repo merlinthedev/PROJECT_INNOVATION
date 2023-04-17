@@ -278,6 +278,7 @@ GameObject:
   - component: {fileID: 691888755481155728}
   - component: {fileID: 5017375321940792326}
   - component: {fileID: 926707546081186355}
+  - component: {fileID: -8732120109262514990}
   m_Layer: 0
   m_Name: bush smol
   m_TagString: Untagged
@@ -469,6 +470,20 @@ MonoBehaviour:
   - {fileID: 7424750112280190551}
   - {fileID: 6664329835878116694}
   - {fileID: 7092940705156270391}
+--- !u!136 &-8732120109262514990
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3488297876277654212}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.016854888
+  m_Height: 0.033709783
+  m_Direction: 1
+  m_Center: {x: 0, y: 9.171636e-18, z: -0.0032278816}
 --- !u!1 &5269116944178968071
 GameObject:
   m_ObjectHideFlags: 0

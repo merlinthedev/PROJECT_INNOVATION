@@ -817,6 +817,7 @@ GameObject:
   - component: {fileID: 6150697230296751812}
   - component: {fileID: 5799006981790430433}
   - component: {fileID: 5117094729462863668}
+  - component: {fileID: 3849023882990652276}
   m_Layer: 0
   m_Name: bush smol pot
   m_TagString: Untagged
@@ -955,3 +956,17 @@ MonoBehaviour:
   - {fileID: 6013689491516458407}
   - {fileID: 5420976376722539782}
   - {fileID: 3503530257011128387}
+--- !u!136 &3849023882990652276
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9200400179851799347}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.9427181
+  m_Height: 2.1317222
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.74052745, z: 0.020830285}

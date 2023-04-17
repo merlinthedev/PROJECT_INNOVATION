@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CouponPowerup : PowerUp {
     [Range(1f, 2f)]
-    [SerializeField] private float discountMultiplier = 0.9f;
+    [SerializeField] private float discountMultiplier = 1.1f;
     
     protected override void OnPickUp() {
     }

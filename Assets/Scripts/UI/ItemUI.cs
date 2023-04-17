@@ -22,6 +22,10 @@ public class ItemUI : MonoBehaviour {
         defaultImage.sprite = this.item.ItemStats.ItemSpritePaid;
     }
 
+    public void UpdateText(float discount) {
+        discountText.text = makeTextPretty(discount);
+    }
+
     public void SetItem(Item item, float discount, Guid itemGuid) {
         if (item == null) {
             Debug.LogError("Item is null");

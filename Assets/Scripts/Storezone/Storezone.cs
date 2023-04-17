@@ -43,7 +43,7 @@ public class Storezone : MonoBehaviour {
             foreach (var spawner in Spawners) {
                 spawner.UpdateItemStats();
             }
-            storezoneDisplay.UpdateColor(storeDiscount);
+            storezoneDisplay.UpdateColor(storeDiscount, storeDiscountChangeInterval);
 
             yield return new WaitForSeconds(storeDiscountChangeInterval - 4.5f);
             NetworkEventBus.Raise(new PlayOneShotEvent {
