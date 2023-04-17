@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayOneShotManager : MonoBehaviour {
@@ -16,9 +13,12 @@ public class PlayOneShotManager : MonoBehaviour {
     }
 
     private void playOneShot(PlayOneShotEvent soundEvent) {
-        if (NetworkManager.IsServer != soundEvent.onServer) return;
-        var oneShot = Instantiate(OneShotPrefab);
-        oneShot.transform.position = soundEvent.position;
-        oneShot.Play(SoundEffectConfiguration.GetClip(soundEvent.audioClipID));
+        if (NetworkManager.IsServer == soundEvent.onServer) {
+            var oneShot = Instantiate(OneShotPrefab);
+            oneShot.transform.position = soundEvent.position;
+            oneShot.Play(SoundEffectConfiguration.GetClip(soundEvent.audioClipID));
+        } else {
+            Debug.Log("THIS IS NOT A SOUND WE SHOULD PLAY XD XD XD XD XD X DXD ");
+        }
     }
 }

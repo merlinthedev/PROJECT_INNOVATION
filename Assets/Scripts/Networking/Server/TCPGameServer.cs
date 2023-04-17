@@ -22,13 +22,14 @@ namespace server {
      */
     class TCPGameServer : MonoBehaviour {
 
-        private Dictionary<UnityEngine.Color, UnityEngine.Vector3> spawnInformation = new Dictionary<UnityEngine.Color, UnityEngine.Vector3> {
-            { UnityEngine.Color.red, new UnityEngine.Vector3(16.46f, 2, 4.78f) },
-            { UnityEngine.Color.blue, new UnityEngine.Vector3(-1.78f, 2, 44) },
-            { UnityEngine.Color.green, new UnityEngine.Vector3(-2.46f, 2, -2.43f) },
-            { UnityEngine.Color.yellow, new UnityEngine.Vector3(32.5f, 2, 32.5f) },
-            { UnityEngine.Color.magenta, new UnityEngine.Vector3(16.8f, 2, 38.72f) },
-            { UnityEngine.Color.cyan, new UnityEngine.Vector3(32.25f, 2, 8.52f) }
+
+        private Dictionary<UnityEngine.Color, (Vector3, Quaternion)> spawnInformation = new Dictionary<UnityEngine.Color, (Vector3, Quaternion)> {
+            { UnityEngine.Color.red, (new UnityEngine.Vector3(16.46f, 2, 4.78f), Quaternion.identity) },
+            { UnityEngine.Color.blue, (new UnityEngine.Vector3(-1.78f, 2, 44), Quaternion.Euler(0, 180, 0)) },
+            { UnityEngine.Color.green, (new UnityEngine.Vector3(-2.46f, 2, -2.43f), Quaternion.identity) },
+            { UnityEngine.Color.yellow, (new UnityEngine.Vector3(32.5f, 2, 32.5f), Quaternion.Euler(0, 180, 0)) },
+            { UnityEngine.Color.magenta, (new UnityEngine.Vector3(16.8f, 2, 38.72f), Quaternion.Euler(0, 180, 0)) },
+            { UnityEngine.Color.cyan, (new UnityEngine.Vector3(32.25f, 2, 8.52f), Quaternion.identity) }
         };
 
         public static TCPGameServer Instance { get; private set; }
@@ -123,7 +124,7 @@ namespace server {
                     connectEvent.playerGuids.Add(x);
                 }
 
-                var instantiated = Instantiate(playerServerPrefab, spawnInformation.ElementAt(clients.Count - 1).Value, Quaternion.identity);
+                var instantiated = Instantiate(playerServerPrefab, spawnInformation.ElementAt(clients.Count - 1).Value.Item1, spawnInformation.ElementAt(clients.Count - 1).Value.Item2);
                 var nt = instantiated.GetComponent<NetworkTransform>();
                 nt.SetKey(newClientGuid);
                 nt.Initialize();
@@ -199,7 +200,7 @@ namespace server {
 
                 //manage and send cart color configuration to all clients
                 CartColorConfigPacket colorPacket = new CartColorConfigPacket();
-                foreach(var c in clients) {
+                foreach (var c in clients) {
                     colorPacket.cartColors.Add(c.Value.player.key, c.Value.player.playerColor);
                 }
                 StartCoroutine(runDelayed(0.1f, () => {
