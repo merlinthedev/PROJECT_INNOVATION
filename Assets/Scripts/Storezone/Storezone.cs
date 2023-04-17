@@ -14,7 +14,7 @@ public class Storezone : MonoBehaviour {
     [SerializeField] private float minDiscount = 0.1f;
     [SerializeField] private float maxDiscount = 0.5f;
 
-    public List<Spawner> Spawners = new List<Spawner>();
+    public List<Spawner> Spawners;
 
     public float StoreDiscount {
         get {

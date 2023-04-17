@@ -14,7 +14,7 @@ public class Spawner : AGuidSource {
     public Tier tier;
 
     private void Start() {
-        Storezone.Spawners.Add(this);
+        //Storezone.Spawners.Add(this);
         if (NetworkManager.IsServer) spawnInteractable();
     }
 
@@ -65,7 +65,8 @@ public class Spawner : AGuidSource {
         }
 
         interactable.transform.SetParent(spawnRoot);
-        interactable.transform.position = new Vector3(interactable.transform.position.x, interactable.transform.position.y + 0.5f, interactable.transform.position.z);
+        interactable.transform.position = new Vector3(interactable.transform.position.x, interactable.transform.position.y + 1, interactable.transform.position.z);
+        
         // Debug.Log("Spawned at " + transform.position);
 
         networkTransform.Initialize();
