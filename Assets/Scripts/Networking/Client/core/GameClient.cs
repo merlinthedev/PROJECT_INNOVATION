@@ -212,6 +212,11 @@ public class GameClient : MonoBehaviour {
             handleTransformPacket(pack);
         }
 
+        foreach (var playerGuid in connectEvent.playerGuids) {
+            NetworkTransform.Transforms[playerGuid]
+                .GetComponent<ShoppingCartColor>().SetColor(colors[connectEvent.playerGuids.IndexOf(playerGuid)]);
+        }
+
         EventBus<PregameUIListEvent>.Raise(new PregameUIListEvent {
             names = connectEvent.playerGuids
         });
@@ -225,9 +230,11 @@ public class GameClient : MonoBehaviour {
         beaconCube = Instantiate(beaconPrefab, NetworkTransform.Transforms[guid].transform.position, Quaternion.identity);
         var color = colors[connectEvent.colorID];
 
-        color.a = 0.7f;
+        NetworkTransform.Transforms[guid].gameObject.GetComponent<ShoppingCartColor>().SetColor(color);
 
+        color.a = 0.7f;
         beaconCube.GetComponent<Renderer>().material.color = color;
+
 
 
     }

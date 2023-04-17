@@ -107,6 +107,7 @@ GameObject:
   - component: {fileID: 5073113415654187642}
   - component: {fileID: 2795426594145639698}
   - component: {fileID: 1612820887}
+  - component: {fileID: 9082004133650354302}
   m_Layer: 0
   m_Name: Shopping Cart Thing
   m_TagString: Player
@@ -178,6 +179,20 @@ MonoBehaviour:
   kinematic: 0
   smoothingType: 1
   smoothSpeed: 25
+--- !u!114 &9082004133650354302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5073113415654187644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40eabca2d76a2d643a64cdc534a072c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  guidSource: {fileID: 1612820887}
+  meshRenderer: {fileID: 9121180422576349443}
 --- !u!1 &6598439251469309399
 GameObject:
   m_ObjectHideFlags: 0
@@ -821,6 +836,12 @@ Rigidbody:
 --- !u!4 &5463477412735040444 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: da6665d5ede7bf046be0617fba99186e,
+    type: 3}
+  m_PrefabInstance: {fileID: 5501308297741622359}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &9121180422576349443 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3660410528127614292, guid: da6665d5ede7bf046be0617fba99186e,
     type: 3}
   m_PrefabInstance: {fileID: 5501308297741622359}
   m_PrefabAsset: {fileID: 0}
