@@ -46,6 +46,7 @@ public class InventoryUIHandler : MonoBehaviour {
     }
 
     private void editItem(Guid itemGuid, bool paidFor) {
+        Debug.LogWarning("Editing item @ inventoryuihandler");
         foreach (ItemUI itemUI in itemUIs) {
             if (itemUI.ItemGuid == itemGuid && paidFor) {
                 itemUI.ChangeItemSprite(itemGuid);

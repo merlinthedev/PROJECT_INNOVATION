@@ -55,6 +55,7 @@ public class LevelManager : MonoBehaviour {
 
     private void onItemsPaidFor(ItemsPaidForEvent itemsPaidForEvent) {
         if (GameClient.getInstance().GetGuid() != itemsPaidForEvent.source) {
+            Debug.LogWarning("ItemsPaidForEvents received but its not our GUID");
             return;
         }
 
@@ -64,6 +65,8 @@ public class LevelManager : MonoBehaviour {
                 itemGuid = x,
                 paidFor = true,
             });
+
+            Debug.LogWarning("RAISING INVENTORYUIEVENT @ LevelManager WITH EDIT ACTIONTYYPE");
         }
     }
 

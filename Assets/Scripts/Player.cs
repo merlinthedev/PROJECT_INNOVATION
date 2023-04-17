@@ -99,9 +99,12 @@ public class Player : AGuidListener {
         foreach (var item in items) {
             item.PaidFor = true;
             itemsPaidForEvent.itemGuids.Add(item.key);
+
+            Debug.LogWarning("Flagged item for safe and added it to the event");
         }
 
         NetworkEventBus.Raise(itemsPaidForEvent);
+        Debug.LogWarning("Raised ItemsPaidForEvent on the server");
 
         NetworkEventBus.Raise(new PlayOneShotEvent {
             source = key,
