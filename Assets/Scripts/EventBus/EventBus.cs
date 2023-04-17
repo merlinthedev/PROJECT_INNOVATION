@@ -456,6 +456,8 @@ public class PlayOneShotEvent : NetworkEvent {
     public Vector3 position { get; set; }
     public float range { get; set; }
 
+    public bool onServer { get; set; } = false;
+
     public override void Serialize(Packet packet) {
         packet.Write(source);
         packet.Write(audioClipID);

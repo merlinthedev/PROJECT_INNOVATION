@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1804,10 +1804,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: HOSTff
+  m_text: Host
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1edeb08ed9420a6419a98f76235af0c4, type: 2}
-  m_sharedMaterial: {fileID: 5770408158783588195, guid: 1edeb08ed9420a6419a98f76235af0c4,
+  m_fontAsset: {fileID: 11400000, guid: 49de404dd6d2d9442b847ac849976b59, type: 2}
+  m_sharedMaterial: {fileID: 5770408158783588195, guid: 49de404dd6d2d9442b847ac849976b59,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1895,6 +1895,7 @@ GameObject:
   - component: {fileID: 1565578995}
   - component: {fileID: 1565578996}
   - component: {fileID: 1565578997}
+  - component: {fileID: 1565578998}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1983,6 +1984,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startTime: 0
   gameDuration: 180
+--- !u!114 &1565578998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1565578992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff77c3f26ed8c8442a45f59e9f923560, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SoundEffectConfiguration: {fileID: 11400000, guid: 105872c3ee5e86e46b083bcffa15300f,
+    type: 2}
+  OneShotPrefab: {fileID: 4678376237525061280, guid: 34f40ce5aebe32d4da691b7b842f236b,
+    type: 3}
 --- !u!1 &1626495030
 GameObject:
   m_ObjectHideFlags: 0
@@ -2079,10 +2096,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: QUIT
+  m_text: Quit
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 49de404dd6d2d9442b847ac849976b59, type: 2}
-  m_sharedMaterial: {fileID: -5188322751609691132, guid: 49de404dd6d2d9442b847ac849976b59,
+  m_sharedMaterial: {fileID: 5770408158783588195, guid: 49de404dd6d2d9442b847ac849976b59,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -2477,10 +2494,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Game over!
+  m_text: Game end!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 49de404dd6d2d9442b847ac849976b59, type: 2}
-  m_sharedMaterial: {fileID: -5188322751609691132, guid: 49de404dd6d2d9442b847ac849976b59,
+  m_sharedMaterial: {fileID: 5770408158783588195, guid: 49de404dd6d2d9442b847ac849976b59,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}

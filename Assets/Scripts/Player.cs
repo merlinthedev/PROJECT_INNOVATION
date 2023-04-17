@@ -81,7 +81,8 @@ public class Player : AGuidListener {
         NetworkEventBus.Raise(new PlayOneShotEvent {
             source = key,
             audioClipID = 3,
-            position = transform.position
+            position = transform.position,
+            onServer = false,
         });
     }
 
@@ -105,7 +106,9 @@ public class Player : AGuidListener {
         NetworkEventBus.Raise(new PlayOneShotEvent {
             source = key,
             audioClipID = 4,
-            position = transform.position
+            position = transform.position,
+            onServer = false,
+
         });
     }
 
@@ -160,6 +163,7 @@ public class Player : AGuidListener {
                 source = key,
                 audioClipID = 1,
                 position = transform.position,
+                onServer = false
             });
         }
     }

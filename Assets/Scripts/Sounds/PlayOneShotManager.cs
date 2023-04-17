@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayOneShotManager : MonoBehaviour
-{
+public class PlayOneShotManager : MonoBehaviour {
     [SerializeField] private SoundEffectConfiguration SoundEffectConfiguration;
     [SerializeField] private PlayOneShot OneShotPrefab;
 
@@ -17,6 +16,7 @@ public class PlayOneShotManager : MonoBehaviour
     }
 
     private void playOneShot(PlayOneShotEvent soundEvent) {
+        if (NetworkManager.IsServer != soundEvent.onServer) return;
         var oneShot = Instantiate(OneShotPrefab);
         oneShot.transform.position = soundEvent.position;
         oneShot.Play(SoundEffectConfiguration.GetClip(soundEvent.audioClipID));

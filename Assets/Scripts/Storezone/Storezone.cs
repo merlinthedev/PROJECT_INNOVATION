@@ -37,13 +37,22 @@ public class Storezone : MonoBehaviour {
 
     private IEnumerator changeDiscount() {
         while (true) {
+
             storeDiscount = Random.Range(minDiscount, maxDiscount);
 
             foreach (var spawner in Spawners) {
                 spawner.UpdateItemStats();
             }
             storezoneDisplay.UpdateColor(storeDiscount);
-            yield return new WaitForSeconds(storeDiscountChangeInterval);
+
+            yield return new WaitForSeconds(storeDiscountChangeInterval - 4.5f);
+            NetworkEventBus.Raise(new PlayOneShotEvent {
+                source = System.Guid.Empty,
+                audioClipID = 5,
+                position = Vector3.one,
+                onServer = true,
+            });
+            yield return new WaitForSeconds(4.5f);
         }
     }
 

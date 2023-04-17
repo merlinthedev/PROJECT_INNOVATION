@@ -23,3 +23,5 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: b2ee2ec9555912c42807d892448b25fe, type: 3}
   - Name: Buy Item
     Clip: {fileID: 8300000, guid: 29a9b897853162e42a9d888578319505, type: 3}
+  - Name: Change Discount Server
+    Clip: {fileID: 8300000, guid: 9fc0239b764f1014eaf19ad732ab0679, type: 3}
