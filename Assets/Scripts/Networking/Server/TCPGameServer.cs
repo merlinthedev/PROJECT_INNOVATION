@@ -197,8 +197,22 @@ namespace server {
                     });
                 }
 
+                //manage and send cart color configuration to all clients
+                CartColorConfigPacket colorPacket = new CartColorConfigPacket();
+                foreach(var c in clients) {
+                    colorPacket.cartColors.Add(c.Value.player.key, c.Value.player.playerColor);
+                }
+                StartCoroutine(runDelayed(0.1f, () => {
+                    broadcastMessage(colorPacket);
+                }));
+
                 Debug.Log("New client connected with guid " + newClientGuid + ", total clients: " + clients.Count);
             }
+        }
+
+        System.Collections.IEnumerator runDelayed(float delay, Action a) {
+            yield return new WaitForSeconds(delay);
+            a.Invoke();
         }
 
         /// <summary>

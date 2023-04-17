@@ -107,6 +107,19 @@ public class GameClient : MonoBehaviour {
             case ExistingItemsPacket existingItemsPacket:
                 handleExistingItemsPacket(existingItemsPacket);
                 break;
+            case CartColorConfigPacket cartColorConfigPacket:
+                handleCartColorConfigPacket(cartColorConfigPacket);
+                break;
+        }
+    }
+
+    private void handleCartColorConfigPacket(CartColorConfigPacket cartColorConfigPacket) {
+        foreach (var kvp in cartColorConfigPacket.cartColors) {
+            NetworkTransform transform;
+            NetworkTransform.Transforms.TryGetValue(kvp.Key, out transform);
+            if (transform != null) {
+                transform.GetComponent<ShoppingCartColor>()?.SetColor(kvp.Value);
+            }
         }
     }
 
@@ -212,10 +225,10 @@ public class GameClient : MonoBehaviour {
             handleTransformPacket(pack);
         }
 
-        foreach (var playerGuid in connectEvent.playerGuids) {
-            NetworkTransform.Transforms[playerGuid]
-                .GetComponent<ShoppingCartColor>().SetColor(colors[connectEvent.playerGuids.IndexOf(playerGuid)]);
-        }
+        //foreach (var playerGuid in connectEvent.playerGuids) {
+        //    NetworkTransform.Transforms[playerGuid]
+        //        .GetComponent<ShoppingCartColor>().SetColor(colors[connectEvent.playerGuids.IndexOf(playerGuid)]);
+        //}
 
         EventBus<PregameUIListEvent>.Raise(new PregameUIListEvent {
             names = connectEvent.playerGuids
@@ -230,7 +243,7 @@ public class GameClient : MonoBehaviour {
         beaconCube = Instantiate(beaconPrefab, NetworkTransform.Transforms[guid].transform.position, Quaternion.identity);
         var color = colors[connectEvent.colorID];
 
-        NetworkTransform.Transforms[guid].gameObject.GetComponent<ShoppingCartColor>().SetColor(color);
+        //NetworkTransform.Transforms[guid].gameObject.GetComponent<ShoppingCartColor>().SetColor(color);
 
         color.a = 0.7f;
         beaconCube.GetComponent<Renderer>().material.color = color;
