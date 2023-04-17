@@ -50,7 +50,10 @@ public class GameManager : MonoBehaviour {
     }
 
     public void StartGame() {
-        
+        // send packet to server to start game
+        GameClient.getInstance().getTcpMessageChannel().SendMessage(new StartGameMessage {
+            hasStarted = true,
+        });
 
         SetState("Game");
         GameClient.getInstance().DirtyCameraFix();

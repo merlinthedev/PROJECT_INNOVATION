@@ -219,10 +219,19 @@ namespace server {
                         case InputPacket inputPacket:
                             handleInputPacket(inputPacket, client);
                             break;
+                        case StartGameMessage startGameMessage:
+                            handleStartGameMessage(startGameMessage);
+                            break;
                     }
                 }
             }
 
+        }
+
+        private void handleStartGameMessage(StartGameMessage startGameMessage) {
+            NetworkEventBus.Raise(new StartGameEvent {
+                source = gameHostGuid
+            });
         }
 
         private void sendTransformUpdates() {

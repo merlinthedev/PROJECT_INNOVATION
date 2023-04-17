@@ -405,3 +405,13 @@ public class GameHostChangedEvent : NetworkEvent {
         source = packet.ReadGuid();
     }
 }
+
+public class StartGameEvent : NetworkEvent {
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+    }
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
+    }
+}
