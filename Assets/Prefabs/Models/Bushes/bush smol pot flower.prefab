@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 2054289911551256221}
   - component: {fileID: 3242765446890514972}
   - component: {fileID: 8398168035537706231}
+  - component: {fileID: 5493922960438600553}
   m_Layer: 0
   m_Name: bush smol pot flower
   m_TagString: Untagged
@@ -182,6 +183,20 @@ MonoBehaviour:
   originalRenderers:
   - {fileID: 6499694329816345097}
   - {fileID: 1129879797636160516}
+--- !u!136 &5493922960438600553
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1901050307601938059}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2349000627006929222
 GameObject:
   m_ObjectHideFlags: 0
