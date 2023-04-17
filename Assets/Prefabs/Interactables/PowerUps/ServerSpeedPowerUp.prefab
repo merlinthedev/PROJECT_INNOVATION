@@ -129,9 +129,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   guidSource: {fileID: 6189425348438312984}
-  PowerUpSprite: {fileID: 21300000, guid: 0c7dd2e8b14ffa6439828d5334a16f59, type: 3}
+  PowerUpSprite: {fileID: 21300000, guid: ed54496e2a36abf41a5b497486308759, type: 3}
   boostAmount: 2
-  boostDuration: 5
+  boostDuration: 2
 --- !u!1001 &7088503625798232115
 PrefabInstance:
   m_ObjectHideFlags: 0

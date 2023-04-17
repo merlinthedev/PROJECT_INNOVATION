@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3701257547284835253, guid: 656526122b0751c41b6e06f27f35e174,
+        type: 3}
+      propertyPath: PowerUpSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ed54496e2a36abf41a5b497486308759,
+        type: 3}
     - target: {fileID: 6189425348438312985, guid: 656526122b0751c41b6e06f27f35e174,
         type: 3}
       propertyPath: m_RootOrder
