@@ -12,3 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c643274f6578d95469de176a506c2cbe, type: 3}
   m_Name: SoundEffectConfiguration
   m_EditorClassIdentifier: 
+  SoundEffects:
+  - Name: Item Pickup
+    Clip: {fileID: 8300000, guid: f04ad34259cf3d14181701a2886724b9, type: 3}
+  - Name: Powerup Pickup
+    Clip: {fileID: 8300000, guid: 56f5c781fc7b22f4f93094e0e10ac860, type: 3}
+  - Name: Hazard Event
+    Clip: {fileID: 8300000, guid: b2ee2ec9555912c42807d892448b25fe, type: 3}

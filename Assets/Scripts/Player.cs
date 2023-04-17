@@ -136,6 +136,12 @@ public class Player : AGuidListener {
             powerUpUsedEvent.source = key;
 
             NetworkEventBus.Raise(powerUpUsedEvent);
+
+            NetworkEventBus.Raise(new PlayOneShotEvent {
+                source = key,
+                audioClipID = 1,
+                position = transform.position,
+            });
         }
     }
 
