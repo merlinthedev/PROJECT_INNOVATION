@@ -9,6 +9,7 @@ public class LevelManager : MonoBehaviour {
         NetworkEventBus.Subscribe<InteractableSpawnedEvent>(onInteractableSpawned);
         NetworkEventBus.Subscribe<ItemPickedUpEvent>(onItemPickedUp);
         NetworkEventBus.Subscribe<ItemsDroppedOffEvent>(onItemDroppedOff);
+        NetworkEventBus.Subscribe<ItemsPaidForEvent>(onItemsPaidFor);
         NetworkEventBus.Subscribe<ScoreUpdatedEvent>(onScoreUpdated);
         NetworkEventBus.Subscribe<ItemsDiscardedEvent>(onItemsDiscarded);
         NetworkEventBus.Subscribe<PowerUpPickedUpEvent>(onPowerUpPickup);
@@ -27,6 +28,7 @@ public class LevelManager : MonoBehaviour {
         NetworkEventBus.Unsubscribe<InteractableSpawnedEvent>(onInteractableSpawned);
         NetworkEventBus.Unsubscribe<ItemPickedUpEvent>(onItemPickedUp);
         NetworkEventBus.Unsubscribe<ItemsDroppedOffEvent>(onItemDroppedOff);
+        NetworkEventBus.Unsubscribe<ItemsPaidForEvent>(onItemsPaidFor);
         NetworkEventBus.Unsubscribe<ScoreUpdatedEvent>(onScoreUpdated);
         NetworkEventBus.Unsubscribe<ItemsDiscardedEvent>(onItemsDiscarded);
         NetworkEventBus.Unsubscribe<PowerUpPickedUpEvent>(onPowerUpPickup);
@@ -35,6 +37,20 @@ public class LevelManager : MonoBehaviour {
         NetworkEventBus.Unsubscribe<GameHostChangedEvent>(onGameHostChanged);
         NetworkEventBus.Unsubscribe<StartGameEvent>(onStartGame);
         NetworkEventBus.Unsubscribe<GameOverEvent>(onGameOver);
+    }
+
+    private void onItemsPaidFor(ItemsPaidForEvent itemsPaidForEvent) {
+        if (GameClient.getInstance().GetGuid() != itemsPaidForEvent.source) {
+            return;
+        }
+
+        foreach (var x in itemsPaidForEvent.itemGuids) {
+            EventBus<InventoryUIEvent>.Raise(new InventoryUIEvent {
+                actionType = InventoryUIEvent.ActionType.Edit,
+                itemGuid = x,
+                paidFor = true,
+            });
+        }
     }
 
     private void onGameOver(GameOverEvent gameOverEvent) {
@@ -49,7 +65,7 @@ public class LevelManager : MonoBehaviour {
     private void onGameHostChanged(GameHostChangedEvent e) {
         GameClient.getInstance().gameHostGuid = e.source;
 
-        if(e.source == GameClient.getInstance().GetGuid()) {
+        if (e.source == GameClient.getInstance().GetGuid()) {
             // TODO: show the UI start button again
         }
     }

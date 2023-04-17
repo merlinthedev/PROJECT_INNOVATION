@@ -19,3 +19,7 @@ MonoBehaviour:
     Clip: {fileID: 8300000, guid: 56f5c781fc7b22f4f93094e0e10ac860, type: 3}
   - Name: Hazard Event
     Clip: {fileID: 8300000, guid: b2ee2ec9555912c42807d892448b25fe, type: 3}
+  - Name: Steal Item
+    Clip: {fileID: 8300000, guid: b2ee2ec9555912c42807d892448b25fe, type: 3}
+  - Name: Buy Item
+    Clip: {fileID: 8300000, guid: 29a9b897853162e42a9d888578319505, type: 3}

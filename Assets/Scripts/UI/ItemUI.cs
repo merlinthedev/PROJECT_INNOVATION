@@ -7,6 +7,8 @@ public class ItemUI : MonoBehaviour {
     [SerializeField] private Image defaultImage;
     [SerializeField] private TMP_Text discountText;
 
+    private Item item;
+
     public Sprite emptySprite;
 
     public bool HasItem = false;
@@ -14,6 +16,10 @@ public class ItemUI : MonoBehaviour {
 
     public void Start() {
         RemoveItem();
+    }
+
+    public void ChangeItemSprite(Guid itemGuid) {
+        defaultImage.sprite = this.item.ItemStats.ItemSpritePaid;
     }
 
     public void SetItem(Item item, float discount, Guid itemGuid) {
@@ -27,6 +33,7 @@ public class ItemUI : MonoBehaviour {
 
         HasItem = true;
         ItemGuid = itemGuid;
+        this.item = item;
     }
 
     public void RemoveItem() {
@@ -36,6 +43,7 @@ public class ItemUI : MonoBehaviour {
 
         HasItem = false;
         ItemGuid = Guid.Empty;
+        this.item = null;
     }
 
     private string makeTextPretty(float discount) {

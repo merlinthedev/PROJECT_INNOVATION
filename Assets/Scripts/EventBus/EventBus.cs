@@ -123,10 +123,12 @@ public class InventoryUIEvent : Event {
     public ActionType actionType { get; set; }
     public Guid itemGuid { get; set; }
     public float discount { get; set; }
+    public bool paidFor { get; set; } = false;
 
     public enum ActionType {
         Add,
         Remove,
+        Edit,
         Clear
     }
 }
@@ -164,7 +166,6 @@ public class ServerScoreboardUpdateEvent : Event {
 */
 
 public class TestNetworkEvent : NetworkEvent {
-
     public override void Serialize(Packet packet) {
         packet.Write(source);
     }
@@ -243,6 +244,26 @@ public class ItemPickedUpEvent : NetworkEvent {
         itemInteractableID = packet.ReadInt();
         shouldClear = packet.ReadBool();
         discount = packet.ReadFloat();
+    }
+}
+
+public class ItemsPaidForEvent : NetworkEvent {
+    public List<Guid> itemGuids { get; set; } = new List<Guid>();
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+        packet.Write(itemGuids.Count);
+        foreach (var x in itemGuids) {
+            packet.Write(x);
+        }
+
+    }
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
+        int count = packet.ReadInt();
+        for (int i = 0; i < count; i++) {
+            itemGuids.Add(packet.ReadGuid());
+        }
     }
 }
 

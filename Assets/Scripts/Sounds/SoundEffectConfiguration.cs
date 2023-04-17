@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "SoundEffectConfiguration", menuName = "SoundEffectConfiguration", order = 0)]
-public class SoundEffectConfiguration : ScriptableObject
-{
+public class SoundEffectConfiguration : ScriptableObject {
     [Serializable]
     public class SoundEffect {
         public string Name;
@@ -17,7 +16,7 @@ public class SoundEffectConfiguration : ScriptableObject
     public AudioClip GetClip(int ID) {
         return SoundEffects[ID].Clip;
     }
-    
+
     public AudioClip GetClip(string name) {
         foreach (var soundEffect in SoundEffects) {
             if (soundEffect.Name == name) {

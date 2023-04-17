@@ -24,11 +24,22 @@ public class InventoryUIHandler : MonoBehaviour {
             case InventoryUIEvent.ActionType.Remove:
                 removeItem(inventoryUIEvent.itemGuid);
                 break;
+            case InventoryUIEvent.ActionType.Edit:
+                editItem(inventoryUIEvent.itemGuid, inventoryUIEvent.paidFor);
+                break;
             case InventoryUIEvent.ActionType.Clear:
                 clearInventory();
                 break;
         }
 
+    }
+
+    private void editItem(Guid itemGuid, bool paidFor) {
+        foreach (ItemUI itemUI in itemUIs) {
+            if (itemUI.ItemGuid == itemGuid && paidFor) {
+                itemUI.ChangeItemSprite(itemGuid);
+            }
+        }
     }
 
     private void clearInventory() {

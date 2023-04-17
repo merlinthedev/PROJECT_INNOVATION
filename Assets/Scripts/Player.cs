@@ -77,6 +77,12 @@ public class Player : AGuidListener {
 
         // items.Clear();
         if (itemsDiscardedEvent.discardedItems.Count > 0) NetworkEventBus.Raise(itemsDiscardedEvent);
+
+        NetworkEventBus.Raise(new PlayOneShotEvent {
+            source = key,
+            audioClipID = 3,
+            position = transform.position
+        });
     }
 
     public IEnumerator ResetSafeToLeaveFlag() {
@@ -85,9 +91,22 @@ public class Player : AGuidListener {
     }
 
     public void FlagSafeItems() {
+
+        ItemsPaidForEvent itemsPaidForEvent = new ItemsPaidForEvent();
+        itemsPaidForEvent.source = key;
+
         foreach (var item in items) {
             item.PaidFor = true;
+            itemsPaidForEvent.itemGuids.Add(item.key);
         }
+
+        NetworkEventBus.Raise(itemsPaidForEvent);
+
+        NetworkEventBus.Raise(new PlayOneShotEvent {
+            source = key,
+            audioClipID = 4,
+            position = transform.position
+        });
     }
 
     public void DropOffItems() {
