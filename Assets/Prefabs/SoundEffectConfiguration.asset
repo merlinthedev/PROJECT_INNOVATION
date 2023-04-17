@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c643274f6578d95469de176a506c2cbe, type: 3}
+  m_Name: SoundEffectConfiguration
+  m_EditorClassIdentifier: 
+  SoundEffects:
+  - Name: Item Pickup
+    Clip: {fileID: 8300000, guid: f04ad34259cf3d14181701a2886724b9, type: 3}
+  - Name: Powerup Pickup
+    Clip: {fileID: 8300000, guid: 56f5c781fc7b22f4f93094e0e10ac860, type: 3}
+  - Name: Hazard Event
+    Clip: {fileID: 8300000, guid: b2ee2ec9555912c42807d892448b25fe, type: 3}

@@ -1,6 +1,7 @@
 using shared;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class Event { }
 
@@ -426,5 +427,27 @@ public class GameOverEvent : NetworkEvent {
     public override void Deserialize(Packet packet) {
         source = packet.ReadGuid();
         score = packet.ReadInt();
+    }
+}
+
+public class PlayOneShotEvent : NetworkEvent {
+    public int audioClipID { get; set; }
+    public Vector3 position { get; set; }
+    public float range { get; set; }
+
+    public override void Serialize(Packet packet) {
+        packet.Write(source);
+        packet.Write(audioClipID);
+        packet.Write(position.x);
+        packet.Write(position.y);
+        packet.Write(position.z);
+        packet.Write(range);
+    }
+
+    public override void Deserialize(Packet packet) {
+        source = packet.ReadGuid();
+        audioClipID = packet.ReadInt();
+        position = new Vector3(packet.ReadFloat(), packet.ReadFloat(), packet.ReadFloat());
+        range = packet.ReadFloat();
     }
 }
