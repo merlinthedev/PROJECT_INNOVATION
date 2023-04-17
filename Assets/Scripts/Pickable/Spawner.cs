@@ -66,7 +66,7 @@ public class Spawner : AGuidSource {
 
         interactable.transform.SetParent(spawnRoot);
         interactable.transform.position = new Vector3(interactable.transform.position.x, interactable.transform.position.y + 0.5f, interactable.transform.position.z);
-        Debug.Log("Spawned at " + transform.position);
+        // Debug.Log("Spawned at " + transform.position);
 
         networkTransform.Initialize();
 

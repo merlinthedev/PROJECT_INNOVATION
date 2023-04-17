@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -46,6 +47,11 @@ public class ScoreboardHandler : MonoBehaviour {
         EventBus<ServerScoreboardUpdateEvent>.Raise(new ServerScoreboardUpdateEvent {
             scores = parsedScores
         });
+    }
+
+    public Guid GetFirstPlace() {
+        sortScoreList();
+        return scoreboardList[0].key;
     }
 
     private void sortScoreList() {

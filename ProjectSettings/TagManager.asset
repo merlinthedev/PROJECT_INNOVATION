@@ -9,6 +9,7 @@ TagManager:
   - PowerUp
   - Minimap
   - Hazard
+  - Beacon
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - Water
   - UI
   - StorezoneUI
-  - 
+  - Car
   - 
   - 
   - 

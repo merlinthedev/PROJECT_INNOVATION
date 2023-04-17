@@ -132,7 +132,7 @@ MonoBehaviour:
   PowerUpSprite: {fileID: 0}
   hazardPrefab: {fileID: 711745007743407201, guid: 53716977dee92c4419ac0efff38cd9a6,
     type: 3}
-  hazardOffset: {x: 0, y: 0, z: 1.65}
+  hazardOffset: {x: 0, y: 0, z: -1.65}
   interactableConfig: {fileID: 11400000, guid: 221dbdbe210ff3e409e8fd0932eaa88d, type: 2}
 --- !u!1001 &4270907858329938527
 PrefabInstance:

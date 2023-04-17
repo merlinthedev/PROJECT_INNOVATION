@@ -23,15 +23,13 @@ namespace server {
     class TCPGameServer : MonoBehaviour {
 
         private Dictionary<UnityEngine.Color, UnityEngine.Vector3> spawnInformation = new Dictionary<UnityEngine.Color, UnityEngine.Vector3> {
-            { UnityEngine.Color.red, new UnityEngine.Vector3(18, 4, 5) },
-            { UnityEngine.Color.blue, new UnityEngine.Vector3(-2, 4, 49) },
-            { UnityEngine.Color.green, new UnityEngine.Vector3(-2.6f, 4, -2.6f) },
-            { UnityEngine.Color.yellow, new UnityEngine.Vector3(36, 4, 37) },
-            { UnityEngine.Color.magenta, new UnityEngine.Vector3(19, 4, 44) },
-            { UnityEngine.Color.cyan, new UnityEngine.Vector3(36, 4, 10) }
+            { UnityEngine.Color.red, new UnityEngine.Vector3(16.46f, 2, 4.78f) },
+            { UnityEngine.Color.blue, new UnityEngine.Vector3(-1.78f, 2, 44) },
+            { UnityEngine.Color.green, new UnityEngine.Vector3(-2.46f, 2, -2.43f) },
+            { UnityEngine.Color.yellow, new UnityEngine.Vector3(32.5f, 2, 32.5f) },
+            { UnityEngine.Color.magenta, new UnityEngine.Vector3(16.8f, 2, 38.72f) },
+            { UnityEngine.Color.cyan, new UnityEngine.Vector3(32.25f, 2, 8.52f) }
         };
-
-
 
         public static TCPGameServer Instance { get; private set; }
 
@@ -45,6 +43,8 @@ namespace server {
         [SerializeField] private Vector3 spawnPosition;
         public WorldToMinimapHelper worldToMinimapHelper { get; private set; }
         public GameObject playerMinimapPrefab;
+
+        public Guid gameHostGuid;
 
 
         /// <summary>
@@ -119,7 +119,9 @@ namespace server {
                 ConnectEvent connectEvent = new ConnectEvent();
                 connectEvent.guid = newClientGuid;
 
-
+                foreach (var x in clients.Keys) {
+                    connectEvent.playerGuids.Add(x);
+                }
 
                 var instantiated = Instantiate(playerServerPrefab, spawnInformation.ElementAt(clients.Count - 1).Value, Quaternion.identity);
                 var nt = instantiated.GetComponent<NetworkTransform>();
@@ -183,6 +185,19 @@ namespace server {
 
                 channel.SendMessage(connectEvent);
                 EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));
+
+                NetworkEventBus.Raise(new PlayerJoinedEvent {
+                    source = nt.key
+                });
+
+                if (clients.Count == 1) {
+                    gameHostGuid = newClientGuid;
+                    NetworkEventBus.Raise(new GameHostChangedEvent {
+                        source = gameHostGuid
+                    });
+                }
+
+                Debug.Log("New client connected with guid " + newClientGuid + ", total clients: " + clients.Count);
             }
         }
 
@@ -204,11 +219,22 @@ namespace server {
                         case InputPacket inputPacket:
                             handleInputPacket(inputPacket, client);
                             break;
+                        case StartGameMessage startGameMessage:
+                            handleStartGameMessage(startGameMessage);
+                            break;
                     }
                 }
             }
 
         }
+
+        private void handleStartGameMessage(StartGameMessage startGameMessage) {
+            NetworkEventBus.Raise(new StartGameEvent {
+                source = gameHostGuid
+            });
+
+        }
+
 
         private void sendTransformUpdates() {
             TransformListPacket transformList = new TransformListPacket();
@@ -277,6 +303,15 @@ namespace server {
                     Destroy(NetworkTransform.Transforms[brokenClient].gameObject);
                     NetworkTransform.Transforms.Remove(brokenClient);
                 } catch (Exception e) { Debug.LogError(e); }
+            }
+
+            Debug.Log("Removed " + brokenClients.Count + " faulty clients, total clients: " + clients.Count);
+
+            if (!clients.ContainsKey(gameHostGuid) && clients.Count > 0) {
+                gameHostGuid = clients.Keys.First();
+                NetworkEventBus.Raise(new GameHostChangedEvent {
+                    source = gameHostGuid
+                });
             }
 
             EventBus<JoinQuitEvent>.Raise(new JoinQuitEvent(clients.Count));

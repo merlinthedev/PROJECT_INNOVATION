@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager Instance { get; private set; }
     [SerializeField] private List<GameState> gameStates = new List<GameState>();
-    private GameState currentState;
+    [SerializeField] private GameState currentState;
     private GameState previousState;
 
     [Serializable]
@@ -47,6 +47,40 @@ public class GameManager : MonoBehaviour {
         foreach (GameObject stateObject in gameState.stateObjects) {
             stateObject.SetActive(false);
         }
+    }
+
+    public void StartGame() {
+        // send packet to server to start game
+        GameClient.getInstance().getTcpMessageChannel().SendMessage(new StartGameMessage {
+            hasStarted = true,
+        });
+
+        SetState("Game");
+        GameClient.getInstance().DirtyCameraFix();
+    }
+
+    public void DisconnectPlayerFromLobby() {
+        GameClient.getInstance().getTcpMessageChannel().Close();
+        GameClient.getInstance().gameHostGuid = Guid.Empty;
+
+        foreach(var x in NetworkTransform.Transforms) {
+            Destroy(x.Value.gameObject);
+        }
+
+        NetworkTransform.Transforms.Clear();
+
+        GameObject player = GameObject.FindWithTag("Player");
+        if (player != null && player.GetComponent<NetworkTransform>().key == GameClient.getInstance().GetGuid()) {
+            Destroy(player);
+            Debug.Log("Destroyed player");
+        }
+
+        GameClient.getInstance().getRidOfCube();
+
+        UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync("MVP");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MVP", UnityEngine.SceneManagement.LoadSceneMode.Additive);
+
+        SetState("Menu");
     }
 
     public void LoadPreviousState() {

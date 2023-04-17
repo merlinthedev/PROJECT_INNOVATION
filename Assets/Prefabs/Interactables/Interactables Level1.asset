@@ -73,8 +73,8 @@ MonoBehaviour:
       type: 3}
     clientPrefab: {fileID: 2835944256379962339, guid: ded4fa3f92c5a894491c40560f88c768,
       type: 3}
-  - itemName: Teddy
-    serverPrefab: {fileID: 500837824406638043, guid: dc47c858178092146acb80855ef6bf73,
+  - itemName: Hazard
+    serverPrefab: {fileID: 711745007743407201, guid: 53716977dee92c4419ac0efff38cd9a6,
       type: 3}
-    clientPrefab: {fileID: 4589956566798710654, guid: dc47c858178092146acb80855ef6bf73,
+    clientPrefab: {fileID: 2835944256379962339, guid: ded4fa3f92c5a894491c40560f88c768,
       type: 3}
