@@ -26,6 +26,6 @@ public class Item : AInteractable {
     }
 
     private void Update() {
-        transform.position = new UnityEngine.Vector3(transform.position.x, initialY + Mathf.Sin(Time.time * 2f) * 0.1f, transform.position.z);
+        //transform.position = new UnityEngine.Vector3(transform.position.x, initialY + Mathf.Sin(Time.time * 2f) * 0.1f, transform.position.z);
     }
 }

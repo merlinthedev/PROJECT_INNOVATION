@@ -160,6 +160,10 @@ public class ServerScoreboardUpdateEvent : Event {
     public Dictionary<UnityEngine.Color, string> scores { get; set; } = new Dictionary<UnityEngine.Color, string>();
 }
 
+public class TimeUpdateEvent : Event {
+    public float time { get; set; }
+}
+
 /*
     ==================================
     ======== NETWORK EVENTS ==========

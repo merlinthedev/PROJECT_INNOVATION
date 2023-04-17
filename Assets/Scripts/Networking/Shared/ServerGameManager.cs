@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 public class ServerGameManager : MonoBehaviour {
 
@@ -20,6 +19,13 @@ public class ServerGameManager : MonoBehaviour {
 
     private void Update() {
         if (startTime == 0f) return;
+
+        // every full second send a time update event
+        if (Time.time - startTime > 1f) {
+            EventBus<TimeUpdateEvent>.Raise(new TimeUpdateEvent {
+                time = gameDuration - (Time.time - startTime),
+            });
+        }
 
         if (Time.time - startTime > gameDuration) {
             // game over
