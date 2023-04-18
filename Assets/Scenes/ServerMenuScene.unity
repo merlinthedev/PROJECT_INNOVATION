@@ -2953,8 +2953,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7485b316a23915d439b376e52aa245e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  statesToHideOn:
-  - Game
+  statesToHideOn: []
   objectToHide: {fileID: 126416076}
 --- !u!114 &2757396674607896752
 MonoBehaviour:
