@@ -73,6 +73,7 @@ public class Spawner : AGuidSource {
 
         interactable.spawner = this;
         hasItem = true;
+
     }
 
     public void UpdateItemStats() {

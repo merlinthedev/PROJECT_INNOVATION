@@ -2136,7 +2136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startTime: 0
-  gameDuration: 10
+  gameDuration: 100
 --- !u!114 &1565578998
 MonoBehaviour:
   m_ObjectHideFlags: 0
