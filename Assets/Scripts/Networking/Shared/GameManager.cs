@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+
+    [SerializeField] private AudioSource audioSource;
+
     public static GameManager Instance { get; private set; }
     [SerializeField] private List<GameState> gameStates = new List<GameState>();
     [SerializeField] private GameState currentState;
@@ -26,6 +29,8 @@ public class GameManager : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
 
         initialState();
+
+        
     }
 
     private void initialState() {
@@ -34,10 +39,19 @@ public class GameManager : MonoBehaviour {
         }
         // enable first state in list
         enableState(gameStates[0]);
+
+        audioSource.Play();
+        audioSource.loop = true;
     }
 
     private void enableState(GameState gameState) {
         currentState = gameState;
+
+        if (gameState.stateName == "Game") {
+            audioSource.Stop();
+            
+        }
+
         foreach (GameObject stateObject in gameState.stateObjects) {
             stateObject.SetActive(true);
         }
@@ -63,7 +77,7 @@ public class GameManager : MonoBehaviour {
         GameClient.getInstance().getTcpMessageChannel().Close();
         GameClient.getInstance().gameHostGuid = Guid.Empty;
 
-        foreach(var x in NetworkTransform.Transforms) {
+        foreach (var x in NetworkTransform.Transforms) {
             Destroy(x.Value.gameObject);
         }
 
