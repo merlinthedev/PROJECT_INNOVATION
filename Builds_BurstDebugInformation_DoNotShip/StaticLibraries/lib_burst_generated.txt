@@ -99,11 +99,6 @@ Library: /Users/merlijnvannieuwenhoven/Documents/School/term3/project/PROJECT_IN
 --compilation-defines=ENABLE_IL2CPP
 --compilation-defines=NET_4_6
 --compilation-defines=NET_UNITY_4_8
---compilation-defines=DEVELOPMENT_BUILD
---compilation-defines=ENABLE_PROFILER
---compilation-defines=DEBUG
---compilation-defines=TRACE
---compilation-defines=UNITY_ASSERTIONS
 --compilation-defines=ENABLE_CUSTOM_RENDER_TEXTURE
 --compilation-defines=ENABLE_DIRECTOR
 --compilation-defines=ENABLE_LOCALIZATION
@@ -148,11 +143,11 @@ Library: /Users/merlijnvannieuwenhoven/Documents/School/term3/project/PROJECT_IN
 --compilation-defines=CINEMACHINE_UNITY_INPUTSYSTEM
 --compilation-defines=CINEMACHINE_UNITY_ANIMATION
 --compilation-defines=CINEMACHINE_UNITY_IMGUI
+--compilation-defines=USING_PARTICLE_SYSTEM
 --compilation-defines=TIMELINE_FRAMEACCURATE
 --linker-options=min-ios-version=12.0
 --generate-link-xml=Temp/burst.link.xml
 --temp-folder=/Users/merlijnvannieuwenhoven/Documents/School/term3/project/PROJECT_INNOVATION/Temp/Burst
---debug=Full
 --generate-static-linkage-methods
 --output=/Users/merlijnvannieuwenhoven/Documents/School/term3/project/PROJECT_INNOVATION/Temp/StagingArea/StaticLibraries/lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
