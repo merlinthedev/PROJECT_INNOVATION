@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour {
 
 
     [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip gameMusic;
 
     public static GameManager Instance { get; private set; }
     [SerializeField] private List<GameState> gameStates = new List<GameState>();
@@ -29,8 +30,6 @@ public class GameManager : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
 
         initialState();
-
-        
     }
 
     private void initialState() {
@@ -46,11 +45,6 @@ public class GameManager : MonoBehaviour {
 
     private void enableState(GameState gameState) {
         currentState = gameState;
-
-        if (gameState.stateName == "Game") {
-            audioSource.Stop();
-            
-        }
 
         foreach (GameObject stateObject in gameState.stateObjects) {
             stateObject.SetActive(true);
@@ -114,6 +108,12 @@ public class GameManager : MonoBehaviour {
         if (currentState == null) {
             Debug.LogError("Could not find state with name: " + stateName);
             return;
+        }
+
+        if (currentState.stateName == "Game") {
+            audioSource.Stop();
+            audioSource.clip = gameMusic;
+            audioSource.Play();
         }
 
         foreach (GameObject stateObject in currentState.stateObjects) {

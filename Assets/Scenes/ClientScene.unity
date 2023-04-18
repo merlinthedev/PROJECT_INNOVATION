@@ -2962,6 +2962,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 832727399}
+  gameMusic: {fileID: 8300000, guid: 3aba12279df47274f8c271dc3db15dae, type: 3}
   gameStates:
   - stateName: Menu
     stateObjects:

@@ -45,14 +45,14 @@ public class Storezone : MonoBehaviour {
             }
             storezoneDisplay.UpdateColor(storeDiscount, storeDiscountChangeInterval);
 
-            yield return new WaitForSeconds(storeDiscountChangeInterval - 4.5f);
+            yield return new WaitForSeconds(storeDiscountChangeInterval - 4f);
             NetworkEventBus.Raise(new PlayOneShotEvent {
                 source = System.Guid.Empty,
                 audioClipID = 5,
                 position = Vector3.one,
                 onServer = true,
             });
-            yield return new WaitForSeconds(4.5f);
+            yield return new WaitForSeconds(4f);
         }
     }
 
