@@ -72,6 +72,13 @@ public class LevelManager : MonoBehaviour {
 
     private void onGameOver(GameOverEvent gameOverEvent) {
         GameManager.Instance.SetState("GameOver");
+
+        Debug.Log("Recieved game over event @ LevelManager");
+
+        EventBus<GameOverUIEvent>.Raise(new GameOverUIEvent {
+            winner = gameOverEvent.source,
+            score = gameOverEvent.score,
+        });
     }
 
     private void onStartGame(StartGameEvent e) {

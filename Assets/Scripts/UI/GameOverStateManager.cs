@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameOverStateManager : MonoBehaviour {
@@ -8,18 +6,20 @@ public class GameOverStateManager : MonoBehaviour {
 
 
     private void OnEnable() {
-        NetworkEventBus.Subscribe<GameOverEvent>(onGameOver);
+        EventBus<GameOverUIEvent>.Subscribe(onGameOverUI);
     }
 
     private void OnDisable() {
-        NetworkEventBus.Unsubscribe<GameOverEvent>(onGameOver);
+        EventBus<GameOverUIEvent>.Unsubscribe(onGameOverUI);
     }
 
-    private void onGameOver(GameOverEvent gameOverEvent) {
-        if (gameOverEvent.source == GameClient.getInstance().GetGuid()) {
+    private void onGameOverUI(GameOverUIEvent gameOverEvent) {
+        Debug.Log("RECEIVED GAME OVER UI EVENT");
+
+        if (gameOverEvent.winner == GameClient.getInstance().GetGuid()) {
             m_Text.SetText($"You have won! Score: {gameOverEvent.score}");
         } else {
-            m_Text.SetText($"Player with GUID {gameOverEvent.source} has won with score: {gameOverEvent.score}");
+            m_Text.SetText($"Player with GUID {gameOverEvent.winner.ToString().Substring(0, 3)} has won with score: {gameOverEvent.score}");
         }
     }
 }

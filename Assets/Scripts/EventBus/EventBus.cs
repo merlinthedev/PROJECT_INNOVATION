@@ -164,6 +164,11 @@ public class TimeUpdateEvent : Event {
     public float time { get; set; }
 }
 
+public class GameOverUIEvent : Event {
+    public Guid winner { get; set; }
+    public int score;
+}
+
 /*
     ==================================
     ======== NETWORK EVENTS ==========

@@ -32,12 +32,19 @@ public class ServerGameManager : MonoBehaviour {
             Debug.Log("Game over!");
             startTime = 0f;
 
+            Debug.Log("First place: " + ScoreboardHandler.Instance.GetFirstPlace().ToString());
+
+            
+
             //send game over event
             NetworkEventBus.Raise(new GameOverEvent {
                 source = ScoreboardHandler.Instance.GetFirstPlace(),
             });
 
             GameManager.Instance.SetState("GameOver");
+
+            ScoreboardHandler.Instance.sortScoreList();
+            ScoreboardHandler.Instance.updateScoreboardUIHandler();
         }
 
     }

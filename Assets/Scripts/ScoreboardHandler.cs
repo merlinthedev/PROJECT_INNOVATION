@@ -36,7 +36,7 @@ public class ScoreboardHandler : MonoBehaviour {
         updateScoreboardUIHandler();
     }
 
-    private void updateScoreboardUIHandler() {
+    public void updateScoreboardUIHandler() {
         Dictionary<UnityEngine.Color, string> parsedScores = new Dictionary<UnityEngine.Color, string>();
         foreach (var player in scoreboardList) {
             // get the first 3 characters of the player key
@@ -54,7 +54,7 @@ public class ScoreboardHandler : MonoBehaviour {
         return scoreboardList[0].key;
     }
 
-    private void sortScoreList() {
+    public void sortScoreList() {
         scoreboardList.Sort((x, y) => y.GetScore().CompareTo(x.GetScore()));
     }
 
