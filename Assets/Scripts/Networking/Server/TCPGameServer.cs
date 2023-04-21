@@ -363,10 +363,18 @@ namespace server {
         }
 
         private void OnNetworkEvent(NetworkEvent newEvent) {
-            // Debug.Log("Got event: " + newEvent.GetType());
             syncEvents.Enqueue(newEvent);
         }
 
+        private void OnDestroy() {
+            try {
+                this.listener.Stop();
+                NetworkEventBus.UnsubscribeAll(OnNetworkEvent);
+            } catch (Exception e) {
+                Debug.LogError(e);
+                Destroy(this);
+            }
+        }
     }
 
 }
